@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Queue;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Connection {
@@ -81,7 +82,7 @@ public class Connection {
 				len.position(0);
 			}
 		} catch (SocketException e) {
-
+			System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
 		}
 	}
 
@@ -108,6 +109,7 @@ public class Connection {
 				hasOutput = false;
 			}
 		} catch (SocketException e) {
+			System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
 		}
 	}
 
@@ -126,18 +128,22 @@ public class Connection {
 
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
 		Connection c = new Connection();
-		Connection d = new Connection();
+		c.start("192.168.1.199", 1225);
 
-		c.start("localhost", 1225);
-		d.start("localhost", 1225);
+		Scanner scan = new Scanner(System.in);
+		
+		(new Thread(new Runnable() {
 
+			@Override
+			public void run() {
+				c.send(scan.nextLine().getBytes());
+			}
+		})).start();
+		
+		byte[] next;
 		while (true) {
-			Thread.sleep(500);
-			c.send("Hi!".getBytes());
-			Thread.sleep(500);
-			while (!d.hasNext())
-				;
-			System.out.println("Recv: " + new String(d.next()));
+			next = c.next();
+			if (next != null) System.out.println(new String(next));
 		}
 	}
 }
