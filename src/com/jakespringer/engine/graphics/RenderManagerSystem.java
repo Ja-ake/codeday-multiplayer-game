@@ -1,7 +1,5 @@
 package com.jakespringer.engine.graphics;
 
-import core.*;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
