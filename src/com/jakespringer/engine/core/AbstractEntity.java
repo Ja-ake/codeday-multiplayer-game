@@ -16,7 +16,7 @@ public abstract class AbstractEntity {
         }
     }
 
-    protected <E extends AbstractComponent> E add(E c) {
+    public <E extends AbstractComponent> E add(E c) {
         componentList.add(c);
         if (!(this instanceof GameManager)) {
             Main.gameManager.elc.add(c);
@@ -24,16 +24,16 @@ public abstract class AbstractEntity {
         return c;
     }
 
-    protected <E extends AbstractSystem> E add(E s) {
+    public <E extends AbstractSystem> E add(E s) {
         systemList.add(s);
         return s;
     }
 
-    protected void add(AbstractComponent... c) {
+    public void add(AbstractComponent... c) {
         componentList.addAll(Arrays.asList(c));
     }
 
-    protected void add(AbstractSystem... s) {
+    public void add(AbstractSystem... s) {
         systemList.addAll(Arrays.asList(s));
     }
 
