@@ -1,6 +1,7 @@
 package com.jakespringer.codeday;
 
-import static core.Main.*;
+import static com.jakespringer.engine.core.Main.*;
+
 import java.io.File;
 import java.io.IOException;
 
