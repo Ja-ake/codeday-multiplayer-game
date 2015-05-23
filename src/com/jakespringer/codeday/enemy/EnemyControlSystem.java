@@ -36,8 +36,6 @@ public class EnemyControlSystem extends AbstractSystem {
         if (Double.isNaN(vc.vel.lengthSquared())) {
             vc.vel = new Vec2();
         }
-        System.out.println(pc.pos);
-        System.out.println(vc.vel);
     }
 
 }
