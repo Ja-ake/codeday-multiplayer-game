@@ -8,6 +8,10 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -21,11 +25,13 @@ public class Connection {
     private OutputStream os;
 
     private Queue<byte[]> input, output;
+    private List<Object> toInturrupt;
     private boolean hasOutput = false;
 
     public Connection() {
         input = new ConcurrentLinkedQueue<>();
         output = new ConcurrentLinkedQueue<>();
+        toInturrupt = Collections.synchronizedList(new LinkedList<Object>());
     }
 
     public void start(String hostname, int port) throws UnknownHostException, IOException {
@@ -81,6 +87,19 @@ public class Connection {
                 byte[] data = new byte[size];
                 is.read(data, 0, size);
                 input.add(data);
+                
+                synchronized (toInturrupt) {
+                	if (!toInturrupt.isEmpty()) {
+	                	Iterator<Object> iter = toInturrupt.iterator();
+	                	while(iter.hasNext()) {
+	                		Object t = iter.next();
+							synchronized (t) {
+								if (t != null) t.notify();
+								else iter.remove();
+							}
+	                	}
+                	}
+                }
 
                 len.position(0);
             }
@@ -125,6 +144,10 @@ public class Connection {
 
     public byte[] next() {
         return input.poll();
+    }
+    
+    public void notifyOnReceive(Object t) {
+    	synchronized (toInturrupt) { toInturrupt.add(t); }
     }
 
     public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {

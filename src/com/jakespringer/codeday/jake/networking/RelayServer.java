@@ -10,6 +10,7 @@ import java.util.List;
 
 public class RelayServer {
 	private List<Connection> connections;
+	public final Object notification = new Object();
 	
 	public void run() throws UnknownHostException, IOException, InterruptedException {
 		connections = Collections.synchronizedList(new LinkedList<Connection>());
@@ -17,7 +18,31 @@ public class RelayServer {
 		final ServerSocket listener = new ServerSocket(1225);
 		
 		try {
-			Thread handle = new Thread() {
+			final Thread handle2 = new Thread() {
+				@Override
+				public void run() {
+					while (true) {
+						synchronized (connections) {
+							for (Connection connection : connections) {
+								byte[] input = null;
+								while ((input = connection.next()) != null) {
+									for (Connection c : connections) {
+										if (!connection.equals(c)) c.send(input);
+									}
+								}
+							}
+						}
+						try {
+							synchronized (notification) {
+								notification.wait();
+							}
+						} catch (InterruptedException e) {
+						}
+					}
+				}
+			};
+			
+			final Thread handle = new Thread() {
 				@Override
 				public void run() {
 					while (true) {
@@ -25,6 +50,7 @@ public class RelayServer {
 						try {
 							socket = listener.accept();
 							Connection c = new Connection();
+							c.notifyOnReceive(notification);
 							c.start(socket);
 							System.out.println("Connected: " + socket.getInetAddress().getHostName());
 							synchronized (connections) {
@@ -41,26 +67,6 @@ public class RelayServer {
 			
 			handle.setDaemon(true);
 			handle.start();
-			
-			Thread handle2 = new Thread() {
-				@Override
-				public void run() {
-					while (true) {
-						synchronized (connections) {
-							for (Connection connection : connections) {
-								byte[] input = null;
-								while ((input = connection.next()) != null) {
-									for (Connection c : connections) {
-										if (!connection.equals(c))
-											c.send(input);
-									}
-								}
-							}
-						}
-					}
-				}
-			};
-			
 			handle2.setDaemon(true);
 			handle2.start();
 			
@@ -73,7 +79,5 @@ public class RelayServer {
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
 		RelayServer rs = new RelayServer();
 		rs.run();
-		
-		
 	}
 }
