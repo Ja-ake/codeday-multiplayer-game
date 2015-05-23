@@ -2,6 +2,7 @@ package com.jakespringer.codeday.player;
 
 import com.jakespringer.engine.core.*;
 import com.jakespringer.engine.movement.PositionComponent;
+import com.jakespringer.engine.movement.RotationComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.util.Vec2;
 import org.lwjgl.input.Keyboard;
@@ -11,11 +12,13 @@ public class PlayerControlSystem extends AbstractSystem {
     private Player player;
     private PositionComponent pc;
     private VelocityComponent vc;
+    private RotationComponent rc;
 
-    public PlayerControlSystem(Player player, PositionComponent pc, VelocityComponent vc) {
+    public PlayerControlSystem(Player player, PositionComponent pc, VelocityComponent vc, RotationComponent rc) {
         this.player = player;
         this.pc = pc;
         this.vc = vc;
+        this.rc = rc;
     }
 
     @Override
@@ -25,8 +28,10 @@ public class PlayerControlSystem extends AbstractSystem {
         if (Gamepad.hasController()) {
             //Gamepad
             vc.vel = Gamepad.getLeftAxis().multiply(speed);
-            if (Gamepad.getZAxis() < -.5) {
-                if (Gamepad.getRightAxis().lengthSquared() > .25) {
+            rc.rot = vc.vel.direction();
+            if (Gamepad.getRightAxis().lengthSquared() > .25) {
+                rc.rot = Gamepad.getRightAxis().direction();
+                if (Gamepad.getZAxis() < -.5) {
                     new Bullet(player, pc.pos, Gamepad.getRightAxis().setLength(12));
                 }
             }
@@ -44,6 +49,7 @@ public class PlayerControlSystem extends AbstractSystem {
             if (Keys.isDown(Keyboard.KEY_D)) {
                 vc.vel = vc.vel.setX(vc.vel.x + speed);
             }
+            rc.rot = MouseInput.mouse().subtract(pc.pos).direction();
             if (MouseInput.isPressed(0)) {
                 new Bullet(player, pc.pos, MouseInput.mouse().subtract(pc.pos).setLength(12));
             }
