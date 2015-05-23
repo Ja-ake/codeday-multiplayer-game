@@ -113,6 +113,17 @@ public abstract class Graphics2D {
         glPopMatrix();
     }
 
+    public static void drawSpriteFast(Texture s, Vec2 p1, Vec2 p2, Vec2 p3, Vec2 p4) {
+        glTexCoord2d(0, s.getHeight());
+        p1.glVertex();
+        glTexCoord2d(s.getWidth(), s.getHeight());
+        p2.glVertex();
+        glTexCoord2d(s.getWidth(), 0);
+        p3.glVertex();
+        glTexCoord2d(0, 0);
+        p4.glVertex();
+    }
+
     public static void drawText(String s, Vec2 pos) {
         drawText(s, "Default", pos, Color.black);
     }

@@ -1,8 +1,5 @@
 package com.jakespringer.engine.core;
 
-import com.jakespringer.codeday.testgame.OtherRed;
-import com.jakespringer.codeday.testgame.Red;
-import com.jakespringer.engine.util.Vec2;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

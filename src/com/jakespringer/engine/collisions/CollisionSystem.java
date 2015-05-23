@@ -46,7 +46,9 @@ public class CollisionSystem extends AbstractSystem {
             Vec2 diff = pc.pos.subtract(ppc.pos);
             pc.pos = ppc.pos;
             if (!cc.open(pc.pos)) {
-                throw new RuntimeException("Creature trapped in wall");
+                pc.pos = pc.pos.add(diff);
+                return;
+                //throw new RuntimeException("Creature trapped in wall");
             }
             for (int i = 0; i < 10; i++) {
                 if (cc.open(pc.pos.add(new Vec2(diff.x * .1, 0)))) {

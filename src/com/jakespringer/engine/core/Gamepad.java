@@ -1,5 +1,6 @@
 package com.jakespringer.engine.core;
 
+import com.jakespringer.engine.util.Vec2;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.security.AccessController;
@@ -17,11 +18,13 @@ public abstract class Gamepad {
     private static ArrayList<Integer> released = new ArrayList();
     private static HashMap<Integer, Integer> time = new HashMap();
     private static Controller controller;
+    private static boolean go;
 
     private static void hack() {
         try {
             Class<?> clazz = Class.forName("net.java.games.input.DefaultControllerEnvironment");
             Constructor<?> defaultConstructor = clazz.getDeclaredConstructor();
+            defaultConstructor.setAccessible(true);
             Field defaultEnvironementField = ControllerEnvironment.class.getDeclaredField("defaultEnvironment");
             defaultEnvironementField.setAccessible(true);
 
@@ -29,6 +32,10 @@ public abstract class Gamepad {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean hasController() {
+        return controller != null && go;
     }
 
     static void init() {
@@ -48,6 +55,10 @@ public abstract class Gamepad {
         return down.contains(button);
     }
 
+    public static Vec2 getLeftAxis() {
+        return new Vec2(controller.getXAxisValue(), -controller.getYAxisValue());
+    }
+
     public static boolean isPressed(int button) {
         return pressed.contains(button);
     }
@@ -56,11 +67,19 @@ public abstract class Gamepad {
         return released.contains(button);
     }
 
+    public static Vec2 getRightAxis() {
+        return new Vec2(controller.getRXAxisValue(), -controller.getRYAxisValue());
+    }
+
     public static int getTime(int button) {
         if (!time.containsKey(button)) {
             return 0;
         }
         return time.get(button);
+    }
+
+    public static double getZAxis() {
+        return controller.getZAxisValue();
     }
 
     static void preventWarnings() {
@@ -86,23 +105,25 @@ public abstract class Gamepad {
         if (controller == null) {
             return;
         }
-        if (controller.getXAxisValue() == -1
-                && controller.getYAxisValue() == -1
-                && controller.getZAxisValue() == -1
-                && controller.getRXAxisValue() == -1
-                && controller.getRYAxisValue() == -1) {
+        if ((((controller.getXAxisValue() != -1
+                || controller.getYAxisValue() != -1)
+                || controller.getZAxisValue() != -1)
+                || controller.getRXAxisValue() != -1)
+                || controller.getRYAxisValue() != -1) {
+            go = true;
+        }
+        if (!go) {
             return;
         }
 
-        hack();
-        if (ControllerEnvironment.getDefaultEnvironment().getControllers().length != Controllers.getControllerCount() + 4) {
-            controller = null;
-            return;
-        }
-
+//        hack();
+//        if (ControllerEnvironment.getDefaultEnvironment()
+//                .getControllers().length != Controllers.getControllerCount() + 4) {
+//            controller = null;
+//            return;
+//        }
         pressed.clear();
         released.clear();
-        System.out.println(Controllers.getController(3));
         while (Controllers.next()) {
             if (Controllers.isEventButton()) {
                 Integer button = Controllers.getEventControlIndex();
