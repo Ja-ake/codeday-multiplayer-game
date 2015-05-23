@@ -95,11 +95,11 @@ public class Connection {
         try {
             while (true) {
                 if (socket.isClosed()) {
+                	System.err.println("Socket closed.");
                     return;
                 }
 
-                while (!output.isEmpty()) {
-
+                while (!output.isEmpty()) {                	
                     byte[] data = output.remove();
                     len.putInt(data.length);
 
@@ -107,11 +107,8 @@ public class Connection {
                     os.write(data);
 
                     os.flush();
-
                     len.position(0);
                 }
-
-                hasOutput = false;
             }
         } catch (SocketException e) {
             System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
@@ -120,7 +117,6 @@ public class Connection {
 
     public void send(byte[] msg) {
         output.add(msg);
-        hasOutput = true;
     }
 
     public boolean hasNext() {
@@ -138,10 +134,9 @@ public class Connection {
         final Scanner scan = new Scanner(System.in);
 
         (new Thread(new Runnable() {
-
             @Override
             public void run() {
-                c.send(scan.nextLine().getBytes());
+                while (true) c.send(scan.nextLine().getBytes());
             }
         })).start();
 
