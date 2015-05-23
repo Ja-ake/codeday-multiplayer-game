@@ -13,137 +13,144 @@ import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Connection {
-	private Thread inHandle, outHandle;
 
-	private Socket socket;
-	private InputStream is;
-	private OutputStream os;
+    private Thread inHandle, outHandle;
 
-	private Queue<byte[]> input, output;
-	private boolean hasOutput = false;
+    private Socket socket;
+    private InputStream is;
+    private OutputStream os;
 
-	public Connection() {
-		input = new ConcurrentLinkedQueue<>();
-		output = new ConcurrentLinkedQueue<>();
-	}
+    private Queue<byte[]> input, output;
+    private boolean hasOutput = false;
 
-	public void start(String hostname, int port) throws UnknownHostException, IOException {
-		start(new Socket(InetAddress.getByName(hostname), port));
-	}
+    public Connection() {
+        input = new ConcurrentLinkedQueue<>();
+        output = new ConcurrentLinkedQueue<>();
+    }
 
-	public void start(final Socket sock) throws UnknownHostException, IOException {
-		socket = sock;
-		is = socket.getInputStream();
-		os = socket.getOutputStream();
+    public void start(String hostname, int port) throws UnknownHostException, IOException {
+        start(new Socket(InetAddress.getByName(hostname), port));
+    }
 
-		inHandle = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Connection.this.runIn(sock);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+    public void start(final Socket sock) throws UnknownHostException, IOException {
+        socket = sock;
+        is = socket.getInputStream();
+        os = socket.getOutputStream();
 
-		inHandle.setDaemon(true);
-		inHandle.start();
+        inHandle = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Connection.this.runIn(sock);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-		outHandle = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Connection.this.runOut(sock);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+        inHandle.setDaemon(true);
+        inHandle.start();
 
-		outHandle.setDaemon(true);
-		outHandle.start();
-	}
+        outHandle = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Connection.this.runOut(sock);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-	private void runIn(Socket socket) throws IOException {
-		ByteBuffer len = ByteBuffer.allocate(4);
+        outHandle.setDaemon(true);
+        outHandle.start();
+    }
 
-		try {
-			while (true) {
-				if (socket.isClosed()) return;
+    private void runIn(Socket socket) throws IOException {
+        ByteBuffer len = ByteBuffer.allocate(4);
 
-				is.read(len.array());
-				int size = len.getInt();
+        try {
+            while (true) {
+                if (socket.isClosed()) {
+                    return;
+                }
 
-				byte[] data = new byte[size];
-				is.read(data, 0, size);
-				input.add(data);
+                is.read(len.array());
+                int size = len.getInt();
 
-				len.position(0);
-			}
-		} catch (SocketException e) {
-			System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
-		}
-	}
+                byte[] data = new byte[size];
+                is.read(data, 0, size);
+                input.add(data);
 
-	private void runOut(Socket socket) throws IOException {
-		ByteBuffer len = ByteBuffer.allocate(4);
+                len.position(0);
+            }
+        } catch (SocketException e) {
+            System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
+        }
+    }
 
-		try {
-			while (true) {
-				if (socket.isClosed()) return;
+    private void runOut(Socket socket) throws IOException {
+        ByteBuffer len = ByteBuffer.allocate(4);
 
-				while (!output.isEmpty()) {
+        try {
+            while (true) {
+                if (socket.isClosed()) {
+                    return;
+                }
 
-					byte[] data = output.remove();
-					len.putInt(data.length);
+                while (!output.isEmpty()) {
 
-					os.write(len.array());
-					os.write(data);
+                    byte[] data = output.remove();
+                    len.putInt(data.length);
 
-					os.flush();
+                    os.write(len.array());
+                    os.write(data);
 
-					len.position(0);
-				}
+                    os.flush();
 
-				hasOutput = false;
-			}
-		} catch (SocketException e) {
-			System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
-		}
-	}
+                    len.position(0);
+                }
 
-	public void send(byte[] msg) {
-		output.add(msg);
-		hasOutput = true;
-	}
+                hasOutput = false;
+            }
+        } catch (SocketException e) {
+            System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
+        }
+    }
 
-	public boolean hasNext() {
-		return !input.isEmpty();
-	}
+    public void send(byte[] msg) {
+        output.add(msg);
+        hasOutput = true;
+    }
 
-	public byte[] next() {
-		return input.poll();
-	}
+    public boolean hasNext() {
+        return !input.isEmpty();
+    }
 
-	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
-		Connection c = new Connection();
-		c.start("192.168.1.199", 1225);
+    public byte[] next() {
+        return input.poll();
+    }
 
-		Scanner scan = new Scanner(System.in);
-		
-		(new Thread(new Runnable() {
+    public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
+        final Connection c = new Connection();
+        c.start("192.168.1.199", 1225);
 
-			@Override
-			public void run() {
-				c.send(scan.nextLine().getBytes());
-			}
-		})).start();
-		
-		byte[] next;
-		while (true) {
-			next = c.next();
-			if (next != null) System.out.println(new String(next));
-		}
-	}
+        final Scanner scan = new Scanner(System.in);
+
+        (new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                c.send(scan.nextLine().getBytes());
+            }
+        })).start();
+
+        byte[] next;
+        while (true) {
+            next = c.next();
+            if (next != null) {
+                System.out.println(new String(next));
+            }
+        }
+    }
 }
