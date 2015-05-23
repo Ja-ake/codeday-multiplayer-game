@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 public class RelayServer {
 
@@ -73,7 +74,13 @@ public class RelayServer {
             handle2.setDaemon(true);
             handle2.start();
 
-            handle2.join();
+            Scanner scan = new Scanner(System.in);
+            while (true) {
+            	if (scan.nextLine().toLowerCase().contains("exit")) {
+            		System.out.println("Exiting.");
+            		System.exit(0);
+            	}
+            }
         } finally {
             listener.close();
         }

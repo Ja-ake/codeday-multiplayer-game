@@ -1,7 +1,13 @@
 package com.jakespringer.codeday.jake.netinterface;
 
+import java.nio.ByteBuffer;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import com.jakespringer.codeday.jake.networking.Connection;
+import com.jakespringer.codeday.testgame.Blue;
 import com.jakespringer.codeday.testgame.OtherRed;
+import com.jakespringer.codeday.testgame.Red;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.movement.PositionComponent;
@@ -11,47 +17,47 @@ import com.jakespringer.engine.util.Vec2;
 public class NetworkSystem extends AbstractSystem {
 
     private Connection conn;
+    public Queue<Blue> newBlue = new ConcurrentLinkedQueue<>();
 
-    public NetworkSystem() {
-        conn = new Connection();
+    public NetworkSystem(Connection con) {
+    	conn = con;
     }
 
     @Override
     public void update() {
         //Send
-        byte[] toSend = new byte[]{(byte) pc.pos.x, (byte) pc.pos.y, (byte) vc.vel.x, (byte) vc.vel.y};
-        conn.send(toSend);
+    	Vec2 pos = Main.gameManager.elc.getEntity(Red.class).getComponent(PositionComponent.class).pos;
+    	Vec2 vel = Main.gameManager.elc.getEntity(Red.class).getComponent(VelocityComponent.class).vel;
+    	
+    	ByteBuffer b = ByteBuffer.allocate(8*4);
+    	b.putDouble(pos.x);
+    	b.putDouble(pos.y);
+    	b.putDouble(vel.x);
+    	b.putDouble(vel.y);
+    	
+    	while (!newBlue.isEmpty()) {
+    		Blue blue = newBlue.poll();
+    		ByteBuffer d = ByteBuffer.allocate(8*2);
+    		Vec2 position = blue.getComponent(PositionComponent.class).pos;
+    		d.putDouble(position.x);
+    		d.putDouble(position.y);
+    		conn.send(d.array());
+    	}
+    	
+        conn.send(b.array());
         //Receive
         PositionComponent opc = Main.gameManager.elc.getEntity(OtherRed.class).getComponent(PositionComponent.class);
         VelocityComponent ovc = Main.gameManager.elc.getEntity(OtherRed.class).getComponent(VelocityComponent.class);
         while (conn.hasNext()) {
             byte[] msg = conn.next();
-            opc.pos = new Vec2(msg[0], msg[1]);
-            ovc.vel = new Vec2(msg[2], msg[3]);
+            if (msg.length == 8*4) {
+				ByteBuffer c = ByteBuffer.wrap(msg);
+				opc.pos = new Vec2(c.getDouble(), c.getDouble());
+				ovc.vel = new Vec2(c.getDouble(), c.getDouble());	
+            } else if (msg.length == 8*2) {
+            	ByteBuffer c = ByteBuffer.wrap(msg);
+            	new Blue(new Vec2(c.getDouble(), c.getDouble()));
+            }
         }
-//		byte[] msg;
-//		try {
-//			msg = conn.next();
-//			if (msg != null) System.out.println(msg.length);
-//			if (msg != null && msg.length == 17) {
-////				if (msg.startsWith("~")) {
-//					ByteBuffer b = ByteBuffer.allocate(32);
-//					b.put(msg);
-//					System.out.println("Recv: " + b.get() + " " + b.get() + " " +  b.get() + " " + b.get() + " " + b.get() + " " +b.get() + " " +b.get() + " " +b.get() + ";");
-//					b.position(0);
-//					other.getComponent(PositionComponent.class).pos = new Vec2(b.getDouble(), b.getDouble());
-////				}
-//			}
-//			ByteBuffer b = ByteBuffer.allocate(16);
-//			Vec2 p = you.getComponent(PositionComponent.class).pos;
-//			b.putDouble(p.x);
-//			b.putDouble(p.y);
-//			b.flip();
-////			System.out.println("Sent: " + b.get() + " " + b.get() + " " +  b.get() + " " + b.get() + " " + b.get() + " " +b.get() + " " +b.get() + " " +b.get() + ";");
-//			b.flip();
-//			conn.send(b.array());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
     }
 }

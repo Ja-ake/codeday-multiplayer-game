@@ -51,9 +51,6 @@ public abstract class Main {
         Gamepad.preventWarnings();
         Controllers.create();
         Gamepad.init();
-
-        new Red(new Vec2());
-        new OtherRed(new Vec2());
     }
 
     public static void run() {
