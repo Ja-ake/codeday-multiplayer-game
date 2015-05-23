@@ -4,7 +4,7 @@ import com.jakespringer.engine.core.AbstractComponent;
 import com.jakespringer.engine.util.Vec2;
 import com.jakespringer.engine.util.Vec3;
 
-public class RenderManagerComponent extends AbstractComponent {
+public class RenderManagerComponent3D extends AbstractComponent {
 
     public Vec2 viewSize;
     public boolean startFullscreen;
@@ -12,11 +12,9 @@ public class RenderManagerComponent extends AbstractComponent {
     public double fov;
     public static final Vec3 UP = new Vec3(0, 0, 1);
 
-    public RenderManagerComponent() {
+    public RenderManagerComponent3D() {
         viewSize = new Vec2(800, 600);
         startFullscreen = false;
-//        viewSize = new Vec2(1920, 1080);
-//        startFullscreen = true;
 
         pos = new Vec3(25, 15, 5);
         lookAt = new Vec3(0, 1, 5);

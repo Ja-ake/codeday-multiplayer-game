@@ -14,7 +14,7 @@ public class GUISystem extends AbstractSystem {
 
     @Override
     public void update() {
-        Camera.setProjection2D(new Vec2(), Main.gameManager.rmc.viewSize);
+        Camera.setProjection2D(new Vec2(), Main.gameManager.rmc2.viewSize);
     }
 
 }

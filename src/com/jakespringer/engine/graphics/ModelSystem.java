@@ -5,7 +5,6 @@ import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.movement.RotationComponent;
 import com.jakespringer.engine.util.Color4d;
-
 import static com.jakespringer.engine.util.Util.floatBuffer;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -25,7 +24,7 @@ public class ModelSystem extends AbstractSystem {
     public void update() {
         mc.animIndex += mc.animSpeed;
 
-        if (Main.gameManager.rmc.pos.subtract(pc.pos).lengthSquared() > 5000) {
+        if (Main.gameManager.rmc3.pos.subtract(pc.pos).lengthSquared() > 5000) {
             return;
         }
         if (mc.visible) {

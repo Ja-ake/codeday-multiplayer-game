@@ -1,20 +1,18 @@
 package com.jakespringer.engine.graphics;
 
+import com.jakespringer.engine.core.AbstractSystem;
+import com.jakespringer.engine.core.Keys;
+import static com.jakespringer.engine.util.Util.floatBuffer;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
-
-import com.jakespringer.engine.core.AbstractSystem;
-import com.jakespringer.engine.core.Keys;
-
-import static com.jakespringer.engine.util.Util.floatBuffer;
 import static org.lwjgl.opengl.GL11.*;
 
-public class RenderManagerSystem extends AbstractSystem {
+public class RenderManagerSystem3D extends AbstractSystem {
 
-    private RenderManagerComponent rmc;
+    private RenderManagerComponent3D rmc;
 
-    public RenderManagerSystem(RenderManagerComponent rmc) {
+    public RenderManagerSystem3D(RenderManagerComponent3D rmc) {
         this.rmc = rmc;
 
         try {

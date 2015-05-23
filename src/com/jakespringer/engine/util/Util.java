@@ -1,12 +1,10 @@
 package com.jakespringer.engine.util;
 
-import java.nio.FloatBuffer;
-
-import org.lwjgl.BufferUtils;
-
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.core.MouseInput;
-import com.jakespringer.engine.graphics.RenderManagerComponent;
+import com.jakespringer.engine.graphics.RenderManagerComponent3D;
+import java.nio.FloatBuffer;
+import org.lwjgl.BufferUtils;
 
 public abstract class Util {
 
@@ -20,11 +18,11 @@ public abstract class Util {
     }
 
     public static Vec3 mousePos() {
-        return screenPos(MouseInput.mouse().divide(Main.gameManager.rmc.viewSize));
+        return screenPos(MouseInput.mouse().divide(Main.gameManager.rmc2.viewSize));
     }
 
     public static Vec3 screenPos(Vec2 screen) {
-        RenderManagerComponent rmc = Main.gameManager.rmc;
+        RenderManagerComponent3D rmc = Main.gameManager.rmc3;
         Vec3 viewDir = rmc.lookAt.subtract(rmc.pos).normalize();
         Vec3 viewHor = viewDir.cross(new Vec3(0, 0, 1));
         Vec3 viewVer = viewDir.cross(viewHor).reverse();

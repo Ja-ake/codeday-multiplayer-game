@@ -43,7 +43,6 @@ public abstract class Main {
         gameManager = new GameManager();
         Keyboard.create();
         Mouse.create();
-        Mouse.setGrabbed(true);
     }
 
     public static void run() {

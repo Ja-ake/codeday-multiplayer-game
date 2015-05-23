@@ -1,13 +1,11 @@
 package com.jakespringer.engine.core;
 
+import com.jakespringer.engine.graphics.RenderManagerComponent2D;
+import com.jakespringer.engine.util.Vec2;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-
-import com.jakespringer.engine.graphics.RenderManagerComponent;
-import com.jakespringer.engine.util.Vec2;
 
 public abstract class MouseInput {
 
@@ -65,7 +63,7 @@ public abstract class MouseInput {
             time.put(i, time.get(i) + 1);
         }
 
-        RenderManagerComponent rmc = Main.gameManager.rmc;
+        RenderManagerComponent2D rmc = Main.gameManager.rmc2;
         double w = Display.getWidth();
         double h = Display.getHeight();
         double ar = rmc.aspectRatio();
