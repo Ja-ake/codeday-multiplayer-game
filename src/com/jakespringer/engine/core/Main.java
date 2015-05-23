@@ -1,11 +1,13 @@
 package com.jakespringer.engine.core;
 
+import com.jakespringer.codeday.testgame.OtherRed;
 import com.jakespringer.codeday.testgame.Red;
 import com.jakespringer.engine.util.Vec2;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -32,6 +34,7 @@ public abstract class Main {
     public static boolean paused = false;
 
     public static void destroy() {
+        Controllers.destroy();
         Mouse.destroy();
         Keyboard.destroy();
         Display.destroy();
@@ -45,8 +48,12 @@ public abstract class Main {
         gameManager = new GameManager();
         Keyboard.create();
         Mouse.create();
+        Gamepad.preventWarnings();
+        Controllers.create();
+        Gamepad.init();
 
         new Red(new Vec2());
+        new OtherRed(new Vec2());
     }
 
     public static void run() {
@@ -54,6 +61,7 @@ public abstract class Main {
             //Input
             Keys.update();
             MouseInput.update();
+            Gamepad.update();
             //Logic
             for (ArrayList<AbstractSystem> list : systems) {
                 for (int i = 0; i < list.size(); i++) {

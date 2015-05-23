@@ -8,12 +8,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Connection {
@@ -87,18 +82,21 @@ public class Connection {
                 byte[] data = new byte[size];
                 is.read(data, 0, size);
                 input.add(data);
-                
+
                 synchronized (toInturrupt) {
-                	if (!toInturrupt.isEmpty()) {
-	                	Iterator<Object> iter = toInturrupt.iterator();
-	                	while(iter.hasNext()) {
-	                		Object t = iter.next();
-							synchronized (t) {
-								if (t != null) t.notify();
-								else iter.remove();
-							}
-	                	}
-                	}
+                    if (!toInturrupt.isEmpty()) {
+                        Iterator<Object> iter = toInturrupt.iterator();
+                        while (iter.hasNext()) {
+                            Object t = iter.next();
+                            synchronized (t) {
+                                if (t != null) {
+                                    t.notify();
+                                } else {
+                                    iter.remove();
+                                }
+                            }
+                        }
+                    }
                 }
 
                 len.position(0);
@@ -114,11 +112,11 @@ public class Connection {
         try {
             while (true) {
                 if (socket.isClosed()) {
-                	System.err.println("Socket closed.");
+                    System.err.println("Socket closed.");
                     return;
                 }
 
-                while (!output.isEmpty()) {                	
+                while (!output.isEmpty()) {
                     byte[] data = output.remove();
                     len.putInt(data.length);
 
@@ -145,9 +143,11 @@ public class Connection {
     public byte[] next() {
         return input.poll();
     }
-    
+
     public void notifyOnReceive(Object t) {
-    	synchronized (toInturrupt) { toInturrupt.add(t); }
+        synchronized (toInturrupt) {
+            toInturrupt.add(t);
+        }
     }
 
     public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
@@ -159,7 +159,9 @@ public class Connection {
         (new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) c.send(scan.nextLine().getBytes());
+                while (true) {
+                    c.send(scan.nextLine().getBytes());
+                }
             }
         })).start();
 

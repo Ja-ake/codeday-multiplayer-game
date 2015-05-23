@@ -1,32 +1,34 @@
 package com.jakespringer.codeday.jake.netinterface;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.StandardCharsets;
-
+import com.jakespringer.codeday.jake.networking.Connection;
 import com.jakespringer.codeday.testgame.OtherRed;
-import com.jakespringer.codeday.testgame.Red;
 import com.jakespringer.engine.core.AbstractSystem;
+import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.movement.PositionComponent;
+import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.util.Vec2;
 
 public class NetworkSystem extends AbstractSystem {
-	
-//	private ClientServerConnection conn;
-	private Red you;
-	private OtherRed other;
-//
-//	public NetworkSystem(ClientServerConnection c, Red y, OtherRed o) {
-////		conn = c;
-//		you = y;
-//		other = o;
-//	}
-	
-	@Override
-	public void update() {
+
+    private Connection conn;
+
+    public NetworkSystem() {
+        conn = new Connection();
+    }
+
+    @Override
+    public void update() {
+        //Send
+        byte[] toSend = new byte[]{(byte) pc.pos.x, (byte) pc.pos.y, (byte) vc.vel.x, (byte) vc.vel.y};
+        conn.send(toSend);
+        //Receive
+        PositionComponent opc = Main.gameManager.elc.getEntity(OtherRed.class).getComponent(PositionComponent.class);
+        VelocityComponent ovc = Main.gameManager.elc.getEntity(OtherRed.class).getComponent(VelocityComponent.class);
+        while (conn.hasNext()) {
+            byte[] msg = conn.next();
+            opc.pos = new Vec2(msg[0], msg[1]);
+            ovc.vel = new Vec2(msg[2], msg[3]);
+        }
 //		byte[] msg;
 //		try {
 //			msg = conn.next();
@@ -51,5 +53,5 @@ public class NetworkSystem extends AbstractSystem {
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
-	}
+    }
 }
