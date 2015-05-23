@@ -79,7 +79,7 @@ public abstract class MouseInput {
         double left = (w - vw) / 2;
         double bottom = (h - vh) / 2;
 
-        mouse = new Vec2((Mouse.getX() - left) / vw, (Mouse.getY() - bottom) / vh).multiply(rmc.viewSize);
+        mouse = new Vec2((Mouse.getX() - left) / vw, (Mouse.getY() - bottom) / vh).multiply(rmc.viewSize).subtract(rmc.viewSize.multiply(.5));
         mouseDelta = new Vec2(Mouse.getDX() / vw, Mouse.getDY() / vh).multiply(rmc.viewSize);
     }
 

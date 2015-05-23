@@ -1,17 +1,18 @@
 package com.jakespringer.engine.movement;
 
 import com.jakespringer.engine.core.AbstractComponent;
-import com.jakespringer.engine.util.Vec3;
+import com.jakespringer.engine.util.Vec2;
 
 public class PositionComponent extends AbstractComponent {
 
-    public Vec3 pos;
+    public Vec2 pos;
 
     public PositionComponent() {
-        this(new Vec3());
+        this(new Vec2());
     }
 
-    public PositionComponent(Vec3 pos) {
+    public PositionComponent(Vec2 pos) {
         this.pos = pos;
     }
+
 }

@@ -1,7 +1,6 @@
 package com.jakespringer.engine.core;
 
 import com.jakespringer.engine.graphics.RenderManagerComponent2D;
-import com.jakespringer.engine.graphics.RenderManagerComponent3D;
 import com.jakespringer.engine.graphics.RenderManagerSystem2D;
 import com.jakespringer.engine.graphics.SunComponent;
 import com.jakespringer.engine.gui.GUISystem;
@@ -9,7 +8,6 @@ import com.jakespringer.engine.gui.GUISystem;
 public class GameManager extends AbstractEntity {
 
     public RenderManagerComponent2D rmc2;
-    public RenderManagerComponent3D rmc3;
     public EntityListComponent elc;
 
     public GameManager() {

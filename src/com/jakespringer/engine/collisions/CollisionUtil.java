@@ -1,19 +1,18 @@
 package com.jakespringer.engine.collisions;
 
-import java.util.ArrayList;
-
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.shapes.Circle;
 import com.jakespringer.engine.shapes.CollisionShape;
-import com.jakespringer.engine.util.Vec3;
+import com.jakespringer.engine.util.Vec2;
+import java.util.ArrayList;
 
 public abstract class CollisionUtil {
 
-    public static ArrayList<CollisionComponent> listAt(Vec3 point) {
+    public static ArrayList<CollisionComponent> listAt(Vec2 point) {
         ArrayList<CollisionComponent> r = new ArrayList();
         for (CollisionComponent cc : Main.gameManager.elc.getComponentList(CollisionComponent.class)) {
-            Vec3 diff = point.subtract(cc.pc.pos);
-            if (diff.z > 0 && diff.z < cc.height && diff.setZ(0).lengthSquared() < cc.width * cc.width) {
+            Vec2 diff = point.subtract(cc.pc.pos);
+            if (diff.lengthSquared() < cc.width * cc.width) {
                 r.add(cc);
             }
         }
@@ -23,7 +22,7 @@ public abstract class CollisionUtil {
     public static ArrayList<CollisionComponent> listAt(CollisionShape shape) {
         ArrayList<CollisionComponent> r = new ArrayList();
         for (CollisionComponent cc : Main.gameManager.elc.getComponentList(CollisionComponent.class)) {
-            Circle c = new Circle(cc.pc.pos.toVec2(), cc.width);
+            Circle c = new Circle(cc.pc.pos, cc.width);
             if (shape.intersects(c)) {
                 r.add(cc);
             }

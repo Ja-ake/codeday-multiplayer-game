@@ -24,7 +24,7 @@ public class SpriteSystem extends AbstractSystem {
     public void update() {
         sprite.imageIndex += sprite.imageSpeed;
         if (sprite.visible) {
-            Graphics3D.drawSprite(sprite.getTexture(), position.pos, sprite.hor, sprite.ver, 90, rotation.rot, sprite.color);
+            Graphics2D.drawSprite(sprite.getTexture(), position.pos, sprite.scale, rotation.rot, sprite.color);
         }
     }
 

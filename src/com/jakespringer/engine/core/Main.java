@@ -1,5 +1,7 @@
 package com.jakespringer.engine.core;
 
+import com.jakespringer.codeday.testgame.Red;
+import com.jakespringer.engine.util.Vec2;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +45,8 @@ public abstract class Main {
         gameManager = new GameManager();
         Keyboard.create();
         Mouse.create();
+
+        new Red(new Vec2());
     }
 
     public static void run() {

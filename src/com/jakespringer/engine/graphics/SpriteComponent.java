@@ -1,11 +1,11 @@
 package com.jakespringer.engine.graphics;
 
-import java.util.ArrayList;
-
 import com.jakespringer.engine.core.AbstractComponent;
 import com.jakespringer.engine.graphics.data.Texture;
 import com.jakespringer.engine.graphics.loading.SpriteContainer;
 import com.jakespringer.engine.util.Color4d;
+import com.jakespringer.engine.util.Vec2;
+import java.util.ArrayList;
 
 public class SpriteComponent extends AbstractComponent {
 
@@ -14,7 +14,7 @@ public class SpriteComponent extends AbstractComponent {
     public double imageIndex;
     public double imageSpeed;
     public boolean visible;
-    public double hor, ver;
+    public Vec2 scale;
     public Color4d color;
 
     public SpriteComponent() {
@@ -30,7 +30,7 @@ public class SpriteComponent extends AbstractComponent {
         imageIndex = 0;
         imageSpeed = 0;
         visible = true;
-        hor = ver = 10;
+        scale = new Vec2(1, 1);
         color = Color4d.WHITE;
     }
 

@@ -1,7 +1,7 @@
 package com.jakespringer.engine.movement;
 
 import com.jakespringer.engine.core.AbstractSystem;
-import com.jakespringer.engine.util.Vec3;
+import com.jakespringer.engine.util.Vec2;
 
 public class FrictionSystem extends AbstractSystem {
 
@@ -26,7 +26,7 @@ public class FrictionSystem extends AbstractSystem {
     public void update() {
         vc.vel = vc.vel.multiply(.99);
         if (vc.vel.lengthSquared() < .005) {
-            vc.vel = new Vec3();
+            vc.vel = new Vec2();
         }
         if (rc != null) {
             rc.aVel = rc.aVel * .99;
