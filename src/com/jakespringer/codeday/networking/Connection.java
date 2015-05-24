@@ -144,6 +144,11 @@ public class Connection {
     	}
     	return true;
     }
+    
+    public void disconnect() {
+    	if (inHandle.isAlive()) inHandle.stop();
+    	if (outHandle.isAlive()) outHandle.stop();
+    }
 
     public void send(byte[] msg) {
     	output.add(msg);

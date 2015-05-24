@@ -20,19 +20,9 @@ public abstract class ClientMain {
             new CommandConsole();
 
             // NETWORKING
-            boolean networking = true;
-            Connection conn = new Connection();
-            try {
-                conn.start("localhost", 1225);
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-                networking = false;
-            }
-
-            if (networking) {
-                NetworkSystem ns = new NetworkSystem(conn);
-                Main.gameManager.add(ns);
-            }
+            
+            NetworkSystem ns = new NetworkSystem();
+            Main.gameManager.add(ns);
 
             // END NETWORKING
             run();

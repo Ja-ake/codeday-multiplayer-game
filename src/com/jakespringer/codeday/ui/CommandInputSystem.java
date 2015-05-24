@@ -21,26 +21,32 @@ public class CommandInputSystem extends AbstractSystem {
 	public void update() {
 		if (Keys.isPressed(Keyboard.KEY_GRAVE))
 			cic.visible = !cic.visible;
+		if (Keys.isPressed(Keyboard.KEY_ESCAPE))
+			cic.visible = false;
 		if (!cic.visible)
 			return;
 
 		if (Keys.isPressed(Keyboard.KEY_LSHIFT)) {
 			cic.shift = true;
 		}
-		if (Keys.isPressed(Keyboard.KEY_RSHIFT)) {
-			cic.shift = true;
+		
+		if (Keys.isReleased(Keyboard.KEY_LSHIFT)) {
+			cic.shift = false;
 		}
+		
 		if (Keys.isPressed(Keyboard.KEY_BACK)) {
 			if (cic.current.length() > 0)
 				cic.current = cic.current.substring(0, cic.current.length() - 1);
 		}
 		if (Keys.isPressed(Keyboard.KEY_RETURN)) {
-			if (cic.current == "")
+			if (cic.current != "") {
 				cic.history.add(cic.current);
-			Command cmd = parseCommand(cic.current);
-			if (cmd == null)
-				Console.p("Invalid command.");
-			cic.current = "";
+				Command cmd = parseCommand(cic.current);
+				if (cmd == null) {
+					Console.p("Invalid command.");
+				} else cmd.execute();
+				cic.current = "";
+			}
 		}
 
 		for (int key : Keys.pressed) {
@@ -115,23 +121,28 @@ public class CommandInputSystem extends AbstractSystem {
 				else if (Keyboard.KEY_SLASH == key)
 					cic.current = cic.current + "/";
 			}
-			if (!Keys.isPressed(Keyboard.KEY_LSHIFT)) {
-				cic.shift = false;
-			}
-			if (!Keys.isPressed(Keyboard.KEY_RSHIFT)) {
-				cic.shift = false;
-			}
+//			if (!Keys.isPressed(Keyboard.KEY_LSHIFT)) {
+//				cic.shift = false;
+//			}
 		}
+		Keys.clear();
+//		if (cic.shift) {
+//			Keys.down.add(Keyboard.KEY_LSHIFT);
+//			Keys.time.put(Keyboard.KEY_LSHIFT, 0);
+//		}
 	}
 	
 	private Command parseCommand(String parse) {
-		if (parse.startsWith("!")) {
-			String[] parsed = parse.split(" ");
-			String[] args = new String[parsed.length-1];
-			for (int i=1; i<parsed.length; i++) {
-				args[i-1] = parsed[i];
-			}
-			return new Command(parsed[0].substring(1), args);
-		} else return null;
+		String[] parsed = parse.split(" ");
+		String[] args = new String[parsed.length - 1];
+		for (int i = 1; i < parsed.length; i++) {
+			args[i - 1] = parsed[i];
+		}
+		return new Command(parsed[0].substring(0), args);
+	}
+	
+	@Override
+	public int getLayer() {
+		return 0;
 	}
 }
