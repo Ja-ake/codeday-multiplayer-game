@@ -31,23 +31,8 @@ public class TiledTest {
 
             
             
-            TiledXMLParser tmx = new TiledXMLParser(new File("levels/test.tmx"));
-            tmx.parse();
-
-            TiledTile tile;
-            int i=0; int j=0;
-            while ((tile = tmx.nextTile()) != null) {
-                Texture t = tmx.getTileTexture(tile.gid+1);
-                new Tile(i*32, j*32, t, tile.gid != 0);
-                i++;
-                if (i>tmx.getMap().width) {
-                	j++; i=0;
-                }
-            }
             
-            
-            
-//            new Level("lvl");
+            new Level("lvl");
 //            Player p = new Player(new Vec2());
 //            p.getComponent(HealthComponent.class).health = 1000;
 
