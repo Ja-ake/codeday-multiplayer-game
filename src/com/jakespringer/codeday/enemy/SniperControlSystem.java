@@ -1,6 +1,7 @@
 package com.jakespringer.codeday.enemy;
 
 import com.jakespringer.codeday.combat.Bullet;
+import com.jakespringer.codeday.networking.NetworkSystem;
 import com.jakespringer.codeday.networking.messages.EntityStateMessage;
 import com.jakespringer.codeday.networking.messages.ProjectileCreateMessage;
 import com.jakespringer.codeday.player.Player;
@@ -54,8 +55,10 @@ public class SniperControlSystem extends AbstractSystem {
         scc.currentCooldown--;
         if (scc.currentCooldown <= 0) {
             Bullet b = new Bullet(enemy, pc.pos, closest.getComponent(PositionComponent.class).pos.subtract(pc.pos).setLength(12), new Color4d(0, 1, .5));
-            new ProjectileCreateMessage(Bullet.class, b.id, enemy.id, pc.pos,
-                    closest.getComponent(PositionComponent.class).pos.subtract(pc.pos).setLength(12), new Color4d(0, 1, .5)).send();
+            if (Main.gameManager.getSystem(NetworkSystem.class) == null) {
+                new ProjectileCreateMessage(Bullet.class, b.id, enemy.id, pc.pos,
+                        closest.getComponent(PositionComponent.class).pos.subtract(pc.pos).setLength(12), new Color4d(0, 1, .5)).send();
+            }
             scc.currentShots--;
             if (scc.currentShots <= 0) {
                 scc.currentCooldown = scc.maxCooldown;
@@ -64,6 +67,8 @@ public class SniperControlSystem extends AbstractSystem {
                 scc.currentCooldown = scc.shotSeperation;
             }
         }
-        new EntityStateMessage(enemy.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y, enemy.getComponent(RotationComponent.class).rot).send();
+        if (Main.gameManager.getSystem(NetworkSystem.class) == null) {
+            new EntityStateMessage(enemy.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y, enemy.getComponent(RotationComponent.class).rot).send();
+        }
     }
 }

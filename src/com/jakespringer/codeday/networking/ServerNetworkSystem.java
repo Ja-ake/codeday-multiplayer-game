@@ -14,6 +14,7 @@ import com.jakespringer.engine.util.Vec2;
 public class ServerNetworkSystem extends AbstractSystem {
 
     private ChatServer conn;
+    private int step;
 
     public ServerNetworkSystem(ChatServer conn) {
         this.conn = conn;
@@ -30,13 +31,15 @@ public class ServerNetworkSystem extends AbstractSystem {
                 p.getComponent(PositionComponent.class).pos = new Vec2(-10000, -10000);
             }
         }
-        while (!conn.messages.isEmpty()) {
-            Tuple<Integer, String> t = conn.messages.poll();
-            conn.handle(t.right, t.left);
-        }
-        for (Enemy e : Main.gameManager.elc.getEntityList(Enemy.class)) {
-            new EntityStateMessage(e.id, e.getComponent(PositionComponent.class).pos.x, e.getComponent(PositionComponent.class).pos.y,
-                    e.getComponent(VelocityComponent.class).vel.x, e.getComponent(VelocityComponent.class).vel.y, e.getComponent(RotationComponent.class).rot).send();
+        if (step++ % 3 == 0) {
+            while (!conn.messages.isEmpty()) {
+                Tuple<Integer, String> t = conn.messages.poll();
+                conn.handle(t.right, t.left);
+            }
+            for (Enemy e : Main.gameManager.elc.getEntityList(Enemy.class)) {
+                new EntityStateMessage(e.id, e.getComponent(PositionComponent.class).pos.x, e.getComponent(PositionComponent.class).pos.y,
+                        e.getComponent(VelocityComponent.class).vel.x, e.getComponent(VelocityComponent.class).vel.y, e.getComponent(RotationComponent.class).rot).send();
+            }
         }
     }
 

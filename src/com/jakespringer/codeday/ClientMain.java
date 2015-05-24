@@ -21,7 +21,7 @@ public abstract class ClientMain {
             FontContainer.add("Console-Font", "Times New Roman", Font.PLAIN, 12);
 
             new Level("lvl");
-            Player p = new Player(new Vec2());
+            Player p = new Player(new Vec2(100, 100));
 
             new CommandConsole();
 

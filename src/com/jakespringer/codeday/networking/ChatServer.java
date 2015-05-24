@@ -68,7 +68,7 @@ public class ChatServer implements Runnable {
 //            clients[findClient(ID)].send(".bye");
 //            remove(ID);
 //        } else {
-        System.out.println(input);
+//        System.out.println(input);
         for (int i = 0; i < clientCount; i++) {
             //clients[i].send(ID + ": " + input);
             if (clients[i].getID() != ID) {

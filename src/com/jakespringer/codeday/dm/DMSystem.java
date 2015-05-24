@@ -3,6 +3,7 @@ package com.jakespringer.codeday.dm;
 import com.jakespringer.codeday.enemy.AssaultEnemy;
 import com.jakespringer.codeday.enemy.Enemy;
 import com.jakespringer.codeday.enemy.ScoutEnemy;
+import com.jakespringer.codeday.enemy.SniperEnemy;
 import com.jakespringer.codeday.networking.messages.GeneralCreateMessage;
 import com.jakespringer.engine.collisions.CollisionComponent;
 import com.jakespringer.engine.core.AbstractSystem;
@@ -56,11 +57,14 @@ public class DMSystem extends AbstractSystem {
         if (MouseInput.isDown(0)) {
             Vec2 mouse = MouseInput.mouseScreen();
 
-            if (mouse.x < 220 && mouse.y < 316) {
-                if (mouse.y > 250) {
+            if (mouse.x > 10 && mouse.x < 210) {
+                if (mouse.y > 320 && mouse.y < 366) {
+                    dm.getSystem(DMGui.class).backgroundSniper = new Color4d(0.1, 0.1, 0.1, 0.8);
+                    current = SniperEnemy.class;
+                } else if (mouse.y > 260 && mouse.y < 306) {
                     dm.getSystem(DMGui.class).backgroundScout = new Color4d(0.1, 0.1, 0.1, 0.8);
                     current = ScoutEnemy.class;
-                } else if (mouse.y > 190) {
+                } else if (mouse.y > 180 && mouse.y < 246) {
                     dm.getSystem(DMGui.class).backgroundAssault = new Color4d(0.1, 0.1, 0.1, 0.8);
                     current = AssaultEnemy.class;
                 }
@@ -68,6 +72,7 @@ public class DMSystem extends AbstractSystem {
         } else {
             dm.getSystem(DMGui.class).backgroundAssault = new Color4d(0.2, 0.2, 0.2, 0.8);
             dm.getSystem(DMGui.class).backgroundScout = new Color4d(0.2, 0.2, 0.2, 0.8);
+            dm.getSystem(DMGui.class).backgroundSniper = new Color4d(0.2, 0.2, 0.2, 0.8);
         }
         RenderManagerComponent2D rmc = Main.gameManager.rmc2;
         if (Keys.isDown(Keyboard.KEY_W)) {

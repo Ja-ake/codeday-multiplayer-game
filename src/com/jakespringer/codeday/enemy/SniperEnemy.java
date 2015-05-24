@@ -19,7 +19,7 @@ public class SniperEnemy extends Enemy {
         RotationComponent rc = add(new RotationComponent());
         SpriteComponent sc = add(new SpriteComponent("enemy normal"));
         CollisionComponent cc = add(new CollisionComponent(this, pc, 25));
-        ShotCooldownComponent scc = add(new ShotCooldownComponent(60, 3, 5));
+        ShotCooldownComponent scc = add(new ShotCooldownComponent(120, 5, 1));
         HealthComponent hc = add(new HealthComponent(100));
         //Systems
         add(new SniperControlSystem(this, pc, vc, scc));

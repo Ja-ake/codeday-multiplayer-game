@@ -19,7 +19,7 @@ public class ScoutEnemy extends Enemy {
         RotationComponent rc = add(new RotationComponent());
         SpriteComponent sc = add(new SpriteComponent("enemyfast"));
         CollisionComponent cc = add(new CollisionComponent(this, pc, 25));
-        ShotCooldownComponent scc = add(new ShotCooldownComponent(60, 3, 5));
+        ShotCooldownComponent scc = add(new ShotCooldownComponent(30, 2, 15));
         HealthComponent hc = add(new HealthComponent(100));
         //Systems
         add(new ScoutControlSystem(this, pc, vc, scc));
