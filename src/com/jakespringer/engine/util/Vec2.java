@@ -89,6 +89,11 @@ public class Vec2 {
         return multiply(1 / length());
     }
 
+    public static Vec2 parseVec2(String s) {
+        String[] parts = s.substring(1, s.length() - 1).split(",");
+        return new Vec2(Double.parseDouble(parts[0]), Double.parseDouble(parts[1].substring(1)));
+    }
+
     public int quadrant(Vec2 other) {
         if (other.x >= x) {
             if (other.y >= y) {
