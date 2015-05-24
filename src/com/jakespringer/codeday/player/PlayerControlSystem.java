@@ -69,7 +69,7 @@ public class PlayerControlSystem extends AbstractSystem {
         }
 
         Main.gameManager.rmc2.viewPos = pc.pos;
-        Main.gameManager.getSystem(NetworkSystem.class).sendMessage(new PlayerStateMessage(player.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y));
+        Main.gameManager.getSystem(NetworkSystem.class).sendMessage(new PlayerStateMessage(player.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y, rc.rot));
     }
 
     private void grenade(Vec2 dir) {
