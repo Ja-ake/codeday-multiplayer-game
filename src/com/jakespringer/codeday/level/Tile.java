@@ -18,9 +18,9 @@ public class Tile {
         this.y = y;
         this.isWall = isWall;
         if (isWall) {
-            tex = SpriteContainer.loadSprite("red");
+            tex = SpriteContainer.loadSprite("wall");
         } else {
-            tex = SpriteContainer.loadSprite("blue");
+            tex = SpriteContainer.loadSprite("floor");
         }
     }
 

@@ -51,7 +51,7 @@ public class LevelComponent extends AbstractComponent {
             Graphics2D.drawLine(new Vec2(0, i), new Vec2(width, i));
         }
         glEnable(GL_TEXTURE_2D);
-        Texture[] texList = {loadSprite("red"), loadSprite("blue")};
+        Texture[] texList = {loadSprite("floor"), loadSprite("wall")};
         WHITE.glColor();
         //Draw
         for (Texture tex : texList) {

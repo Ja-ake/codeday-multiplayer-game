@@ -1,5 +1,6 @@
 package com.jakespringer.codeday.player;
 
+import com.jakespringer.codeday.combat.HealthComponent;
 import com.jakespringer.engine.collisions.CollisionComponent;
 import com.jakespringer.engine.collisions.CollisionSystem;
 import com.jakespringer.engine.core.AbstractEntity;
@@ -16,13 +17,16 @@ public class Player extends AbstractEntity {
         PreviousPositionComponent ppc = add(new PreviousPositionComponent(pos));
         VelocityComponent vc = add(new VelocityComponent());
         RotationComponent rc = add(new RotationComponent());
-        SpriteComponent sc = add(new SpriteComponent("player"));
-        CollisionComponent cc = add(new CollisionComponent(this, pc, 16));
+        SpriteComponent sc = add(new SpriteComponent("player1"));
+        sc.scale = new Vec2(.5, .5);
+        CollisionComponent cc = add(new CollisionComponent(this, pc, 25));
+        HealthComponent hc = add(new HealthComponent(100));
         //Systems
         add(new PlayerControlSystem(this, pc, vc, rc));
         add(new VelocitySystem(pc, vc));
         add(new CollisionSystem(pc, vc, ppc, cc));
         add(new SpriteSystem(pc, rc, sc));
         add(new PreviousPositionSystem(pc, ppc));
+        add(new PlayerHealthSystem(hc));
     }
 }

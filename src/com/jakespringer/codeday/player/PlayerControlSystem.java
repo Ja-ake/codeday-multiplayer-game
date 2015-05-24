@@ -1,9 +1,11 @@
 package com.jakespringer.codeday.player;
 
 import com.jakespringer.engine.core.*;
+import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.movement.RotationComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
+import com.jakespringer.engine.util.Color4d;
 import com.jakespringer.engine.util.Vec2;
 import org.lwjgl.input.Keyboard;
 
@@ -28,12 +30,14 @@ public class PlayerControlSystem extends AbstractSystem {
         if (Gamepad.hasController()) {
             //Gamepad
             vc.vel = Gamepad.getLeftAxis().multiply(speed);
-            rc.rot = vc.vel.direction();
+            if (vc.vel.lengthSquared() > .1) {
+                rc.rot = vc.vel.direction();
+            }
             if (Gamepad.getRightAxis().lengthSquared() > .25) {
                 rc.rot = Gamepad.getRightAxis().direction();
-                if (Gamepad.getZAxis() < -.5) {
-                    new Bullet(player, pc.pos, Gamepad.getRightAxis().setLength(12));
-                }
+            }
+            if (Gamepad.getZAxis() < -.5) {
+                shoot(new Vec2(Math.cos(rc.rot), Math.sin(rc.rot)));
             }
         } else {
             //keyboard & mouse
@@ -50,12 +54,16 @@ public class PlayerControlSystem extends AbstractSystem {
                 vc.vel = vc.vel.setX(vc.vel.x + speed);
             }
             rc.rot = MouseInput.mouse().subtract(pc.pos).direction();
-            if (MouseInput.isPressed(0)) {
-                new Bullet(player, pc.pos, MouseInput.mouse().subtract(pc.pos).setLength(12));
+            if (MouseInput.isDown(0)) {
+                shoot(MouseInput.mouse().subtract(pc.pos));
             }
         }
 
         Main.gameManager.rmc2.viewPos = pc.pos;
     }
 
+    private void shoot(Vec2 dir) {
+        Bullet b = new Bullet(player, pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22)), dir.setLength(16));
+        b.getComponent(SpriteComponent.class).color = new Color4d(1, 0, 1);
+    }
 }

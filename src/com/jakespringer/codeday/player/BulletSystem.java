@@ -1,5 +1,6 @@
 package com.jakespringer.codeday.player;
 
+import com.jakespringer.codeday.combat.HealthComponent;
 import com.jakespringer.codeday.level.Level;
 import com.jakespringer.codeday.level.LevelComponent;
 import com.jakespringer.codeday.level.Tile;
@@ -35,6 +36,10 @@ public class BulletSystem extends AbstractSystem {
         ArrayList<CollisionComponent> hit = CollisionUtil.listAt(pc.pos);
         for (CollisionComponent cc : hit) {
             if (cc.ae != shooter) {
+                HealthComponent hc = cc.ae.getComponent(HealthComponent.class);
+                if (hc != null) {
+                    hc.damage += 10;
+                }
                 bullet.destroySelf();
             }
         }
