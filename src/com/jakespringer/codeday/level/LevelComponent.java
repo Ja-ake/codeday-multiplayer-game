@@ -40,6 +40,14 @@ public class LevelComponent extends AbstractComponent {
             }
         }
 
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (tileGrid[x][y].isWall) {
+
+                }
+            }
+        }
+
         //List
         list = glGenLists(1);
         glNewList(list, GL_COMPILE);

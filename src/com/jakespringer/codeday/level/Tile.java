@@ -21,7 +21,15 @@ public class Tile {
             tex = SpriteContainer.loadSprite("wall");
         } else {
             tex = SpriteContainer.loadSprite("floor");
+//            tex = SpriteContainer.loadSprite("walls and floor", 4, 4).get(5);
         }
+    }
+
+    public Tile(int x, int y, String sprite) {
+        this.x = x;
+        this.y = y;
+        this.isWall = true;
+        tex = SpriteContainer.loadSprite(sprite);
     }
 
     public Vec2 center() {
