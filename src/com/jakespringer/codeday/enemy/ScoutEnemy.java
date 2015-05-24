@@ -25,7 +25,7 @@ public class ScoutEnemy extends Enemy {
         ShotCooldownComponent scc = add(new ShotCooldownComponent(60, 3, 5));
         HealthComponent hc = add(new HealthComponent(100));
         //Systems
-//        add(new EnemyControlSystem(this, pc, vc, scc));
+        add(new ScoutControlSystem(this, pc, vc, scc));
         add(new VelocitySystem(pc, vc));
         add(new CollisionSystem(pc, vc, ppc, cc));
         add(new SpriteSystem(pc, sc));
