@@ -82,11 +82,54 @@ public class LevelComponent extends AbstractComponent {
     }
 
     public Vec2 rayCast(Vec2 start, Vec2 goal) {
-        return null;
-//        Vec2 pos = start;
-//        while (true) {
-//            double nextX
-//        }
+        Vec2 diff = goal.subtract(start);
+        Vec2 pos = start;
+        for (int i = 0; i < 1000; i++) {
+            double nextX;
+            if (diff.x > 0) {
+                nextX = Math.ceil(pos.x / Tile.SIZE) * Tile.SIZE;
+                if (nextX == pos.x) {
+                    nextX += 1;
+                }
+            } else {
+                nextX = Math.floor(pos.x / Tile.SIZE) * Tile.SIZE;
+                if (nextX == pos.x) {
+                    nextX -= 1;
+                }
+            }
+            double nextY;
+            if (diff.y > 0) {
+                nextY = Math.ceil(pos.y / Tile.SIZE) * Tile.SIZE;
+                if (nextY == pos.y) {
+                    nextY += 1;
+                }
+            } else {
+                nextY = Math.floor(pos.y / Tile.SIZE) * Tile.SIZE;
+                if (nextY == pos.y) {
+                    nextY -= 1;
+                }
+            }
+            Vec2 time = new Vec2(nextX, nextY).subtract(pos).divide(diff);
+            if (time.x > time.y) {
+                //y hit
+                pos = new Vec2(pos.x + (nextY - pos.y) * diff.x / diff.y, nextY);
+            } else {
+                //x hit
+                pos = new Vec2(nextX, pos.y + (nextX - pos.x) * diff.y / diff.x);
+            }
+            pos = pos.add(diff.multiply(.00000001));
+            Tile t = tileAt(pos);
+            if (t != null && t.isWall) {
+                return pos.subtract(diff.multiply(.00000001));
+            }
+            if ((int) pos.x / Tile.SIZE == (int) goal.x / Tile.SIZE && (int) pos.y / Tile.SIZE == (int) goal.y / Tile.SIZE) {
+                return goal;
+            }
+            if (pos.x * diff.x > goal.x * diff.x || pos.y * diff.y > goal.y * diff.y) {
+                return goal;
+            }
+        }
+        return goal;
 //        double x0 = start.x / Tile.SIZE;
 //        double y0 = start.y / Tile.SIZE;
 //        double x1 = goal.x / Tile.SIZE;
