@@ -177,8 +177,10 @@ public class Connection {
 
 				byte[] size = new byte[2];
 				is.read(size, 0, 2);
+				if (size[1] != 49) System.out.println("bytes " + size[0] + " " + size[1]);
 				ByteBuffer bb = ByteBuffer.wrap(size);
 				short len = bb.getShort();
+				if (size[1] != 49) System.out.println("size " + len);
 				byte[] msg = new byte[len];
 				is.read(msg, 0, msg.length);
 				input.add(msg);
