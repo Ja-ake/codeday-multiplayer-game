@@ -1,9 +1,12 @@
 package com.jakespringer.codeday.networking;
 
 import com.jakespringer.codeday.networking.messages.EntityDestroyMessage;
+import com.jakespringer.codeday.networking.messages.GeneralCreateMessage;
+import com.jakespringer.codeday.player.OtherPlayer;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Main;
+import com.jakespringer.engine.movement.PositionComponent;
 import java.io.IOException;
 
 public class NetworkSystem extends AbstractSystem {
@@ -31,7 +34,7 @@ public class NetworkSystem extends AbstractSystem {
         }
     }
 
-    void sendMessage(Message m) {
+    public void sendMessage(Message m) {
         if (conn != null) {
             conn.send(m.toString());
         }
@@ -62,5 +65,7 @@ public class NetworkSystem extends AbstractSystem {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        new GeneralCreateMessage(OtherPlayer.class, Main.gameManager.elc.getEntity(Player.class).id,
+                Main.gameManager.elc.getEntity(Player.class).getComponent(PositionComponent.class).pos).send();
     }
 }

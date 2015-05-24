@@ -3,8 +3,6 @@ package com.jakespringer.codeday;
 import com.jakespringer.codeday.combat.HealthComponent;
 import com.jakespringer.codeday.level.Level;
 import com.jakespringer.codeday.networking.NetworkSystem;
-import com.jakespringer.codeday.networking.messages.GeneralCreateMessage;
-import com.jakespringer.codeday.player.OtherPlayer;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.Main;
@@ -31,7 +29,6 @@ public abstract class ClientMain {
 
             // NETWORKING
             Main.gameManager.add(new NetworkSystem());
-            new GeneralCreateMessage(OtherPlayer.class, p.id, new Vec2()).send();
 
             // END NETWORKING
             run();

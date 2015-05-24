@@ -2,19 +2,17 @@ package com.jakespringer.codeday.player;
 
 import com.jakespringer.engine.collisions.CollisionComponent;
 import com.jakespringer.engine.collisions.CollisionSystem;
+import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.graphics.SpriteSystem;
-import com.jakespringer.engine.movement.PositionComponent;
-import com.jakespringer.engine.movement.PreviousPositionComponent;
-import com.jakespringer.engine.movement.PreviousPositionSystem;
-import com.jakespringer.engine.movement.RotationComponent;
-import com.jakespringer.engine.movement.VelocityComponent;
-import com.jakespringer.engine.movement.VelocitySystem;
+import com.jakespringer.engine.movement.*;
 import com.jakespringer.engine.util.Vec2;
-import com.jakespringer.engine.core.AbstractEntity;
 
 public class OtherPlayer extends AbstractEntity {
+
     public OtherPlayer(Vec2 pos) {
+        System.out.println(Thread.currentThread().getId());
+        System.out.println("other player");
         //Components
         PositionComponent pc = add(new PositionComponent(pos));
         PreviousPositionComponent ppc = add(new PreviousPositionComponent(pos));

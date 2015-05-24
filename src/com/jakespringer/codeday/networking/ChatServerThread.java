@@ -7,6 +7,7 @@ import com.jakespringer.codeday.enemy.Enemy;
 import com.jakespringer.codeday.networking.messages.GeneralCreateMessage;
 import com.jakespringer.codeday.networking.messages.ProjectileCreateMessage;
 import com.jakespringer.codeday.player.OtherPlayer;
+import com.jakespringer.codeday.util.Tuple;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
@@ -26,6 +27,12 @@ public class ChatServerThread extends Thread {
         server = _server;
         socket = _socket;
         ID = socket.getPort();
+        try {
+            open();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        start();
 
         for (OtherPlayer p : Main.gameManager.elc.getEntityList(OtherPlayer.class)) {
             send(new GeneralCreateMessage(OtherPlayer.class, p.id, p.getComponent(PositionComponent.class).pos).toString());
@@ -62,7 +69,8 @@ public class ChatServerThread extends Thread {
         System.out.println("Server Thread " + ID + " running.");
         while (true) {
             try {
-                server.handle(ID, streamIn.readUTF());
+                server.messages.add(new Tuple(ID, streamIn.readUTF()));
+//                server.handle(ID, streamIn.readUTF());
             } catch (IOException ioe) {
                 System.out.println(ID + " ERROR reading: " + ioe.getMessage());
                 server.remove(ID);
