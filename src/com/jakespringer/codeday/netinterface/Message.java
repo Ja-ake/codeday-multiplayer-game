@@ -8,6 +8,6 @@ public abstract class Message {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName();
+        return getClass().getName();
     }
 }

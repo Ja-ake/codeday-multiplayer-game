@@ -2,7 +2,7 @@ package com.jakespringer.codeday.networking;
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ChatClient implements Runnable {
 
@@ -11,7 +11,7 @@ public class ChatClient implements Runnable {
     private DataInputStream console = null;
     private DataOutputStream streamOut = null;
     private ChatClientThread client = null;
-    public ArrayList<String> messageList = new ArrayList();
+    public ConcurrentLinkedQueue<String> messageList = new ConcurrentLinkedQueue();
 
     public static void main(String args[]) {
         new ChatClient("localhost", 55555);

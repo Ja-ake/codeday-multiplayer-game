@@ -4,7 +4,7 @@ import com.jakespringer.codeday.combat.Bullet;
 import com.jakespringer.codeday.combat.Grenade;
 import com.jakespringer.codeday.netinterface.NetworkSystem;
 import com.jakespringer.codeday.netinterface.message.BulletCreateMessage;
-import com.jakespringer.codeday.netinterface.message.PlayerStateMessage;
+import com.jakespringer.codeday.netinterface.message.EntityStateMessage;
 import com.jakespringer.engine.core.*;
 import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.movement.PositionComponent;
@@ -72,7 +72,7 @@ public class PlayerControlSystem extends AbstractSystem {
         }
 
         Main.gameManager.rmc2.viewPos = pc.pos;
-        Main.gameManager.getSystem(NetworkSystem.class).sendMessage(new PlayerStateMessage(player.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y, rc.rot));
+        Main.gameManager.getSystem(NetworkSystem.class).sendMessage(new EntityStateMessage(player.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y, rc.rot));
     }
 
     private void grenade(Vec2 dir) {

@@ -1,13 +1,11 @@
 package com.jakespringer.codeday;
 
 import com.jakespringer.codeday.netinterface.NetworkSystem;
-import com.jakespringer.codeday.networking.Connection;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.Main;
 import static com.jakespringer.engine.core.Main.*;
 import com.jakespringer.engine.gui.Menu;
 import java.io.File;
-import java.io.IOException;
 
 public abstract class ClientMain {
 
@@ -20,7 +18,6 @@ public abstract class ClientMain {
             new CommandConsole();
 
             // NETWORKING
-            
             NetworkSystem ns = new NetworkSystem();
             Main.gameManager.add(ns);
 

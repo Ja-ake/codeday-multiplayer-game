@@ -1,46 +1,38 @@
 package com.jakespringer.codeday.netinterface.message;
 
-import java.nio.ByteBuffer;
-
 import com.jakespringer.codeday.netinterface.Message;
-import com.jakespringer.codeday.player.OtherPlayer;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.core.Main;
-import com.jakespringer.engine.util.Vec2;
 
-public class PlayerLeaveMessage implements Message {
+public class PlayerLeaveMessage extends Message {
 
-	public long id;
-	
-	public PlayerLeaveMessage() {
-		
-	}
-	
-	public PlayerLeaveMessage(long i) {
-		id = i;
-	}
-	
-	@Override
-	public void act() {
-		AbstractEntity e = Main.gameManager.elc.getId(id);
-		if (e != null) {
-			e.destroySelf();
-			CommandConsole.println("A player has left.");
-		}
-	}
+    public long id;
 
-	@Override
-	public byte[] toBytes() {
-		ByteBuffer b = ByteBuffer.allocate(8);
-		b.putLong(id);
-		return b.array();
-	}
+    public PlayerLeaveMessage() {
+    }
 
-	@Override
-	public void initialize(byte[] data) {
-		ByteBuffer b = ByteBuffer.wrap(data);
-		id = b.getLong();
-	}
+    public PlayerLeaveMessage(long i) {
+        id = i;
+    }
+
+    @Override
+    public void act() {
+        AbstractEntity e = Main.gameManager.elc.getId(id);
+        if (e != null) {
+            e.destroySelf();
+            CommandConsole.println("A player has left.");
+        }
+    }
+
+    @Override
+    public void initialize(String[] parts) {
+        id = Long.parseLong(parts[1]);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "|" + id;
+    }
 
 }

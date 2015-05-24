@@ -1,7 +1,11 @@
 package com.jakespringer.codeday.netinterface;
 
+import com.jakespringer.codeday.netinterface.message.PlayerLeaveMessage;
 import com.jakespringer.codeday.networking.ChatClient;
+import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractSystem;
+import com.jakespringer.engine.core.Main;
+import java.io.IOException;
 
 public class NetworkSystem extends AbstractSystem {
 
@@ -15,7 +19,8 @@ public class NetworkSystem extends AbstractSystem {
         if (conn == null) {
             return;
         }
-        for (String msg : conn.messageList) {
+        while (!conn.messageList.isEmpty()) {
+            String msg = conn.messageList.poll();
             String[] parts = msg.split("\\|");
             try {
                 Message m = ((Message) Class.forName(parts[0]).newInstance());
@@ -25,7 +30,6 @@ public class NetworkSystem extends AbstractSystem {
                 ex.printStackTrace();
             }
         }
-        conn.messageList.clear();
     }
 
     public void sendMessage(Message m) {
@@ -34,23 +38,30 @@ public class NetworkSystem extends AbstractSystem {
         }
     }
 
-//    public void disconnect() {
-//        if (conn != null) {
-//            if (conn.isRunning()) {
-//                sendMessage(new PlayerLeaveMessage(Main.gameManager.elc.getEntity(Player.class).id));
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException e) {
-//                }
-//                conn.disconnect();
-//                conn = null;
-//            }
-//        }
-//    }
+    public
+            void disconnect() {
+        if (conn != null) {
+            sendMessage(new PlayerLeaveMessage(Main.gameManager.elc.getEntity(Player.class
+            ).id));
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+            }
+            conn.stop();
+            conn = null;
+        }
+    }
+
     public void connect(String ip, int port) {
         if (conn != null) {
-//            disconnect();
+            disconnect();
         }
         conn = new ChatClient(ip, port);
+        try {
+            conn.start();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
