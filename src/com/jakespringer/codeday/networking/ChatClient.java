@@ -12,7 +12,7 @@ public class ChatClient implements Runnable {
     private ChatClientThread client = null;
 
     public static void main(String[] args) {
-        new ChatClient("localhost", 54321);
+        new ChatClient("10.105.152.13", 54321);
     }
 
     public ChatClient(String serverName, int serverPort) {
