@@ -52,7 +52,7 @@ public abstract class MouseInput {
     }
 
     public static Vec2 mouseScreen() {
-        return mouse.subtract(Main.gameManager.rmc2.viewPos).subtract(Main.gameManager.rmc2.viewSize.multiply(.5));
+        return mouse.subtract(Main.gameManager.rmc2.viewPos).add(Main.gameManager.rmc2.viewSize.multiply(.5));
     }
 
     public static void update() {
