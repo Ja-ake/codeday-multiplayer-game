@@ -11,7 +11,7 @@ public class ChatServer implements Runnable {
     private int clientCount = 0;
 
     public static void main(String[] args) {
-        new ChatServer(54321);
+        new ChatServer(13373);
     }
 
     public ChatServer(int port) {
@@ -61,6 +61,7 @@ public class ChatServer implements Runnable {
     }
 
     public synchronized void handle(int ID, String input) {
+        System.out.println(input);
         if (input.equals(".bye")) {
             clients[findClient(ID)].send(".bye");
             remove(ID);

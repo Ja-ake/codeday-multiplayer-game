@@ -76,6 +76,9 @@ public class LevelComponent extends AbstractComponent {
         switch (color) {
             case 0xFF000000: //0 0 0
                 return new Tile(x, y, true);
+            case 0xFF22B14C: //34 176 76
+                //new Player(new Vec2(x, y).multiply(Tile.SIZE));
+                return new Tile(x, y, false);
             default:
                 return new Tile(x, y, false);
         }
@@ -199,5 +202,9 @@ public class LevelComponent extends AbstractComponent {
             return tileGrid[(int) pos.x / Tile.SIZE][(int) pos.y / Tile.SIZE];
         }
         return null;
+    }
+
+    public boolean wallAt(Vec2 pos) {
+        return tileAt(pos) == null || tileAt(pos).isWall;
     }
 }

@@ -1,16 +1,13 @@
 package com.jakespringer.engine.graphics;
 
-import java.util.ArrayList;
-
-import static org.lwjgl.opengl.GL11.*;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.opengl.TextureImpl;
-
 import com.jakespringer.engine.graphics.data.Texture;
 import com.jakespringer.engine.graphics.loading.FontContainer;
 import com.jakespringer.engine.util.Color4d;
 import com.jakespringer.engine.util.Vec2;
+import java.util.ArrayList;
+import static org.lwjgl.opengl.GL11.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.opengl.TextureImpl;
 
 public abstract class Graphics2D {
 
@@ -148,7 +145,7 @@ public abstract class Graphics2D {
     }
 
     public static void fillEllipse(Vec2 pos, Vec2 size, Color4d color, double detail) {
-        //glDisable(GL_TEXTURE_2D);
+        glDisable(GL_TEXTURE_2D);
         color.glColor();
         glBegin(GL_TRIANGLE_FAN);
         {

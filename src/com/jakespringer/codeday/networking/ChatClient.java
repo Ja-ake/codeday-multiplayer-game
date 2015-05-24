@@ -12,7 +12,7 @@ public class ChatClient implements Runnable {
     private ChatClientThread client = null;
 
     public static void main(String[] args) {
-        new ChatClient("10.105.152.13", 54321);
+        new ChatClient("localhost", 13373);
     }
 
     public ChatClient(String serverName, int serverPort) {
@@ -40,13 +40,8 @@ public class ChatClient implements Runnable {
         }
     }
 
-    public void handle(String msg) {
-        if (msg.equals(".bye")) {
-            System.out.println("Good bye. Press RETURN to exit ...");
-            stop();
-        } else {
-            System.out.println(msg);
-        }
+    public void handle(byte msg) {
+        System.out.println(msg);
     }
 
     public void start() throws IOException {
