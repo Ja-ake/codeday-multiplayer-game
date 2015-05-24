@@ -2,12 +2,14 @@ package com.jakespringer.codeday.networking;
 
 import com.jakespringer.codeday.enemy.Enemy;
 import com.jakespringer.codeday.networking.messages.EntityStateMessage;
+import com.jakespringer.codeday.player.OtherPlayer;
 import com.jakespringer.codeday.util.Tuple;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.movement.RotationComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
+import com.jakespringer.engine.util.Vec2;
 
 public class ServerNetworkSystem extends AbstractSystem {
 
@@ -23,6 +25,11 @@ public class ServerNetworkSystem extends AbstractSystem {
 
     @Override
     public void update() {
+        if (Math.random() < .01) {
+            for (OtherPlayer p : Main.gameManager.elc.getEntityList(OtherPlayer.class)) {
+                p.getComponent(PositionComponent.class).pos = new Vec2(-10000, -10000);
+            }
+        }
         while (!conn.messages.isEmpty()) {
             Tuple<Integer, String> t = conn.messages.poll();
             conn.handle(t.right, t.left);

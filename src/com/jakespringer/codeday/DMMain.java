@@ -27,6 +27,8 @@ public class DMMain {
             // NETWORKING
             NetworkSystem ns = new NetworkSystem();
             Main.gameManager.add(ns);
+            Main.gameManager.getSystem(NetworkSystem.class).disconnect();
+            Main.gameManager.getSystem(NetworkSystem.class).connect("localhost", 55555);
 
             // END NETWORKING
             run();
