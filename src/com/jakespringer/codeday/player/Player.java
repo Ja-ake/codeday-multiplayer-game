@@ -18,7 +18,7 @@ public class Player extends AbstractEntity {
         PreviousPositionComponent ppc = add(new PreviousPositionComponent(pos));
         VelocityComponent vc = add(new VelocityComponent());
         RotationComponent rc = add(new RotationComponent());
-        SpriteComponent sc = add(new SpriteComponent("player1"));
+        SpriteComponent sc = add(new SpriteComponent("player2"));
         sc.scale = new Vec2(.5, .5);
         CollisionComponent cc = add(new CollisionComponent(this, pc, 25));
         HealthComponent hc = add(new HealthComponent(500));

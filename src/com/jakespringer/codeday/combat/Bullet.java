@@ -9,17 +9,19 @@ import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.movement.RotationComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.movement.VelocitySystem;
+import com.jakespringer.engine.util.Color4d;
 import com.jakespringer.engine.util.Vec2;
 
 public class Bullet extends AbstractEntity {
 
-    public Bullet(AbstractEntity shooter, Vec2 pos, Vec2 vel) {
+    public Bullet(AbstractEntity shooter, Vec2 pos, Vec2 vel, Color4d color) {
         //Components
         PositionComponent pc = add(new PositionComponent(pos));
         VelocityComponent vc = add(new VelocityComponent(vel));
         RotationComponent rc = add(new RotationComponent());
         rc.rot = vel.direction();
         SpriteComponent sc = add(new SpriteComponent("bullet two"));
+        sc.color = color;
         //sc.scale = new Vec2(2, 2);
         ProjectileComponent dc = add(new ProjectileComponent(shooter, 10, 600, 2));
         //Systems

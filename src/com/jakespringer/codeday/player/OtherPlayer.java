@@ -16,7 +16,8 @@ public class OtherPlayer extends AbstractEntity {
         PreviousPositionComponent ppc = add(new PreviousPositionComponent(pos));
         VelocityComponent vc = add(new VelocityComponent());
         RotationComponent rc = add(new RotationComponent());
-        SpriteComponent sc = add(new SpriteComponent("player"));
+        SpriteComponent sc = add(new SpriteComponent("player1"));
+        sc.scale = new Vec2(.5, .5);
         CollisionComponent cc = add(new CollisionComponent(this, pc, 16));
         //Systems
         add(new VelocitySystem(pc, vc));

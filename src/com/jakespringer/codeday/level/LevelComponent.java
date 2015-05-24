@@ -1,7 +1,5 @@
 package com.jakespringer.codeday.level;
 
-import com.jakespringer.codeday.tiled.TiledTile;
-import com.jakespringer.codeday.tiled.TiledXMLParser;
 import com.jakespringer.engine.core.AbstractComponent;
 import com.jakespringer.engine.graphics.Graphics2D;
 import static com.jakespringer.engine.graphics.Graphics2D.drawSpriteFast;
@@ -27,9 +25,6 @@ public class LevelComponent extends AbstractComponent {
     private static String type = ".png";
 
     public LevelComponent(String fileName) {
-        TiledXMLParser tmx = new TiledXMLParser(new File("levels/test.tmx"));
-        tmx.parse();
-
         this.fileName = fileName;
         BufferedImage image = null;
         try {
@@ -40,63 +35,84 @@ public class LevelComponent extends AbstractComponent {
 
         ArrayList<Texture> tiles = SpriteContainer.loadSprite("walls and floor", 4, 4);
 
-        width = 48;
-        height = 48;
+        width = image.getWidth();
+        height = image.getHeight();
         tileGrid = new Tile[width][height];
-//        for (int y = 0; y < height; y++) {
-//            for (int x = 0; x < width; x++) {
-//                tileGrid[x][y] = createTile(x, y, image.getRGB(x, height - y - 1));
-//            }
-//        }
-
-        TiledTile tile;
-        int ix = 0;
-        int jy = 0;
-        while ((tile = tmx.nextTile()) != null) {
-            Texture t = tmx.getTileTexture(tile.gid + 1);
-            System.out.println(t);
-            tileGrid[ix][jy] = new Tile(ix, jy, t, tile.gid != 0);
-            ix++;
-            if (ix > tmx.getMap().width - 1) {
-                jy++;
-                ix = 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                tileGrid[x][y] = createTile(x, y, image.getRGB(x, height - y - 1));
             }
         }
-
-//        for (int x = 0; x < width; x++) {
-//            for (int y = 0; y < height; y++) {
-//            	boolean[][] a = new boolean[3][3];
-//            	a[0] = new boolean[3];
-//            	a[1] = new boolean[3];
-//            	a[2] = new boolean[3];
+//        TiledXMLParser tmx = new TiledXMLParser(new File("levels/test.tmx"));
+//        tmx.parse();
 //
-//            	for (int i=0; i<3; i++) for (int j=0; j<3; j++) a[i][j] = false;
+//        this.fileName = fileName;
+//        BufferedImage image = null;
+//        try {
+//            image = ImageIO.read(new File(path + fileName + type));
+//        } catch (IOException ex) {
+//            throw new RuntimeException("Level " + fileName + " doesn't exist");
+//        }
 //
-//            	a[1][1] = tileGrid[x][y].isWall;
+//        ArrayList<Texture> tiles = SpriteContainer.loadSprite("walls and floor", 4, 4);
 //
-//				if (x != 0) a[0][1] = tileGrid[x-1][y].isWall;
-//				if (x != width-1) a[2][1] = tileGrid[x+1][y].isWall;
-//				if (y != 0) a[1][0] = tileGrid[x][y-1].isWall;
-//				if (y != height-1) a[1][2] = tileGrid[x][y+1].isWall;
+//        width = 48;
+//        height = 48;
+//        tileGrid = new Tile[width][height];
+////        for (int y = 0; y < height; y++) {
+////            for (int x = 0; x < width; x++) {
+////                tileGrid[x][y] = createTile(x, y, image.getRGB(x, height - y - 1));
+////            }
+////        }
 //
-//				if (x != 0 && y != 0) a[0][0] = tileGrid[x-1][y-1].isWall;
-//				if (x != 0 && y != height-1) a[0][2] = tileGrid[x-1][y+1].isWall;
-//				if (x != width-1 && y != 0) a[2][0] = tileGrid[x+1][y-1].isWall;
-//				if (x != width-1 && y != height-1) a[2][2] = tileGrid[x+1][y+1].isWall;
-//
-//				if (a[1][1]) tileGrid[x][y].tex = tiles.get(5);
-//
-//				if (a[1][0] && a[1][2]) if (x < 20) tileGrid[x][y].tex = tiles.get(6);
-//				if (a[0][1] && a[2][1]) if (y > 20) tileGrid[x][y].tex = tiles.get(1);
-//
-//				if (a[0][1] && tileGrid[x][y].tex.equals(tiles.get(6))) tileGrid[x][y].tex = tiles.get(4);
-//				if (a[1][0] && tileGrid[x][y].tex.equals(tiles.get(1))) tileGrid[x][y].tex = tiles.get(9);
-//
-//				if (!a[2][2] && a[1][0] && a[2][1]) tileGrid[x][y].tex = tiles.get(8);
-//				if (a[0][2] && a[1][2] && a[0][1] && !a[1][0] && !a[2][0]) tileGrid[x][y].tex = tiles.get(9);
-//				if (a[0][0] && tileGrid[x][y].tex.equals(tiles.get(8))) tileGrid[x][y].tex = tiles.get(9);
+//        TiledTile tile;
+//        int ix = 0;
+//        int jy = 0;
+//        while ((tile = tmx.nextTile()) != null) {
+//            Texture t = tmx.getTileTexture(tile.gid + 1);
+//            System.out.println(t);
+//            tileGrid[ix][jy] = new Tile(ix, jy, t, tile.gid != 0);
+//            ix++;
+//            if (ix > tmx.getMap().width - 1) {
+//                jy++;
+//                ix = 0;
 //            }
 //        }
+//
+////        for (int x = 0; x < width; x++) {
+////            for (int y = 0; y < height; y++) {
+////            	boolean[][] a = new boolean[3][3];
+////            	a[0] = new boolean[3];
+////            	a[1] = new boolean[3];
+////            	a[2] = new boolean[3];
+////
+////            	for (int i=0; i<3; i++) for (int j=0; j<3; j++) a[i][j] = false;
+////
+////            	a[1][1] = tileGrid[x][y].isWall;
+////
+////				if (x != 0) a[0][1] = tileGrid[x-1][y].isWall;
+////				if (x != width-1) a[2][1] = tileGrid[x+1][y].isWall;
+////				if (y != 0) a[1][0] = tileGrid[x][y-1].isWall;
+////				if (y != height-1) a[1][2] = tileGrid[x][y+1].isWall;
+////
+////				if (x != 0 && y != 0) a[0][0] = tileGrid[x-1][y-1].isWall;
+////				if (x != 0 && y != height-1) a[0][2] = tileGrid[x-1][y+1].isWall;
+////				if (x != width-1 && y != 0) a[2][0] = tileGrid[x+1][y-1].isWall;
+////				if (x != width-1 && y != height-1) a[2][2] = tileGrid[x+1][y+1].isWall;
+////
+////				if (a[1][1]) tileGrid[x][y].tex = tiles.get(5);
+////
+////				if (a[1][0] && a[1][2]) if (x < 20) tileGrid[x][y].tex = tiles.get(6);
+////				if (a[0][1] && a[2][1]) if (y > 20) tileGrid[x][y].tex = tiles.get(1);
+////
+////				if (a[0][1] && tileGrid[x][y].tex.equals(tiles.get(6))) tileGrid[x][y].tex = tiles.get(4);
+////				if (a[1][0] && tileGrid[x][y].tex.equals(tiles.get(1))) tileGrid[x][y].tex = tiles.get(9);
+////
+////				if (!a[2][2] && a[1][0] && a[2][1]) tileGrid[x][y].tex = tiles.get(8);
+////				if (a[0][2] && a[1][2] && a[0][1] && !a[1][0] && !a[2][0]) tileGrid[x][y].tex = tiles.get(9);
+////				if (a[0][0] && tileGrid[x][y].tex.equals(tiles.get(8))) tileGrid[x][y].tex = tiles.get(9);
+////            }
+////        }
         //List
         list = glGenLists(1);
         glNewList(list, GL_COMPILE);
@@ -121,7 +137,6 @@ public class LevelComponent extends AbstractComponent {
                     if (t.tex != tex) {
                         continue;
                     }
-                    System.out.println("draw");
                     drawSpriteFast(tex, t.LL(), t.LR(), t.UR(), t.UL());
                 }
             }

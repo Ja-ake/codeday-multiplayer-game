@@ -6,7 +6,6 @@ import com.jakespringer.codeday.networking.messages.ProjectileCreateMessage;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Main;
-import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.movement.RotationComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
@@ -54,10 +53,9 @@ public class SniperControlSystem extends AbstractSystem {
 
         scc.currentCooldown--;
         if (scc.currentCooldown <= 0) {
-            Bullet b = new Bullet(enemy, pc.pos, closest.getComponent(PositionComponent.class).pos.subtract(pc.pos).setLength(12));
-            b.getComponent(SpriteComponent.class).color = new Color4d(0, 1, .5);
+            Bullet b = new Bullet(enemy, pc.pos, closest.getComponent(PositionComponent.class).pos.subtract(pc.pos).setLength(12), new Color4d(0, 1, .5));
             new ProjectileCreateMessage(Bullet.class, b.id, enemy.id, pc.pos,
-                    closest.getComponent(PositionComponent.class).pos.subtract(pc.pos).setLength(12)).send();
+                    closest.getComponent(PositionComponent.class).pos.subtract(pc.pos).setLength(12), new Color4d(0, 1, .5)).send();
             scc.currentShots--;
             if (scc.currentShots <= 0) {
                 scc.currentCooldown = scc.maxCooldown;

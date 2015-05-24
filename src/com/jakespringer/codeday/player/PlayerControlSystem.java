@@ -5,11 +5,11 @@ import com.jakespringer.codeday.combat.Grenade;
 import com.jakespringer.codeday.networking.messages.EntityStateMessage;
 import com.jakespringer.codeday.networking.messages.ProjectileCreateMessage;
 import com.jakespringer.engine.core.*;
-import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.movement.RotationComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.util.Color4d;
+import static com.jakespringer.engine.util.Color4d.WHITE;
 import com.jakespringer.engine.util.Vec2;
 import org.lwjgl.input.Keyboard;
 
@@ -65,10 +65,10 @@ public class PlayerControlSystem extends AbstractSystem {
                 shoot(MouseInput.mouse().subtract(pc.pos));
             }
             if (MouseInput.isPressed(0)) {
-            	Sounds.playSound("laser.mp3");
+                Sounds.playSound("laser.mp3");
             }
             if (MouseInput.isReleased(0)) {
-            	Sounds.stopSound("laser.mp3");
+                Sounds.stopSound("laser.mp3");
             }
             if (MouseInput.isPressed(1)) {
                 grenade(MouseInput.mouse().subtract(pc.pos));
@@ -83,16 +83,15 @@ public class PlayerControlSystem extends AbstractSystem {
         Vec2 pos = pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22));
         Vec2 vel = dir.setLength(6).add(Vec2.random(.1));
 
-        Grenade g = new Grenade(player, pos, vel);
-        new ProjectileCreateMessage(Grenade.class, g.id, player.id, pos, vel).send();
+        Grenade g = new Grenade(player, pos, vel, WHITE);
+        new ProjectileCreateMessage(Grenade.class, g.id, player.id, pos, vel, WHITE).send();
     }
 
     private void shoot(Vec2 dir) {
         Vec2 pos = pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22));
         Vec2 vel = dir.setLength(16).add(Vec2.random(.1));
 
-        Bullet b = new Bullet(player, pos, vel);
-        b.getComponent(SpriteComponent.class).color = new Color4d(1, 0, 1);
-        new ProjectileCreateMessage(Bullet.class, b.id, player.id, pos, vel).send();
+        Bullet b = new Bullet(player, pos, vel, new Color4d(1, 0, 1));
+        new ProjectileCreateMessage(Bullet.class, b.id, player.id, pos, vel, new Color4d(0, 1, 1)).send();
     }
 }

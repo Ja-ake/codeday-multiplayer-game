@@ -9,6 +9,7 @@ import com.jakespringer.codeday.networking.messages.ProjectileCreateMessage;
 import com.jakespringer.codeday.player.OtherPlayer;
 import com.jakespringer.codeday.util.Tuple;
 import com.jakespringer.engine.core.Main;
+import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
 import java.io.*;
@@ -42,11 +43,11 @@ public class ChatServerThread extends Thread {
         }
         for (Bullet b : Main.gameManager.elc.getEntityList(Bullet.class)) {
             send(new ProjectileCreateMessage(Bullet.class, b.id, b.getComponent(ProjectileComponent.class).shooter.id,
-                    b.getComponent(PositionComponent.class).pos, b.getComponent(VelocityComponent.class).vel).toString());
+                    b.getComponent(PositionComponent.class).pos, b.getComponent(VelocityComponent.class).vel, b.getComponent(SpriteComponent.class).color).toString());
         }
         for (Grenade g : Main.gameManager.elc.getEntityList(Grenade.class)) {
             send(new ProjectileCreateMessage(Bullet.class, g.id, g.getComponent(ProjectileComponent.class).shooter.id,
-                    g.getComponent(PositionComponent.class).pos, g.getComponent(VelocityComponent.class).vel).toString());
+                    g.getComponent(PositionComponent.class).pos, g.getComponent(VelocityComponent.class).vel, g.getComponent(SpriteComponent.class).color).toString());
         }
     }
 

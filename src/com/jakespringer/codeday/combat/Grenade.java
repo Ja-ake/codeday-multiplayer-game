@@ -18,13 +18,14 @@ import com.jakespringer.engine.util.Vec2;
 
 public class Grenade extends AbstractEntity {
 
-    public Grenade(AbstractEntity shooter, Vec2 pos, Vec2 vel) {
+    public Grenade(AbstractEntity shooter, Vec2 pos, Vec2 vel, Color4d color) {
         //Components
         PositionComponent pc = add(new PositionComponent(pos));
         VelocityComponent vc = add(new VelocityComponent(vel));
         RotationComponent rc = add(new RotationComponent());
         SpriteComponent sc = add(new SpriteComponent("grenade"));
         sc.scale = new Vec2(.2, .2);
+        sc.color = color;
         ProjectileComponent pjc = add(new ProjectileComponent(shooter, 20, 600, 2));
         //Systems
         add(new VelocitySystem(pc, vc));
