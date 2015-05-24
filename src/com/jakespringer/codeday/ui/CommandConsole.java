@@ -6,7 +6,11 @@ import com.jakespringer.engine.core.AbstractEntity;
 
 public class CommandConsole extends AbstractEntity {
 	
+	private static CommandConsole one;
+	
 	public CommandConsole() {
+		one = this;
+		
 		CommandInputComponent cic = new CommandInputComponent();
 		
 		add(cic);
@@ -19,5 +23,9 @@ public class CommandConsole extends AbstractEntity {
 		
 		List<String> history = cic.history;
 		for (String msg : startMessage) history.add(msg);
+	}
+	
+	public static void println(String s) {
+		if (one != null) one.getComponent(CommandInputComponent.class).history.add(s);
 	}
 }

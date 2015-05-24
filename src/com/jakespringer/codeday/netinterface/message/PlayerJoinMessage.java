@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 
 import com.jakespringer.codeday.netinterface.Message;
 import com.jakespringer.codeday.player.OtherPlayer;
+import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.util.Vec2;
 
 public class PlayerJoinMessage implements Message {
@@ -22,6 +23,7 @@ public class PlayerJoinMessage implements Message {
 	public void act() {
 		OtherPlayer p = new OtherPlayer(new Vec2());
 		p.id = this.id;
+		CommandConsole.println("A player has joined.");
 	}
 
 	@Override
