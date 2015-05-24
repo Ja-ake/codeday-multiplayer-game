@@ -6,3 +6,4 @@ manifest.mf
 build.xml
 /build/
 /dist/
+/CodeDay/nbproject/private/

@@ -1,5 +1,6 @@
 package com.jakespringer.codeday.enemy;
 
+import com.jakespringer.codeday.combat.Bullet;
 import com.jakespringer.codeday.player.*;
 import com.jakespringer.engine.core.*;
 import com.jakespringer.engine.graphics.SpriteComponent;

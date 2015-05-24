@@ -1,4 +1,4 @@
-package com.jakespringer.codeday.player;
+package com.jakespringer.codeday.combat;
 
 import com.jakespringer.codeday.combat.HealthComponent;
 import com.jakespringer.codeday.particle.ParticleEmitter;

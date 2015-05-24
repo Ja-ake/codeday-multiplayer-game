@@ -1,4 +1,4 @@
-package com.jakespringer.codeday.player;
+package com.jakespringer.codeday.combat;
 
 import com.jakespringer.engine.core.AbstractComponent;
 import com.jakespringer.engine.core.AbstractEntity;

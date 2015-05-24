@@ -81,6 +81,76 @@ public class LevelComponent extends AbstractComponent {
         }
     }
 
+    public Vec2 rayCast(Vec2 start, Vec2 goal) {
+        return null;
+//        Vec2 pos = start;
+//        while (true) {
+//            double nextX
+//        }
+//        double x0 = start.x / Tile.SIZE;
+//        double y0 = start.y / Tile.SIZE;
+//        double x1 = goal.x / Tile.SIZE;
+//        double y1 = goal.y / Tile.SIZE;
+//
+//        double dx = Math.abs(x1 - x0);
+//        double dy = Math.abs(y1 - y0);
+//
+//        int x = (int) Math.floor(x0);
+//        int y = (int) Math.floor(y0);
+//
+//        int n = 1;
+//        int x_inc, y_inc;
+//        double error;
+//
+//        if (dx == 0) {
+//            x_inc = 0;
+//            error = Double.POSITIVE_INFINITY;
+//        } else if (x1 > x0) {
+//            x_inc = 1;
+//            n += (int) Math.floor(x1) - x;
+//            error = (Math.floor(x0) + 1 - x0) * dy;
+//        } else {
+//            x_inc = -1;
+//            n += x - (int) Math.floor(x1);
+//            error = (x0 - Math.floor(x0)) * dy;
+//        }
+//
+//        if (dy == 0) {
+//            y_inc = 0;
+//            error = Double.NEGATIVE_INFINITY;
+//        } else if (y1 > y0) {
+//            y_inc = 1;
+//            n += (int) Math.floor(y1) - y;
+//            error -= (Math.floor(y0) + 1 - y0) * dx;
+//        } else {
+//            y_inc = -1;
+//            n += y - (int) Math.floor(y1);
+//            error -= (y0 - Math.floor(y0)) * dx;
+//        }
+//
+//        for (; n > 0; --n) {
+//            Tile t = tileAt(new Vec2(x * Tile.SIZE, y * Tile.SIZE));
+//            if (t != null && t.isWall) {
+//                if (error > 0) {
+//                    //y hit
+//                    return new Vec2(x + .5, y).multiply(Tile.SIZE);
+//                } else {
+//                    //x hit
+//                    return new Vec2(x, y + .5).multiply(Tile.SIZE);
+//                }
+//            }
+//
+//            if (error > 0) {
+//                y += y_inc;
+//                error -= dx;
+//            } else {
+//                x += x_inc;
+//                error += dy;
+//            }
+//        }
+//        return goal;
+    }
+
     public Tile tileAt(Vec2 pos) {
         if (pos.x >= 0 && pos.y >= 0 && pos.x < width * Tile.SIZE && pos.y < height * Tile.SIZE) {
             return tileGrid[(int) pos.x / Tile.SIZE][(int) pos.y / Tile.SIZE];

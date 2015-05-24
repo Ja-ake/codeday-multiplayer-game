@@ -1,5 +1,7 @@
 package com.jakespringer.codeday.player;
 
+import com.jakespringer.codeday.combat.Bullet;
+import com.jakespringer.codeday.combat.Grenade;
 import com.jakespringer.codeday.netinterface.NetworkSystem;
 import com.jakespringer.codeday.netinterface.message.PlayerStateMessage;
 import com.jakespringer.engine.core.*;
@@ -9,7 +11,6 @@ import com.jakespringer.engine.movement.RotationComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.util.Color4d;
 import com.jakespringer.engine.util.Vec2;
-
 import org.lwjgl.input.Keyboard;
 
 public class PlayerControlSystem extends AbstractSystem {

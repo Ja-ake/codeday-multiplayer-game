@@ -1,4 +1,4 @@
-package com.jakespringer.codeday.player;
+package com.jakespringer.codeday.combat;
 
 import com.jakespringer.codeday.particle.ParticleEmitter;
 import com.jakespringer.engine.core.AbstractEntity;
@@ -20,7 +20,7 @@ public class Bullet extends AbstractEntity {
         rc.rot = vel.direction();
         SpriteComponent sc = add(new SpriteComponent("bullet two"));
         //sc.scale = new Vec2(2, 2);
-        ProjectileComponent dc = add(new ProjectileComponent(shooter, 10, 60, 2));
+        ProjectileComponent dc = add(new ProjectileComponent(shooter, 10, 600, 2));
         //Systems
         add(new VelocitySystem(pc, vc));
         add(new ProjectileSystem(this, pc, vc, rc, sc, dc));
