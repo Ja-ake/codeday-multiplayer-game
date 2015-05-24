@@ -51,6 +51,10 @@ public abstract class MouseInput {
         return mouseDelta;
     }
 
+    public static Vec2 mouseScreen() {
+        return mouse.subtract(Main.gameManager.rmc2.viewPos).subtract(Main.gameManager.rmc2.viewSize.multiply(.5));
+    }
+
     public static void update() {
         wheel = Mouse.getDWheel() / 120;
         pressed.clear();

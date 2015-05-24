@@ -2,6 +2,7 @@ package com.jakespringer.codeday.networking;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class ChatClient implements Runnable {
 
@@ -10,6 +11,7 @@ public class ChatClient implements Runnable {
     private DataInputStream console = null;
     private DataOutputStream streamOut = null;
     private ChatClientThread client = null;
+    public ArrayList<String> messageList = new ArrayList();
 
     public static void main(String args[]) {
         new ChatClient("localhost", 55555);
@@ -40,13 +42,18 @@ public class ChatClient implements Runnable {
         }
     }
 
-    public void handle(String msg) {
-        if (msg.equals(".bye")) {
-            System.out.println("Good bye. Press RETURN to exit ...");
+    public void send(String msg) {
+        try {
+            streamOut.writeUTF(msg);
+            streamOut.flush();
+        } catch (IOException ioe) {
+            System.out.println("Sending error: " + ioe.getMessage());
             stop();
-        } else {
-            System.out.println(msg);
         }
+    }
+
+    public void handle(String msg) {
+        messageList.add(msg);
     }
 
     public void start() throws IOException {

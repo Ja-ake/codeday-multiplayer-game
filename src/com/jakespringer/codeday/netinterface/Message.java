@@ -1,10 +1,13 @@
 package com.jakespringer.codeday.netinterface;
 
-public interface Message {
+public abstract class Message {
 
-    public void act();
+    public abstract void act();
 
-    public byte[] toBytes();
-    
-    public void initialize(byte[] data);
+    public abstract void initialize(String[] parts);
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }
