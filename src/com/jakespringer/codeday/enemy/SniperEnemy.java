@@ -15,6 +15,7 @@ import com.jakespringer.engine.util.Vec2;
 
 public class SniperEnemy extends Enemy {
 	public SniperEnemy(Vec2 pos) {
+		super(pos);
         //Components
         PositionComponent pc = add(new PositionComponent(pos));
         PreviousPositionComponent ppc = add(new PreviousPositionComponent(pos));
