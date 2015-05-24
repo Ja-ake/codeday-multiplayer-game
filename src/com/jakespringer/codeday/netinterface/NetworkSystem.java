@@ -30,11 +30,11 @@ public class NetworkSystem extends AbstractSystem {
     }
     
     public void sendMessage(Message m) {
-    	conn.send(MessageFactory.createBytes(m));
+    	if (conn != null) conn.send(MessageFactory.createBytes(m));
     }
     
     public void disconnect() {
-    	if (conn.isRunning()) {
+    	if (conn != null) if (conn.isRunning()) {
     		sendMessage(new PlayerLeaveMessage(Main.gameManager.elc.getEntity(Player.class).id));
     		try {
 				Thread.sleep(500);
@@ -45,6 +45,7 @@ public class NetworkSystem extends AbstractSystem {
     }
     
     public void connect(String ip, int port) {
+    	if (conn != null) disconnect();
     	conn = new Connection();
     	try {
 			conn.start(ip, port);

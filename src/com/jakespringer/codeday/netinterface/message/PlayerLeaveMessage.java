@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import com.jakespringer.codeday.netinterface.Message;
 import com.jakespringer.codeday.player.OtherPlayer;
 import com.jakespringer.codeday.ui.CommandConsole;
+import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.util.Vec2;
 
@@ -16,14 +17,17 @@ public class PlayerLeaveMessage implements Message {
 		
 	}
 	
-	public PlayerLeaveMessage(long id) {
-		
+	public PlayerLeaveMessage(long i) {
+		id = i;
 	}
 	
 	@Override
 	public void act() {
-		Main.gameManager.elc.getId(id).destroySelf();
-		CommandConsole.println("A player has left.");
+		AbstractEntity e = Main.gameManager.elc.getId(id);
+		if (e != null) {
+			e.destroySelf();
+			CommandConsole.println("A player has left.");
+		}
 	}
 
 	@Override
