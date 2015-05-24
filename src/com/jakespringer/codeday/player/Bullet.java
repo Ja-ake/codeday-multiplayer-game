@@ -18,12 +18,12 @@ public class Bullet extends AbstractEntity {
         VelocityComponent vc = add(new VelocityComponent(vel));
         RotationComponent rc = add(new RotationComponent());
         rc.rot = vel.direction();
-        SpriteComponent sc = add(new SpriteComponent("bullet"));
-        sc.scale = new Vec2(2, 2);
-        DamageComponent dc = add(new DamageComponent(shooter, 10));
+        SpriteComponent sc = add(new SpriteComponent("bullet two"));
+        //sc.scale = new Vec2(2, 2);
+        ProjectileComponent dc = add(new ProjectileComponent(shooter, 10, 60, 2));
         //Systems
         add(new VelocitySystem(pc, vc));
-        add(new BulletSystem(this, pc, vc, rc, dc));
+        add(new ProjectileSystem(this, pc, vc, rc, sc, dc));
         add(new SpriteSystem(pc, rc, sc));
     }
 

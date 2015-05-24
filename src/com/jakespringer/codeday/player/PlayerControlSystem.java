@@ -69,11 +69,11 @@ public class PlayerControlSystem extends AbstractSystem {
     }
 
     private void grenade(Vec2 dir) {
-        new Grenade(player, pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22)), dir.setLength(6));
+        new Grenade(player, pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22)), dir.setLength(6).add(Vec2.random(.1)));
     }
 
     private void shoot(Vec2 dir) {
-        Bullet b = new Bullet(player, pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22)), dir.setLength(16));
+        Bullet b = new Bullet(player, pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22)), dir.setLength(16).add(Vec2.random(.1)));
         b.getComponent(SpriteComponent.class).color = new Color4d(1, 0, 1);
     }
 }
