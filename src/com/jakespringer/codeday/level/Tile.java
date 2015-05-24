@@ -31,6 +31,13 @@ public class Tile {
         this.isWall = true;
         tex = SpriteContainer.loadSprite(sprite);
     }
+    
+    public Tile(int x, int y, Texture sprite, boolean wall) {
+    	this.x = x;
+    	this.y = y;
+    	this.isWall = wall;
+    	tex = sprite;
+    }
 
     public Vec2 center() {
         return new Vec2((x + .5) * SIZE, (y + .5) * SIZE);

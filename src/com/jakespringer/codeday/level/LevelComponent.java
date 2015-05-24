@@ -54,6 +54,36 @@ public class LevelComponent extends AbstractComponent {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
+            	boolean[][] a = new boolean[3][3];
+            	a[0] = new boolean[3];
+            	a[1] = new boolean[3];
+            	a[2] = new boolean[3];
+            	
+            	for (int i=0; i<3; i++) for (int j=0; j<3; j++) a[i][j] = false;
+            	
+            	a[1][1] = tileGrid[x][y].isWall;
+            	
+				if (x != 0) a[0][1] = tileGrid[x-1][y].isWall;
+				if (x != width-1) a[2][1] = tileGrid[x+1][y].isWall;
+				if (y != 0) a[1][0] = tileGrid[x][y-1].isWall;
+				if (y != height-1) a[1][2] = tileGrid[x][y+1].isWall;
+				
+				if (x != 0 && y != 0) a[0][0] = tileGrid[x-1][y-1].isWall;
+				if (x != 0 && y != height-1) a[0][2] = tileGrid[x-1][y+1].isWall;
+				if (x != width-1 && y != 0) a[2][0] = tileGrid[x+1][y-1].isWall;
+				if (x != width-1 && y != height-1) a[2][2] = tileGrid[x+1][y+1].isWall;
+				
+				if (a[1][1]) tileGrid[x][y].tex = tiles.get(5);
+				
+				if (a[1][0] && a[1][2]) if (x < 20) tileGrid[x][y].tex = tiles.get(6);
+				if (a[0][1] && a[2][1]) if (y > 20) tileGrid[x][y].tex = tiles.get(1);
+				
+				if (a[0][1] && tileGrid[x][y].tex.equals(tiles.get(6))) tileGrid[x][y].tex = tiles.get(4);
+				if (a[1][0] && tileGrid[x][y].tex.equals(tiles.get(1))) tileGrid[x][y].tex = tiles.get(9);
+				
+				if (!a[2][2] && a[1][0] && a[2][1]) tileGrid[x][y].tex = tiles.get(8);
+				if (a[0][2] && a[1][2] && a[0][1] && !a[1][0] && !a[2][0]) tileGrid[x][y].tex = tiles.get(9);
+				if (a[0][0] && tileGrid[x][y].tex.equals(tiles.get(8))) tileGrid[x][y].tex = tiles.get(9);
             }
         }
 
@@ -68,10 +98,10 @@ public class LevelComponent extends AbstractComponent {
             Graphics2D.drawLine(new Vec2(0, i), new Vec2(width, i));
         }
         glEnable(GL_TEXTURE_2D);
-        Texture[] texList = {loadSprite("floor"), loadSprite("wall")};
+//        Texture[] texList = {loadSprite("floor"), loadSprite("wall")};
         WHITE.glColor();
         //Draw
-        for (Texture tex : texList) {
+        for (Texture tex : tiles) {
             tex.bind();
             glBegin(GL_QUADS);
 
