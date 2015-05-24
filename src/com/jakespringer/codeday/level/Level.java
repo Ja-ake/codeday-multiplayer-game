@@ -1,6 +1,6 @@
 package com.jakespringer.codeday.level;
 
-import com.jakespringer.codeday.enemy.Enemy;
+import com.jakespringer.codeday.enemy.AssaultEnemy;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractEntity;
 import static com.jakespringer.engine.core.Main.*;
@@ -19,8 +19,8 @@ public class Level extends AbstractEntity {
 //            new Menu();
             new Level("lvl");
             new Player(new Vec2());
-            new Enemy(new Vec2(10, 200));
-            new Enemy(Vec2.random(10));
+            new AssaultEnemy(new Vec2(10, 200));
+            new AssaultEnemy(Vec2.random(10));
             run();
         } catch (Exception ex) {
             ex.printStackTrace();
