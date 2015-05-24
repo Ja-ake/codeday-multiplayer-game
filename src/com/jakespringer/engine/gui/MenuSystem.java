@@ -1,7 +1,7 @@
 package com.jakespringer.engine.gui;
 
-import com.jakespringer.codeday.netinterface.NetworkSystem;
-import com.jakespringer.codeday.netinterface.message.PlayerJoinMessage;
+import com.jakespringer.codeday.networking.NetworkSystem;
+import com.jakespringer.codeday.networking.messages.PlayerJoinMessage;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Gamepad;

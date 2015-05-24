@@ -2,7 +2,7 @@ package com.jakespringer.codeday;
 
 import com.jakespringer.codeday.dm.DM;
 import com.jakespringer.codeday.level.Level;
-import com.jakespringer.codeday.netinterface.NetworkSystem;
+import com.jakespringer.codeday.networking.NetworkSystem;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.Main;
 import static com.jakespringer.engine.core.Main.*;

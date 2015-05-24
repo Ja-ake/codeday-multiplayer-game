@@ -1,6 +1,6 @@
 package com.jakespringer.codeday.ui.command;
 
-import com.jakespringer.codeday.netinterface.NetworkSystem;
+import com.jakespringer.codeday.networking.NetworkSystem;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.Main;
 

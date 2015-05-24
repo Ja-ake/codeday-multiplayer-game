@@ -1,7 +1,6 @@
-package com.jakespringer.codeday.netinterface;
+package com.jakespringer.codeday.networking;
 
-import com.jakespringer.codeday.netinterface.message.PlayerLeaveMessage;
-import com.jakespringer.codeday.networking.ChatClient;
+import com.jakespringer.codeday.networking.messages.PlayerLeaveMessage;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Main;
@@ -32,7 +31,7 @@ public class NetworkSystem extends AbstractSystem {
         }
     }
 
-    public void sendMessage(Message m) {
+    void sendMessage(Message m) {
         if (conn != null) {
             conn.send(m.toString());
         }

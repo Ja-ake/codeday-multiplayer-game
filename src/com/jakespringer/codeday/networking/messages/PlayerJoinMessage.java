@@ -1,9 +1,7 @@
-package com.jakespringer.codeday.netinterface.message;
+package com.jakespringer.codeday.networking.messages;
 
-import com.jakespringer.codeday.netinterface.Message;
-import com.jakespringer.codeday.netinterface.NetworkSystem;
+import com.jakespringer.codeday.networking.Message;
 import com.jakespringer.codeday.player.OtherPlayer;
-import com.jakespringer.codeday.player.Player;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.util.Vec2;
@@ -27,7 +25,6 @@ public class PlayerJoinMessage extends Message {
         OtherPlayer p = new OtherPlayer(new Vec2());
         p.id = this.id;
         CommandConsole.println("A player has joined.");
-        Main.gameManager.getSystem(NetworkSystem.class).sendMessage(new PlayerJoinMessage(Main.gameManager.elc.getEntity(Player.class).id));
     }
 
     @Override

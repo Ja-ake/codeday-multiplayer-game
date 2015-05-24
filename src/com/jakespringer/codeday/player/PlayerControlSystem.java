@@ -2,9 +2,8 @@ package com.jakespringer.codeday.player;
 
 import com.jakespringer.codeday.combat.Bullet;
 import com.jakespringer.codeday.combat.Grenade;
-import com.jakespringer.codeday.netinterface.NetworkSystem;
-import com.jakespringer.codeday.netinterface.message.BulletCreateMessage;
-import com.jakespringer.codeday.netinterface.message.EntityStateMessage;
+import com.jakespringer.codeday.networking.messages.BulletCreateMessage;
+import com.jakespringer.codeday.networking.messages.EntityStateMessage;
 import com.jakespringer.engine.core.*;
 import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.movement.PositionComponent;
@@ -12,7 +11,6 @@ import com.jakespringer.engine.movement.RotationComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.util.Color4d;
 import com.jakespringer.engine.util.Vec2;
-
 import org.lwjgl.input.Keyboard;
 
 public class PlayerControlSystem extends AbstractSystem {
@@ -72,7 +70,7 @@ public class PlayerControlSystem extends AbstractSystem {
         }
 
         Main.gameManager.rmc2.viewPos = pc.pos;
-        Main.gameManager.getSystem(NetworkSystem.class).sendMessage(new EntityStateMessage(player.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y, rc.rot));
+        new EntityStateMessage(player.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y, rc.rot).send();
     }
 
     private void grenade(Vec2 dir) {
@@ -80,11 +78,11 @@ public class PlayerControlSystem extends AbstractSystem {
     }
 
     private void shoot(Vec2 dir) {
-    	Vec2 pos = pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22));
-    	Vec2 vel = dir.setLength(16).add(Vec2.random(.1));
-    	
+        Vec2 pos = pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22));
+        Vec2 vel = dir.setLength(16).add(Vec2.random(.1));
+
         Bullet b = new Bullet(player, pos, vel);
         b.getComponent(SpriteComponent.class).color = new Color4d(1, 0, 1);
-        Main.gameManager.getSystem(NetworkSystem.class).sendMessage(new BulletCreateMessage(player.id, pos.x, pos.y, vel.x, vel.y, b.getComponent(RotationComponent.class).rot));
+        new BulletCreateMessage(player.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y, rc.rot).send();
     }
 }
