@@ -31,13 +31,13 @@ public class Command {
 	
 	public void execute() {
 		String ip = "localhost";
-		int port = 1235;
+		int port = 13373;
 		if (name.equalsIgnoreCase("connect")) {
 			if (arguments.length >= 1) ip = arguments[0];
 			if (arguments.length >= 2) try {
 				port = Integer.parseInt(arguments[1]);
 			} catch (NumberFormatException e) {
-				port = 1235;
+				port = 13373;
 			}
 			
 			CommandConsole.println("Connecting to " + ip + ":" + port);

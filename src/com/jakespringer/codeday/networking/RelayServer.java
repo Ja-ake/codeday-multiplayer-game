@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 public class RelayServer {
 
@@ -25,15 +29,12 @@ public class RelayServer {
                             for (Connection connection : connections) {
                                 byte[] input = null;
                                 while ((input = connection.next()) != null) {
-                                    Iterator<Connection> iter = connections.iterator();
+                                	Iterator<Connection> iter = connections.iterator();
                                     while (iter.hasNext()) {
-                                        Connection c = iter.next();
+                                    	Connection c = iter.next();
                                         if (!connection.equals(c)) {
-                                            if (c.isRunning()) {
-                                                c.send(input);
-                                            } else {
-                                                iter.remove();
-                                            }
+                                            if (c.isRunning()) c.send(input);
+                                            else iter.remove();
                                         }
                                     }
                                 }
@@ -79,14 +80,14 @@ public class RelayServer {
 
             final Thread handle3 = new Thread(new Runnable() {
 
-                @Override
-                public void run() {
-                    while (true) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                        }
-
+				@Override
+				public void run() {
+					while (true) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+						}
+						
 //						synchronized (connections) {
 //							Iterator<Connection> iter = connections.iterator();
 //							while (iter.hasNext()) {
@@ -94,23 +95,24 @@ public class RelayServer {
 //								if (c.isRunning()) c.send(new byte[] { 0 });
 //							}
 //						}
-                        System.gc();
-                    }
-                }
+						
+						System.gc();
+					}
+				}
             });
-
+            
             handle3.start();
-
+            
             Scanner scan = new Scanner(System.in);
             while (true) {
-                String line = scan.nextLine().toLowerCase();
-
-                if (line.contains("exit")) {
-                    System.out.println("Exiting.");
-                    System.exit(0);
-                } else if (line.contains("poll")) {
-                    System.out.println("Active thread count: " + Thread.activeCount());
-                }
+            	String line = scan.nextLine().toLowerCase();
+            	
+            	if (line.contains("exit")) {
+            		System.out.println("Exiting.");
+            		System.exit(0);
+            	} else if (line.contains("poll")) {
+            		System.out.println("Active thread count: " + Thread.activeCount());
+            	}
             }
         } finally {
             listener.close();

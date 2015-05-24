@@ -19,7 +19,7 @@ public class NewRelayServer {
 		
 		@Override
 		public void run() {
-			while (true) {
+			while (NewRelayServer.this.handle != null) {
 				synchronized (connections) {
 					Iterator<Connection> iter = connections.iterator();
 					while (iter.hasNext()) {
@@ -27,7 +27,6 @@ public class NewRelayServer {
 						while (c.hasNext()) {
 							byte[] data = c.next();
 							synchronized (tosend) {tosend.add(new Tuple<byte[], Connection>(data, c));}
-                            System.out.println("message received: " + tosend.size());
 						}
 					}
 				}
@@ -39,20 +38,24 @@ public class NewRelayServer {
 		
 		@Override
 		public void run() {
-			synchronized (connections) {
-				Iterator<Connection> iter = connections.iterator();
-				while (iter.hasNext()) {
-					Connection c = iter.next();
-					synchronized (tosend) {for (Tuple<byte[], Connection> t : tosend) {
-						if (t.left != c)  {
-							if (c.isRunning()) {
-								c.send(t.right);
-                                System.out.println("message sent");
-							} else {
-								iter.remove();
+			while (NewRelayServer.this.handle2 != null) {
+				synchronized (connections) {
+					Iterator<Connection> iter = connections.iterator();
+					while (iter.hasNext()) {
+						Connection c = iter.next();
+						synchronized (tosend) {
+							for (Tuple<byte[], Connection> t : tosend) {
+								if (t.left != c) {
+									if (c.isRunning()) {
+										c.send(t.right);
+									} else {
+										iter.remove();
+										continue;
+									}
+								}
 							}
 						}
-					}}
+					}
 				}
 			}
 		}
@@ -64,12 +67,12 @@ public class NewRelayServer {
 		public void run() {
 			ServerSocket listener = null;
 			try {
-				listener = new ServerSocket(1235);
+				listener = new ServerSocket(1236);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
-			while (true) {
+			while (NewRelayServer.this.handle != null) {
 				Socket socket;
                 try {
                     socket = listener.accept();
