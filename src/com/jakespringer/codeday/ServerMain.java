@@ -6,7 +6,9 @@ import com.jakespringer.codeday.networking.ServerNetworkSystem;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.Main;
 import static com.jakespringer.engine.core.Main.*;
+import com.jakespringer.engine.graphics.Camera;
 import com.jakespringer.engine.graphics.loading.FontContainer;
+import com.jakespringer.engine.util.Vec2;
 import java.awt.Font;
 import java.io.File;
 
@@ -17,6 +19,7 @@ public class ServerMain {
         System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         try {
             init();
+            Camera.setDisplayMode(new Vec2(40, 40), false);
 
             FontContainer.add("Console-Font", "Times New Roman", Font.PLAIN, 12);
 

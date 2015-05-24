@@ -61,6 +61,8 @@ public class EnemyControlSystem extends AbstractSystem {
                 scc.currentCooldown = scc.shotSeperation;
             }
         }
+        System.out.println(pc.pos);
+        System.out.println(vc.vel);
         new EntityStateMessage(enemy.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y, enemy.getComponent(RotationComponent.class).rot).send();
     }
 

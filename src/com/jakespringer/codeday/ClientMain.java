@@ -1,6 +1,5 @@
 package com.jakespringer.codeday;
 
-import com.jakespringer.codeday.combat.HealthComponent;
 import com.jakespringer.codeday.level.Level;
 import com.jakespringer.codeday.networking.NetworkSystem;
 import com.jakespringer.codeday.player.Player;
@@ -23,12 +22,13 @@ public abstract class ClientMain {
 
             new Level("lvl");
             Player p = new Player(new Vec2());
-            p.getComponent(HealthComponent.class).health = 1000;
 
             new CommandConsole();
 
             // NETWORKING
             Main.gameManager.add(new NetworkSystem());
+            Main.gameManager.getSystem(NetworkSystem.class).disconnect();
+            Main.gameManager.getSystem(NetworkSystem.class).connect("10.105.152.13", 55555);
 
             // END NETWORKING
             run();
