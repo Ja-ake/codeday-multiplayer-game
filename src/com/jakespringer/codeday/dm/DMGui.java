@@ -41,5 +41,9 @@ public class DMGui extends AbstractSystem {
         Graphics2D.fillRect(new Vec2(40-30, 200+60), new Vec2(200, 46), backgroundScout);
         Graphics2D.drawSprite(SpriteContainer.loadSprite("enemyfast"), new Vec2(82-30, 224+60), new Vec2(1, 1), 0.0, Color4d.WHITE);
         Graphics2D.drawText("Scout", "Monster", new Vec2(130-30, 236+60), Color.lightGray);
+        
+        Graphics2D.fillRect(new Vec2(40-30, 200+120), new Vec2(200, 46), backgroundScout);
+        Graphics2D.drawSprite(SpriteContainer.loadSprite("enemy normal"), new Vec2(82-30, 224+120), new Vec2(1, 1), 0.0, Color4d.WHITE);
+        Graphics2D.drawText("Sniper", "Monster", new Vec2(130-30, 236+120), Color.lightGray);
     }
 }

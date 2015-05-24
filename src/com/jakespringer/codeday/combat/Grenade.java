@@ -5,6 +5,7 @@ import com.jakespringer.codeday.particle.ParticleEmitter;
 import com.jakespringer.engine.collisions.CollisionComponent;
 import com.jakespringer.engine.collisions.CollisionUtil;
 import com.jakespringer.engine.core.AbstractEntity;
+import com.jakespringer.engine.core.Sounds;
 import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.graphics.SpriteSystem;
 import com.jakespringer.engine.movement.PositionComponent;
@@ -24,7 +25,7 @@ public class Grenade extends AbstractEntity {
         RotationComponent rc = add(new RotationComponent());
         SpriteComponent sc = add(new SpriteComponent("grenade"));
         sc.scale = new Vec2(.2, .2);
-        ProjectileComponent pjc = add(new ProjectileComponent(shooter, 20, 600, 10));
+        ProjectileComponent pjc = add(new ProjectileComponent(shooter, 20, 600, 2));
         //Systems
         add(new VelocitySystem(pc, vc));
         add(new ProjectileSystem(this, pc, vc, rc, sc, pjc));
@@ -35,6 +36,7 @@ public class Grenade extends AbstractEntity {
     public void destroySelf() {
         super.destroySelf();
         new ParticleEmitter(getComponent(PositionComponent.class).pos, new Vec2(), 150, 1, 10000, 30, new Color4d(1, .2, 0));
+        Sounds.playSound("explosion.mp3");
         for (CollisionComponent cc : CollisionUtil.listAt(new Circle(getComponent(PositionComponent.class).pos, 80))) {
             HealthComponent hc = cc.ae.getComponent(HealthComponent.class);
             if (hc != null) {

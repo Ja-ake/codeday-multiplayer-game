@@ -64,6 +64,12 @@ public class PlayerControlSystem extends AbstractSystem {
             if (MouseInput.isDown(0)) {
                 shoot(MouseInput.mouse().subtract(pc.pos));
             }
+            if (MouseInput.isPressed(0)) {
+            	Sounds.playSound("laser.mp3");
+            }
+            if (MouseInput.isReleased(0)) {
+            	Sounds.stopSound("laser.mp3");
+            }
             if (MouseInput.isPressed(1)) {
                 grenade(MouseInput.mouse().subtract(pc.pos));
             }

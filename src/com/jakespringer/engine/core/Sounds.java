@@ -168,14 +168,14 @@ public abstract class Sounds {
     }
 
     private static void stopMidi(String name) throws MidiUnavailableException, FileNotFoundException, IOException, InvalidMidiDataException {
-        midiMap.get(name).stop();
+    	if (midiMap != null && midiMap.get(name) != null) midiMap.get(name).stop();
     }
 
     private static void stopMp3(String name) {
-        mp3Map.get(name).stop();
+        if (mp3Map != null && mp3Map.get(name) != null) mp3Map.get(name).stop();
     }
 
     private static void stopWav(String name) throws FileNotFoundException, IOException {
-        wavMap.get(name).stop();
+    	if (wavMap != null && wavMap.get(name) != null) wavMap.get(name).stop();
     }
 }

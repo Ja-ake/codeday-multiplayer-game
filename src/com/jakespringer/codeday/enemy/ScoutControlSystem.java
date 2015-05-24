@@ -25,10 +25,13 @@ public class ScoutControlSystem extends AbstractSystem {
         this.scc = scc;
     }
 
+    
+    double movchange = 0.05;
     @Override
     public void update() {
-    	movrot += 0.05;
-    	movrot = Math.IEEEremainder(movrot, Math.PI*2);
+    	movrot += movchange;
+    	if (movrot > Math.PI*2-0.10) if (Math.random() > 0.5) movchange = -movchange;
+    	movrot = Math.IEEEremainder(movrot + Math.PI*20, Math.PI*2);
         vc.vel = new Vec2();
         double speed = 3;
         ArrayList<Player> players = Main.gameManager.elc.getEntityList(Player.class);

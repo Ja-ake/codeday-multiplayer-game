@@ -2,15 +2,24 @@ package com.jakespringer.codeday.level;
 
 import com.jakespringer.engine.core.AbstractComponent;
 import com.jakespringer.engine.graphics.Graphics2D;
+
 import static com.jakespringer.engine.graphics.Graphics2D.drawSpriteFast;
+
 import com.jakespringer.engine.graphics.data.Texture;
+import com.jakespringer.engine.graphics.loading.SpriteContainer;
+
 import static com.jakespringer.engine.graphics.loading.SpriteContainer.loadSprite;
 import static com.jakespringer.engine.util.Color4d.WHITE;
+
 import com.jakespringer.engine.util.Vec2;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class LevelComponent extends AbstractComponent {
@@ -31,6 +40,9 @@ public class LevelComponent extends AbstractComponent {
         } catch (IOException ex) {
             throw new RuntimeException("Level " + fileName + " doesn't exist");
         }
+        
+        ArrayList<Texture> tiles = SpriteContainer.loadSprite("walls and floor", 4, 4);
+        
         width = image.getWidth();
         height = image.getHeight();
         tileGrid = new Tile[width][height];
@@ -43,7 +55,11 @@ public class LevelComponent extends AbstractComponent {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (tileGrid[x][y].isWall) {
-
+                	if (tileGrid[x-1][y].isWall) {
+                		if (tileGrid[x+1][y].isWall) {
+                			tileGrid[x][y].tex = tiles.get(2);
+                		}
+                	}
                 }
             }
         }
