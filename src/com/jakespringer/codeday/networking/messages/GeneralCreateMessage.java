@@ -17,7 +17,6 @@ public class GeneralCreateMessage extends Message {
     }
 
     public GeneralCreateMessage(Class<? extends AbstractEntity> classType, long id, Vec2 pos) {
-        System.out.println("general const");
         this.classType = classType.getName();
         this.id = id;
         this.pos = pos;
@@ -25,7 +24,6 @@ public class GeneralCreateMessage extends Message {
 
     @Override
     public void act() {
-        System.out.println("created entity");
         try {
             AbstractEntity ae = (AbstractEntity) Class.forName(classType).getConstructor(Vec2.class).newInstance(pos);
             ae.id = id;
@@ -40,7 +38,6 @@ public class GeneralCreateMessage extends Message {
 
     @Override
     public void initialize(String[] parts) {
-        System.out.println("init");
         classType = parts[1];
         id = Long.parseLong(parts[2]);
         pos = Vec2.parseVec2(parts[3]);
@@ -48,7 +45,6 @@ public class GeneralCreateMessage extends Message {
 
     @Override
     public void send() {
-        System.out.println("send");
         final Message thus = this;
         new Thread(new Runnable() {
 

@@ -65,7 +65,9 @@ public class NetworkSystem extends AbstractSystem {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        new GeneralCreateMessage(OtherPlayer.class, Main.gameManager.elc.getEntity(Player.class).id,
-                Main.gameManager.elc.getEntity(Player.class).getComponent(PositionComponent.class).pos).send();
+        if (Main.gameManager.elc.getEntity(Player.class) != null) {
+            new GeneralCreateMessage(OtherPlayer.class, Main.gameManager.elc.getEntity(Player.class).id,
+                    Main.gameManager.elc.getEntity(Player.class).getComponent(PositionComponent.class).pos).send();
+        }
     }
 }

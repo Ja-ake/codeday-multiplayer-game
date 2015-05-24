@@ -9,7 +9,12 @@ public abstract class Message {
     public abstract void initialize(String[] parts);
 
     public void send() {
-        Main.gameManager.getSystem(NetworkSystem.class).sendMessage(this);
+        NetworkSystem ns = Main.gameManager.getSystem(NetworkSystem.class);
+        if (ns != null) {
+            ns.sendMessage(this);
+        } else {
+            Main.gameManager.getSystem(ServerNetworkSystem.class).sendMessage(this);
+        }
     }
 
     @Override

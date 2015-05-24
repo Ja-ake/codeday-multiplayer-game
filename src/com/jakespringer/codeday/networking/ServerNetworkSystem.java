@@ -17,6 +17,10 @@ public class ServerNetworkSystem extends AbstractSystem {
         this.conn = conn;
     }
 
+    public void sendMessage(Message m) {
+        conn.messages.add(new Tuple(-1, m.toString()));
+    }
+
     @Override
     public void update() {
         while (!conn.messages.isEmpty()) {

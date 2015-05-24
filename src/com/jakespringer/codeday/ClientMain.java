@@ -23,7 +23,7 @@ public abstract class ClientMain {
 
             new Level("lvl");
             Player p = new Player(new Vec2());
-            p.getComponent(HealthComponent.class).health = 6.022e23;
+            p.getComponent(HealthComponent.class).health = 1000;
 
             new CommandConsole();
 

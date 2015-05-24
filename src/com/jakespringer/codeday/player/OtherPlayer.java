@@ -11,8 +11,6 @@ import com.jakespringer.engine.util.Vec2;
 public class OtherPlayer extends AbstractEntity {
 
     public OtherPlayer(Vec2 pos) {
-        System.out.println(Thread.currentThread().getId());
-        System.out.println("other player");
         //Components
         PositionComponent pc = add(new PositionComponent(pos));
         PreviousPositionComponent ppc = add(new PreviousPositionComponent(pos));

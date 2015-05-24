@@ -13,7 +13,6 @@ import java.io.File;
 public class ServerMain {
 
     public static void main(String[] args) {
-        System.out.println(Thread.currentThread().getId());
         ChatServer cs = new ChatServer(55555);
         System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         try {
