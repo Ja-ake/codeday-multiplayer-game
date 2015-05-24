@@ -1,5 +1,6 @@
 package com.jakespringer.codeday.combat;
 
+import com.jakespringer.codeday.networking.messages.EntityDestroyMessage;
 import com.jakespringer.codeday.particle.ParticleEmitter;
 import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.graphics.SpriteComponent;
@@ -11,7 +12,7 @@ import com.jakespringer.engine.movement.VelocitySystem;
 import com.jakespringer.engine.util.Vec2;
 
 public class Bullet extends AbstractEntity {
-	
+
     public Bullet(AbstractEntity shooter, Vec2 pos, Vec2 vel) {
         //Components
         PositionComponent pc = add(new PositionComponent(pos));
@@ -31,5 +32,6 @@ public class Bullet extends AbstractEntity {
     public void destroySelf() {
         super.destroySelf();
         new ParticleEmitter(getComponent(PositionComponent.class).pos, getComponent(VelocityComponent.class).vel.reverse(), 12, 1, 50, 5, getComponent(SpriteComponent.class).color);
+        new EntityDestroyMessage(id).send();
     }
 }

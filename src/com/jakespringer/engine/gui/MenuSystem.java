@@ -1,6 +1,7 @@
 package com.jakespringer.engine.gui;
 
-import com.jakespringer.codeday.networking.messages.PlayerJoinMessage;
+import com.jakespringer.codeday.networking.messages.GeneralCreateMessage;
+import com.jakespringer.codeday.player.OtherPlayer;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Gamepad;
@@ -19,7 +20,7 @@ public class MenuSystem extends AbstractSystem {
     private void start() {
         menu.destroySelf();
         Player p = new Player(new Vec2());
-        new PlayerJoinMessage(p.id).send();
+        new GeneralCreateMessage(OtherPlayer.class, p.id, new Vec2()).send();
     }
 
     @Override

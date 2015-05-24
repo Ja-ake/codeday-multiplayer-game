@@ -1,6 +1,6 @@
 package com.jakespringer.codeday.combat;
 
-import com.jakespringer.codeday.combat.HealthComponent;
+import com.jakespringer.codeday.networking.messages.EntityDestroyMessage;
 import com.jakespringer.codeday.particle.ParticleEmitter;
 import com.jakespringer.engine.collisions.CollisionComponent;
 import com.jakespringer.engine.collisions.CollisionUtil;
@@ -41,5 +41,6 @@ public class Grenade extends AbstractEntity {
                 hc.damage += 51;
             }
         }
+        new EntityDestroyMessage(id).send();
     }
 }

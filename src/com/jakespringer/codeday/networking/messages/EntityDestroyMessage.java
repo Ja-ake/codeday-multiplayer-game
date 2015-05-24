@@ -1,18 +1,17 @@
 package com.jakespringer.codeday.networking.messages;
 
 import com.jakespringer.codeday.networking.Message;
-import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.core.Main;
 
-public class PlayerLeaveMessage extends Message {
+public class EntityDestroyMessage extends Message {
 
     public long id;
 
-    public PlayerLeaveMessage() {
+    public EntityDestroyMessage() {
     }
 
-    public PlayerLeaveMessage(long i) {
+    public EntityDestroyMessage(long i) {
         id = i;
     }
 
@@ -21,7 +20,6 @@ public class PlayerLeaveMessage extends Message {
         AbstractEntity e = Main.gameManager.elc.getId(id);
         if (e != null) {
             e.destroySelf();
-            CommandConsole.println("A player has left.");
         }
     }
 

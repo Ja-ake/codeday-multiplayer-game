@@ -1,6 +1,6 @@
 package com.jakespringer.codeday.networking;
 
-import com.jakespringer.codeday.networking.messages.PlayerLeaveMessage;
+import com.jakespringer.codeday.networking.messages.EntityDestroyMessage;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Main;
@@ -40,7 +40,7 @@ public class NetworkSystem extends AbstractSystem {
     public
             void disconnect() {
         if (conn != null) {
-            sendMessage(new PlayerLeaveMessage(Main.gameManager.elc.getEntity(Player.class
+            sendMessage(new EntityDestroyMessage(Main.gameManager.elc.getEntity(Player.class
             ).id));
 
             try {

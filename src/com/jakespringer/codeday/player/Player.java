@@ -1,6 +1,7 @@
 package com.jakespringer.codeday.player;
 
 import com.jakespringer.codeday.combat.HealthComponent;
+import com.jakespringer.codeday.networking.messages.EntityDestroyMessage;
 import com.jakespringer.engine.collisions.CollisionComponent;
 import com.jakespringer.engine.collisions.CollisionSystem;
 import com.jakespringer.engine.core.AbstractEntity;
@@ -28,5 +29,11 @@ public class Player extends AbstractEntity {
         add(new SpriteSystem(pc, rc, sc));
         add(new PreviousPositionSystem(pc, ppc));
         add(new PlayerHealthSystem(hc));
+    }
+
+    @Override
+    public void destroySelf() {
+        super.destroySelf();
+        new EntityDestroyMessage(id).send();
     }
 }
