@@ -8,7 +8,7 @@ public class DM extends AbstractEntity {
         //Components
         DMComponent dmc = add(new DMComponent(10));
         //Systems
-        add(new DMSystem(dmc));
+        add(new DMSystem(dmc, this));
         add(new DMGui(dmc));
     }
 }

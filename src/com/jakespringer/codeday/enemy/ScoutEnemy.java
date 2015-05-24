@@ -1,5 +1,5 @@
 package com.jakespringer.codeday.enemy;
 
-public class ScoutEnemy {
+public class ScoutEnemy extends Enemy {
 
 }

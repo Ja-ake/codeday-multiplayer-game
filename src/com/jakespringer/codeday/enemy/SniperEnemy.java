@@ -13,7 +13,7 @@ import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.movement.VelocitySystem;
 import com.jakespringer.engine.util.Vec2;
 
-public class SniperEnemy extends AbstractEntity {
+public class SniperEnemy extends Enemy {
 	public SniperEnemy(Vec2 pos) {
         //Components
         PositionComponent pc = add(new PositionComponent(pos));

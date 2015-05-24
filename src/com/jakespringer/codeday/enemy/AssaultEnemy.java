@@ -9,7 +9,7 @@ import com.jakespringer.engine.graphics.SpriteSystem;
 import com.jakespringer.engine.movement.*;
 import com.jakespringer.engine.util.Vec2;
 
-public class AssaultEnemy extends AbstractEntity {
+public class AssaultEnemy extends Enemy {
 
     public AssaultEnemy(Vec2 pos) {
         //Components
