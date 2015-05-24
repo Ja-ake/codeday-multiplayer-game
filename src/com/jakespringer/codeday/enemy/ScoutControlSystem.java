@@ -27,7 +27,7 @@ public class ScoutControlSystem extends AbstractSystem {
 
     @Override
     public void update() {
-    	movrot += 0.2;
+    	movrot += 0.05;
     	movrot = Math.IEEEremainder(movrot, Math.PI*2);
         vc.vel = new Vec2();
         double speed = 3;
@@ -43,7 +43,7 @@ public class ScoutControlSystem extends AbstractSystem {
             }
         }
         vc.vel = closest.getComponent(PositionComponent.class).pos.subtract(pc.pos).setLength(speed);
-        vc.vel = vc.vel.add(new Vec2(Math.cos(movrot), Math.sin(movrot)).multiply(5.0));
+        vc.vel = vc.vel.add(new Vec2(Math.cos(movrot), Math.sin(movrot)).multiply(10.0d));
         if (Double.isNaN(vc.vel.lengthSquared())) {
             vc.vel = new Vec2();
         }
