@@ -42,16 +42,15 @@ public class DMSystem extends AbstractSystem {
         	if (mouse.x < 220 && mouse.y < 316) {
         	} else if (dmc.threat > 1) {
         		try {
-					Enemy en = (Enemy) current.getConstructor(Vec2.class).newInstance(MouseInput.mouse());
+					Enemy e = (Enemy) current.getConstructor(Vec2.class).newInstance(MouseInput.mouse());
+					if (threatAt(MouseInput.mouse()) < 3 && e.getComponent(CollisionComponent.class).open(MouseInput.mouse())) {
+	                    dmc.threat -= 1;
+	                } else {
+	                    e.destroySelf();
+	                }
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
 					e1.printStackTrace();
-				}
-                AssaultEnemy e = new AssaultEnemy(MouseInput.mouse());
-                if (threatAt(MouseInput.mouse()) < 3 && e.getComponent(CollisionComponent.class).open(MouseInput.mouse())) {
-                    dmc.threat -= 1;
-                } else {
-                    e.destroySelf();
-                }
+				}                
             }
         } 
         
@@ -84,10 +83,7 @@ public class DMSystem extends AbstractSystem {
         if (Keys.isDown(Keyboard.KEY_D)) {
             rmc.viewPos = rmc.viewPos.setX(rmc.viewPos.x + 5);
         }
-        if (current == AssaultEnemy.class) for (AbstractEntity e : Main.gameManager.elc.getEntityList(AssaultEnemy.class)) {
-            Graphics2D.fillEllipse(e.getComponent(PositionComponent.class).pos, new Vec2(150, 150), Color4d.RED.setA(.2), 40);
-        }
-        if (current == ScoutEnemy.class) for (AbstractEntity e : Main.gameManager.elc.getEntityList(ScoutEnemy.class)) {
+        for (Enemy e : Main.gameManager.elc.getEntityList(Enemy.class)) {
             Graphics2D.fillEllipse(e.getComponent(PositionComponent.class).pos, new Vec2(150, 150), Color4d.RED.setA(.2), 40);
         }
     }
