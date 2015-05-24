@@ -2,7 +2,9 @@ package com.jakespringer.codeday.netinterface.message;
 
 import java.nio.ByteBuffer;
 
+import com.jakespringer.codeday.combat.Bullet;
 import com.jakespringer.codeday.netinterface.Message;
+import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.movement.PositionComponent;
@@ -32,10 +34,7 @@ public class BulletCreateMessage implements Message {
 	
 	@Override
 	public void act() {
-		AbstractEntity e = Main.gameManager.elc.getId(id);
-		if (e == null) return;
-		e.getComponent(PositionComponent.class).pos = new Vec2(x, y);
-		e.getComponent(VelocityComponent.class).vel = new Vec2(vx, vy);
+		Bullet e = new Bullet(Main.gameManager.elc.getId(id), new Vec2(x, y), new Vec2(vx, vy));
 		e.getComponent(RotationComponent.class).rot = rot;
 	}
 

@@ -32,8 +32,6 @@ public abstract class JakeMain {
             new Level("lvl");
             Player p = new Player(new Vec2());
             p.getComponent(HealthComponent.class).health = 6.022e23;
-//            new Enemy(new Vec2(10, 200));
-//            new Enemy(Vec2.random(10));
             
             new CommandConsole();
             

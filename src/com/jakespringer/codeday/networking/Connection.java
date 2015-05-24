@@ -21,7 +21,6 @@ public class Connection {
 
     private Queue<byte[]> input, output;
     private List<Object> toInturrupt;
-    private boolean hasOutput = false;
 
     public Connection() {
         input = new ConcurrentLinkedQueue<>();
@@ -41,11 +40,7 @@ public class Connection {
         inHandle = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Connection.this.runIn(sock);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Connection.this.runIn(sock);
             }
         });
 
@@ -55,12 +50,7 @@ public class Connection {
         outHandle = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Connection.this.runOut(sock);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return;
-                }
+				Connection.this.runOut(sock);
             }
         });
 
@@ -68,21 +58,34 @@ public class Connection {
         outHandle.start();
     }
 
-    private void runIn(Socket socket) throws IOException {
-        ByteBuffer len = ByteBuffer.allocate(4);
-
+    private void nrunIn(Socket socket) throws IOException {
         try {
+            byte[] data = new byte[1024];
+            byte[] length = new byte[4];
+        	
             while (true) {
+            	length[0] = 0; length[1] = 0; length[2] = 0; length[3] = 0;
+            	
                 if (socket.isClosed()) {
                     return;
                 }
 
-                is.read(len.array());
-                int size = len.getInt();
-
-                byte[] data = new byte[size];
-                is.read(data, 0, size);
+                is.read(length);
+                ByteBuffer len = ByteBuffer.wrap(length);
+                len.position(0);
+                int pref = len.getShort();
+                int size = len.getShort();
+                System.out.println("size: " + size);
+                
+                if (size <= 0 || pref != 122) continue;
+                
+                System.out.println("message receieved: " + size);
+                
+                is.read(data, 0, Math.min(size, 1023));
                 input.add(data);
+                
+                for (int i=0; i<data.length; i++) System.out.print(data[i] + " ");
+                System.out.println();
 
                 synchronized (toInturrupt) {
                     if (!toInturrupt.isEmpty()) {
@@ -108,9 +111,7 @@ public class Connection {
         }
     }
 
-    private void runOut(Socket socket) throws IOException {
-        ByteBuffer len = ByteBuffer.allocate(4);
-
+    private void nrunOut(Socket socket) throws IOException {
         try {
             while (true) {
                 if (socket.isClosed()) {
@@ -119,20 +120,89 @@ public class Connection {
                 }
 
                 while (!output.isEmpty()) {
+                	System.out.println("asdf");
                     byte[] data = output.remove();
-                    len.putInt(data.length);
+                    System.out.println(data.length);
 
-                    os.write(len.array());
+                    ByteBuffer sb = ByteBuffer.allocate(2*2);
+                    sb.putShort((short) 10024);
+                    sb.putShort((short) data.length);
+                    
+                    os.write(sb.array());
                     os.write(data);
 
                     os.flush();
-                    len.position(0);
                 }
             }
         } catch (SocketException e) {
             System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
             return;
         }
+    }
+    
+    private void runOut(Socket socket) {
+    	try {
+    		while (true) {
+    			if (socket.isClosed()) {
+    				System.err.println("Socket closed.");
+    				return;
+    			}
+    			
+    			while (!output.isEmpty()) {
+    				byte[] data = output.poll();
+    				byte[] size = new byte[2];
+    				ByteBuffer bb = ByteBuffer.wrap(size);
+    				
+    				bb.putShort((short)data.length);
+    				
+    				os.write(size, 0, size.length);
+    				os.write(data, 0, data.length);
+    				
+    				os.flush();
+    			}
+    		}
+    	} catch (IOException e) {
+    		System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
+            return;
+    	}
+    }
+    
+    private void runIn(Socket socket) {
+    	try {
+    		while (true) {
+    			if (socket.isClosed()) {
+    				System.err.println("Socket closed.");
+    				return;
+    			}
+
+    				byte[] size = new byte[2];
+    				is.read(size, 0, 2);
+    				ByteBuffer bb = ByteBuffer.wrap(size);
+    				short len = bb.getShort();
+    				byte[] msg = new byte[len];
+    				is.read(msg, 0, msg.length);
+    				input.add(msg);
+    				
+    				synchronized (toInturrupt) {
+                        if (!toInturrupt.isEmpty()) {
+                            Iterator<Object> iter = toInturrupt.iterator();
+                            while (iter.hasNext()) {
+                                Object t = iter.next();
+                                synchronized (t) {
+                                    if (t != null) {
+                                        t.notify();
+                                    } else {
+                                        iter.remove();
+                                    }
+                                }
+                            }
+                        }
+                    }
+    		}
+    	} catch (IOException e) {
+    		System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
+            return;
+    	}
     }
     
     public boolean isRunning() {

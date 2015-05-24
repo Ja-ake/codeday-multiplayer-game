@@ -11,7 +11,7 @@ import com.jakespringer.engine.movement.VelocitySystem;
 import com.jakespringer.engine.util.Vec2;
 
 public class Bullet extends AbstractEntity {
-
+	
     public Bullet(AbstractEntity shooter, Vec2 pos, Vec2 vel) {
         //Components
         PositionComponent pc = add(new PositionComponent(pos));

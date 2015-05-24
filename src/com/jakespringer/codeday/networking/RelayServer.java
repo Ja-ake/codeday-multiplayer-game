@@ -18,7 +18,7 @@ public class RelayServer {
     public void run() throws UnknownHostException, IOException, InterruptedException {
         connections = Collections.synchronizedList(new LinkedList<Connection>());
 
-        final ServerSocket listener = new ServerSocket(1225);
+        final ServerSocket listener = new ServerSocket(1235);
 
         try {
             final Thread handle2 = new Thread() {
@@ -88,13 +88,13 @@ public class RelayServer {
 						} catch (InterruptedException e) {
 						}
 						
-						synchronized (connections) {
-							Iterator<Connection> iter = connections.iterator();
-							while (iter.hasNext()) {
-								Connection c = iter.next();
-								if (c.isRunning()) c.send(new byte[] { 0 });
-							}
-						}
+//						synchronized (connections) {
+//							Iterator<Connection> iter = connections.iterator();
+//							while (iter.hasNext()) {
+//								Connection c = iter.next();
+//								if (c.isRunning()) c.send(new byte[] { 0 });
+//							}
+//						}
 						
 						System.gc();
 					}
