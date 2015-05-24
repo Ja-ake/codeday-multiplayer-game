@@ -8,6 +8,7 @@ import com.jakespringer.codeday.player.OtherPlayer;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.Main;
+import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.util.Vec2;
 
 public class PlayerJoinMessage implements Message {
