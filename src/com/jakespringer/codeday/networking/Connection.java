@@ -50,7 +50,7 @@ public class Connection {
         outHandle = new Thread(new Runnable() {
             @Override
             public void run() {
-				Connection.this.runOut(sock);
+                Connection.this.runOut(sock);
             }
         });
 
@@ -62,10 +62,13 @@ public class Connection {
         try {
             byte[] data = new byte[1024];
             byte[] length = new byte[4];
-        	
+
             while (true) {
-            	length[0] = 0; length[1] = 0; length[2] = 0; length[3] = 0;
-            	
+                length[0] = 0;
+                length[1] = 0;
+                length[2] = 0;
+                length[3] = 0;
+
                 if (socket.isClosed()) {
                     return;
                 }
@@ -76,15 +79,19 @@ public class Connection {
                 int pref = len.getShort();
                 int size = len.getShort();
                 System.out.println("size: " + size);
-                
-                if (size <= 0 || pref != 122) continue;
-                
+
+                if (size <= 0 || pref != 122) {
+                    continue;
+                }
+
                 System.out.println("message receieved: " + size);
-                
+
                 is.read(data, 0, Math.min(size, 1023));
                 input.add(data);
-                
-                for (int i=0; i<data.length; i++) System.out.print(data[i] + " ");
+
+                for (int i = 0; i < data.length; i++) {
+                    System.out.print(data[i] + " ");
+                }
                 System.out.println();
 
                 synchronized (toInturrupt) {
@@ -120,14 +127,14 @@ public class Connection {
                 }
 
                 while (!output.isEmpty()) {
-                	System.out.println("asdf");
+                    System.out.println("asdf");
                     byte[] data = output.remove();
                     System.out.println(data.length);
 
-                    ByteBuffer sb = ByteBuffer.allocate(2*2);
+                    ByteBuffer sb = ByteBuffer.allocate(2 * 2);
                     sb.putShort((short) 10024);
                     sb.putShort((short) data.length);
-                    
+
                     os.write(sb.array());
                     os.write(data);
 
@@ -139,89 +146,93 @@ public class Connection {
             return;
         }
     }
-    
+
     private void runOut(Socket socket) {
-    	try {
-    		while (true) {
-    			if (socket.isClosed()) {
-    				System.err.println("Socket closed.");
-    				return;
-    			}
-    			
-    			while (!output.isEmpty()) {
-    				byte[] data = output.poll();
-    				byte[] size = new byte[2];
-    				ByteBuffer bb = ByteBuffer.wrap(size);
-    				
-    				bb.putShort((short)data.length);
-    				
-    				os.write(size, 0, size.length);
-    				os.write(data, 0, data.length);
-    				
-    				os.flush();
-    			}
-    		}
-    	} catch (IOException e) {
-    		System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
+        try {
+            while (true) {
+                if (socket.isClosed()) {
+                    System.err.println("Socket closed.");
+                    return;
+                }
+
+                while (!output.isEmpty()) {
+                    byte[] data = output.poll();
+                    byte[] size = new byte[2];
+                    ByteBuffer bb = ByteBuffer.wrap(size);
+
+                    bb.putShort((short) data.length);
+
+                    os.write(size, 0, size.length);
+                    os.write(data, 0, data.length);
+
+                    os.flush();
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
             return;
-    	}
+        }
     }
-    
+
     private void runIn(Socket socket) {
-    	try {
-    		while (true) {
-    			if (socket.isClosed()) {
-    				System.err.println("Socket closed.");
-    				return;
-    			}
+        try {
+            while (true) {
+                if (socket.isClosed()) {
+                    System.err.println("Socket closed.");
+                    return;
+                }
 
-				byte[] size = new byte[2];
-				is.read(size, 0, 2);
-				ByteBuffer bb = ByteBuffer.wrap(size);
-				short len = bb.getShort();
-				byte[] msg = new byte[len];
-				is.read(msg, 0, msg.length);
-				input.add(msg);
+                byte[] size = new byte[2];
+                is.read(size, 0, 2);
+                ByteBuffer bb = ByteBuffer.wrap(size);
+                short len = bb.getShort();
+                byte[] msg = new byte[len];
+                is.read(msg, 0, msg.length);
+                input.add(msg);
 
-				synchronized (toInturrupt) {
-					if (!toInturrupt.isEmpty()) {
-						Iterator<Object> iter = toInturrupt.iterator();
-						while (iter.hasNext()) {
-							Object t = iter.next();
-							synchronized (t) {
-								if (t != null) {
-									t.notify();
-								} else {
-									iter.remove();
-								}
-							}
-						}
-					}
-				}
-    		}
-    	} catch (IOException e) {
-    		System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
+                synchronized (toInturrupt) {
+                    if (!toInturrupt.isEmpty()) {
+                        Iterator<Object> iter = toInturrupt.iterator();
+                        while (iter.hasNext()) {
+                            Object t = iter.next();
+                            synchronized (t) {
+                                if (t != null) {
+                                    t.notify();
+                                } else {
+                                    iter.remove();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
             return;
-    	}
+        }
     }
-    
+
     public boolean isRunning() {
-    	if (!inHandle.isAlive() || !outHandle.isAlive()) {
-    		inHandle.stop();
-    		outHandle.stop();
-    		
-    		return false;
-    	}
-    	return true;
+        if (!inHandle.isAlive() || !outHandle.isAlive()) {
+            inHandle.stop();
+            outHandle.stop();
+
+            return false;
+        }
+        return true;
     }
-    
+
     public void disconnect() {
-    	if (inHandle.isAlive()) inHandle.stop();
-    	if (outHandle.isAlive()) outHandle.stop();
+        if (inHandle.isAlive()) {
+            inHandle.stop();
+        }
+        if (outHandle.isAlive()) {
+            outHandle.stop();
+        }
     }
 
     public void send(byte[] msg) {
-    	output.add(msg);
+        output.add(msg);
     }
 
     public boolean hasNext() {

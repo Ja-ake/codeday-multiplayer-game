@@ -55,22 +55,32 @@ public class ProjectileSystem extends AbstractSystem {
             if (pjc.bounces-- < 0) {
                 projectile.destroySelf();
             } else {
-//                Vec2 hit = lc.rayCast(pc.pos.subtract(vc.vel.multiply(.5)), pc.pos.add(vc.vel.multiply(.5)));
-//                System.out.println(hit);
-//                boolean hor = hit.x % Tile.SIZE == 0;
-                boolean hor = Math.abs(pc.pos.subtract(vc.vel).subtract(t.center()).x) > Math.abs(pc.pos.subtract(vc.vel).subtract(t.center()).y);
-                if (hor) {
-                    vc.vel = vc.vel.setX(-vc.vel.x);
-                    new ParticleEmitter(pc.pos, new Vec2(vc.vel.x, 0), 12, 1, 10, 5, sc.color);
-                } else {
-                    vc.vel = vc.vel.setY(-vc.vel.y);
-                    new ParticleEmitter(pc.pos, new Vec2(0, vc.vel.y), 12, 1, 10, 5, sc.color);
+                Vec2 hit = lc.rayCast(pc.pos.subtract(vc.vel.multiply(1)), pc.pos.add(vc.vel.multiply(3)));
+//                Graphics2D.drawLine(pc.pos.subtract(vc.vel.multiply(40)), hit, Color4d.WHITE, 4);
+                if (!hit.equals(pc.pos.add(vc.vel))) {
+                    boolean hitX = Math.abs((hit.x + Tile.SIZE / 2) % Tile.SIZE - Tile.SIZE / 2) < .0000001;
+                    boolean hitY = Math.abs((hit.y + Tile.SIZE / 2) % Tile.SIZE - Tile.SIZE / 2) < .0000001;
+//                boolean hor = Math.abs(pc.pos.subtract(vc.vel).subtract(t.center()).x) > Math.abs(pc.pos.subtract(vc.vel).subtract(t.center()).y);
+                    if (hitX) {
+                        vc.vel = vc.vel.setX(-vc.vel.x);
+                        new ParticleEmitter(pc.pos, new Vec2(vc.vel.x, 0), 12, 1, 10, 5, sc.color);
+                    }
+                    if (hitY) {
+                        vc.vel = vc.vel.setY(-vc.vel.y);
+                        new ParticleEmitter(pc.pos, new Vec2(0, vc.vel.y), 12, 1, 10, 5, sc.color);
+                    }
+                    vc.vel = vc.vel.add(Vec2.random(.1));
+                    pc.pos = pc.pos.add(vc.vel);
                 }
-                vc.vel = vc.vel.add(Vec2.random(.1));
-                pc.pos = pc.pos.add(vc.vel);
             }
         }
         rc.rot = vc.vel.direction();
+
+//        Vec2 cast = Main.gameManager.elc.getEntity(Level.class).getComponent(LevelComponent.class).rayCast(pc.pos, MouseInput.mouse());
+//        Graphics2D.drawLine(pc.pos, cast, Color4d.RED, 2);
+//        if (cast.y != 0) {
+//            System.out.println(cast);
+//        }
     }
 
 }
