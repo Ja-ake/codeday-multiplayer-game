@@ -37,6 +37,8 @@ public abstract class MessageFactory {
     	}
     	}
     	
+    	msg = null;
+    	
         return null;
     }
     

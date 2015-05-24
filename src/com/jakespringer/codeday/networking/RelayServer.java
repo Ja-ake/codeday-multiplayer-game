@@ -95,6 +95,8 @@ public class RelayServer {
 								if (c.isRunning()) c.send(new byte[] { 0 });
 							}
 						}
+						
+						System.gc();
 					}
 				}
             });
