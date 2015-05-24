@@ -1,6 +1,6 @@
-package com.jakespringer.codeday.jake.netinterface.message;
+package com.jakespringer.codeday.netinterface.message;
 
-import com.jakespringer.codeday.jake.netinterface.Message;
+import com.jakespringer.codeday.netinterface.Message;
 
 public class PlayerLeaveMessage implements Message {
 

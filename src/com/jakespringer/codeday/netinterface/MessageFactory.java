@@ -1,8 +1,8 @@
-package com.jakespringer.codeday.jake.netinterface;
+package com.jakespringer.codeday.netinterface;
 
 import java.util.Arrays;
 
-import com.jakespringer.codeday.jake.netinterface.message.PlayerJoinMessage;
+import com.jakespringer.codeday.netinterface.message.PlayerJoinMessage;
 
 public abstract class MessageFactory {
 	

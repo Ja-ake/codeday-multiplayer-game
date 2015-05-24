@@ -1,4 +1,4 @@
-package com.jakespringer.codeday.jake.networking;
+package com.jakespringer.codeday.networking;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,6 +1,6 @@
-package com.jakespringer.codeday.jake.netinterface;
+package com.jakespringer.codeday.netinterface;
 
-import com.jakespringer.codeday.jake.networking.Connection;
+import com.jakespringer.codeday.networking.Connection;
 import com.jakespringer.engine.core.AbstractSystem;
 
 public class NetworkSystem extends AbstractSystem {

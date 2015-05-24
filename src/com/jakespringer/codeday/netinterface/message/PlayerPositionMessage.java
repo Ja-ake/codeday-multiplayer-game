@@ -1,8 +1,8 @@
-package com.jakespringer.codeday.jake.netinterface.message;
+package com.jakespringer.codeday.netinterface.message;
 
 import java.nio.ByteBuffer;
 
-import com.jakespringer.codeday.jake.netinterface.Message;
+import com.jakespringer.codeday.netinterface.Message;
 import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.movement.PositionComponent;

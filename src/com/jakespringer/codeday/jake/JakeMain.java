@@ -5,10 +5,10 @@ import static com.jakespringer.engine.core.Main.init;
 import static com.jakespringer.engine.core.Main.run;
 
 import com.jakespringer.codeday.enemy.Enemy;
-import com.jakespringer.codeday.jake.netinterface.NetworkSystem;
-import com.jakespringer.codeday.jake.netinterface.message.PlayerJoinMessage;
-import com.jakespringer.codeday.jake.networking.Connection;
 import com.jakespringer.codeday.level.Level;
+import com.jakespringer.codeday.netinterface.NetworkSystem;
+import com.jakespringer.codeday.netinterface.message.PlayerJoinMessage;
+import com.jakespringer.codeday.networking.Connection;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.util.Vec2;

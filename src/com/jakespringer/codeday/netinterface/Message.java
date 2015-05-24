@@ -1,4 +1,4 @@
-package com.jakespringer.codeday.jake.netinterface;
+package com.jakespringer.codeday.netinterface;
 
 public interface Message {
 

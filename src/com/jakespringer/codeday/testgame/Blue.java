@@ -1,6 +1,6 @@
 package com.jakespringer.codeday.testgame;
 
-import com.jakespringer.codeday.jake.netinterface.NetworkSystem;
+import com.jakespringer.codeday.netinterface.NetworkSystem;
 import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.graphics.SpriteComponent;
