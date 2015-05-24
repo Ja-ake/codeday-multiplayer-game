@@ -11,7 +11,7 @@ import com.jakespringer.engine.movement.*;
 import com.jakespringer.engine.util.Vec2;
 
 public class Player extends AbstractEntity {
-
+	
     public Player(Vec2 pos) {
         //Components
         PositionComponent pc = add(new PositionComponent(pos));

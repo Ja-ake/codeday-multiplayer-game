@@ -14,12 +14,7 @@ public class Level extends AbstractEntity {
         Sounds.playSound("laser.mp3");
         System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         try {
-//            Sounds.playSound("laser.mp3");
-            init();
-//            new Menu();
-            new Level("lvl");
-            new Player(new Vec2());
-            new AssaultEnemy(new Vec2(10, 200));
+//            Sounds.playSound("laser.mp3");s
             new AssaultEnemy(Vec2.random(10));
             run();
         } catch (Exception ex) {

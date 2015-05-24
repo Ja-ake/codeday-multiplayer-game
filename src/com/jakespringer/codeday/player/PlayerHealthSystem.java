@@ -1,9 +1,14 @@
 package com.jakespringer.codeday.player;
 
+import java.awt.Font;
+
+import org.newdawn.slick.Color;
+
 import com.jakespringer.codeday.combat.HealthComponent;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.graphics.Graphics2D;
+import com.jakespringer.engine.graphics.loading.FontContainer;
 import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.util.Color4d;
 import com.jakespringer.engine.util.Vec2;
@@ -12,10 +17,13 @@ public class PlayerHealthSystem extends AbstractSystem {
 
     private PositionComponent pc;
     private HealthComponent hc;
+    private int deaths;
 
     public PlayerHealthSystem(PositionComponent pc, HealthComponent hc) {
         this.pc = pc;
         this.hc = hc;
+        
+        FontContainer.add("Deaths", "Ariel", Font.PLAIN, 16);
     }
 
     @Override
@@ -25,6 +33,7 @@ public class PlayerHealthSystem extends AbstractSystem {
 
     @Override
     public void update() {
+    	
         hc.health -= hc.damage * .2;
         hc.damage *= .8;
         double amt = hc.damage / 20;
@@ -37,7 +46,10 @@ public class PlayerHealthSystem extends AbstractSystem {
 //            System.exit(0);
             hc.health = hc.maxHealth;
             pc.pos = Vec2.random(1000).add(new Vec2(1100, 1100));
+            deaths++;
         }
+        
+        Graphics2D.drawText("Deaths: " + deaths, "Deaths", new Vec2(10, 600), Color.white);
     }
 
 }
