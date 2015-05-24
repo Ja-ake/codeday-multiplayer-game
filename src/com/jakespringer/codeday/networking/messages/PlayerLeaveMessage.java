@@ -1,6 +1,6 @@
-package com.jakespringer.codeday.netinterface.message;
+package com.jakespringer.codeday.networking.messages;
 
-import com.jakespringer.codeday.netinterface.Message;
+import com.jakespringer.codeday.networking.Message;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.core.Main;
