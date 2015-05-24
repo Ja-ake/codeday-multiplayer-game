@@ -6,13 +6,20 @@ import org.lwjgl.input.Keyboard;
 
 public abstract class Keys {
 
-    private static ArrayList<Integer> down = new ArrayList();
-    private static ArrayList<Integer> pressed = new ArrayList();
-    private static ArrayList<Integer> released = new ArrayList();
-    private static HashMap<Integer, Integer> time = new HashMap();
-    
+    public static ArrayList<Integer> down = new ArrayList();
+    public static ArrayList<Integer> pressed = new ArrayList();
+    public static ArrayList<Integer> released = new ArrayList();
+    public static HashMap<Integer, Integer> time = new HashMap();
+
     public static boolean anyPressed() {
         return !pressed.isEmpty();
+    }
+
+    public static void clear() {
+        down.clear();
+        pressed.clear();
+        released.clear();
+        time.clear();
     }
 
     public static int getTime(int button) {

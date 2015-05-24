@@ -25,7 +25,7 @@ public abstract class Main {
     }
 
     public static final int speed = 60;
-    public static final int LAYERS = 3;
+    public static final int LAYERS = 4;
     public static ArrayList<ArrayList<AbstractSystem>> systems;
     public static GameManager gameManager;
     public static boolean paused = false;

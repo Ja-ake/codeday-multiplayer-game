@@ -11,7 +11,7 @@ public abstract class AbstractSystem {
     }
 
     protected int getLayer() {
-        return 0;
+        return 1;
     }
 
     protected boolean pauseable() {

@@ -9,13 +9,20 @@ import org.lwjgl.opengl.Display;
 
 public abstract class MouseInput {
 
-    private static ArrayList<Integer> down = new ArrayList();
-    private static ArrayList<Integer> pressed = new ArrayList();
-    private static ArrayList<Integer> released = new ArrayList();
-    private static HashMap<Integer, Integer> time = new HashMap();
-    private static int wheel;
-    private static Vec2 mouse;
-    private static Vec2 mouseDelta;
+    public static ArrayList<Integer> down = new ArrayList();
+    public static ArrayList<Integer> pressed = new ArrayList();
+    public static ArrayList<Integer> released = new ArrayList();
+    public static HashMap<Integer, Integer> time = new HashMap();
+    public static int wheel;
+    public static Vec2 mouse;
+    public static Vec2 mouseDelta;
+
+    public static void clear() {
+        down.clear();
+        pressed.clear();
+        released.clear();
+        time.clear();
+    }
 
     public static boolean isDown(int button) {
         return down.contains(button);

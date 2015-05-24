@@ -9,7 +9,7 @@ public class GUISystem extends AbstractSystem {
 
     @Override
     public int getLayer() {
-        return 2;
+        return 3;
     }
 
     @Override

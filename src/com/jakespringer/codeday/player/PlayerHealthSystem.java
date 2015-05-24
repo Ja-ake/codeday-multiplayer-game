@@ -17,7 +17,7 @@ public class PlayerHealthSystem extends AbstractSystem {
 
     @Override
     public int getLayer() {
-        return 2;
+        return 3;
     }
 
     @Override
