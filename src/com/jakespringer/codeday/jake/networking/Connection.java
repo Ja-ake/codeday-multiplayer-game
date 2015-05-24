@@ -59,6 +59,7 @@ public class Connection {
                     Connection.this.runOut(sock);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    return;
                 }
             }
         });
@@ -103,6 +104,7 @@ public class Connection {
             }
         } catch (SocketException e) {
             System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
+            return;
         }
     }
 
@@ -129,11 +131,22 @@ public class Connection {
             }
         } catch (SocketException e) {
             System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
+            return;
         }
+    }
+    
+    public boolean isRunning() {
+    	if (!inHandle.isAlive() || !outHandle.isAlive()) {
+    		inHandle.stop();
+    		outHandle.stop();
+    		
+    		return false;
+    	}
+    	return true;
     }
 
     public void send(byte[] msg) {
-        output.add(msg);
+    	output.add(msg);
     }
 
     public boolean hasNext() {

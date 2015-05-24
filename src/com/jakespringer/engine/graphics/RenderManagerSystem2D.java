@@ -65,7 +65,7 @@ public class RenderManagerSystem2D extends AbstractSystem {
         Camera.setProjection2D(rmc.LL(), rmc.UR());
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(1, 1, 1, 1);
+        glClearColor(0, 0, 0, 1);
     }
 
 }

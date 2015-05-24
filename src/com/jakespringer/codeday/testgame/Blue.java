@@ -17,6 +17,6 @@ public class Blue extends AbstractEntity {
         //Systems
         add(new SpriteSystem(pc, sc));
         
-        Main.gameManager.getSystem(NetworkSystem.class).newBlue.add(this);
+//        Main.gameManager.getSystem(NetworkSystem.class).newBlue.add(this);
     }
 }
