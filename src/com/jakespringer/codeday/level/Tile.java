@@ -24,6 +24,10 @@ public class Tile {
         }
     }
 
+    public Vec2 center() {
+        return new Vec2((x + .5) * SIZE, (y + .5) * SIZE);
+    }
+
     public Vec2 LL() {
         return new Vec2(x * SIZE, y * SIZE);
     }

@@ -16,7 +16,7 @@ public class Enemy extends AbstractEntity {
         PositionComponent pc = add(new PositionComponent(pos));
         PreviousPositionComponent ppc = add(new PreviousPositionComponent(pos));
         VelocityComponent vc = add(new VelocityComponent());
-        SpriteComponent sc = add(new SpriteComponent("enemyfast"));
+        SpriteComponent sc = add(new SpriteComponent("enemy normal"));
         CollisionComponent cc = add(new CollisionComponent(this, pc, 25));
         ShotCooldownComponent scc = add(new ShotCooldownComponent(60, 3, 5));
         HealthComponent hc = add(new HealthComponent(100));
