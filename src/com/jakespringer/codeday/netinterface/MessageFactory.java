@@ -10,7 +10,7 @@ import com.jakespringer.codeday.netinterface.message.PlayerStateMessage;
 public abstract class MessageFactory {
 	
     public static Message createMessage(byte[] bytes) {
-    	if (bytes.length > 1);
+    	if (bytes.length > 1) return null;
     	
     	byte[] msg = Arrays.copyOfRange(bytes, 1, bytes.length);
     	
