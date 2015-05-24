@@ -8,8 +8,6 @@ import com.jakespringer.codeday.networking.Connection;
 import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Main;
-import com.jakespringer.engine.movement.PositionComponent;
-import com.jakespringer.engine.movement.VelocityComponent;
 
 public class NetworkSystem extends AbstractSystem {
 
@@ -29,8 +27,6 @@ public class NetworkSystem extends AbstractSystem {
             
             if (m != null) System.out.println(m.getClass().getSimpleName());
     	}
-//    	System.out.println("Entity-p: " + Main.gameManager.elc.getEntity(Player.class).getComponent(PositionComponent.class).pos);
-//    	System.out.println("Entity-v: " + Main.gameManager.elc.getEntity(Player.class).getComponent(VelocityComponent.class).vel);
     }
     
     public void sendMessage(Message m) {
