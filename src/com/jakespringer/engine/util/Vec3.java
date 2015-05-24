@@ -74,6 +74,9 @@ public class Vec3 {
     }
 
     public Vec3 normalize() {
+        if (equals(new Vec3())) {
+            return new Vec3(1, 0, 0);
+        }
         return multiply(1 / length());
     }
 
@@ -86,6 +89,9 @@ public class Vec3 {
     }
 
     public Vec3 setLength(double l) {
+        if (equals(new Vec3())) {
+            return new Vec3(l, 0, 0);
+        }
         return multiply(l / length());
     }
 
