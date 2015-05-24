@@ -17,9 +17,11 @@ import org.lwjgl.input.Keyboard;
 public class DMSystem extends AbstractSystem {
 
     private DMComponent dmc;
+    private DM dm;
 
-    public DMSystem(DMComponent dmc) {
+    public DMSystem(DMComponent dmc, DM d) {
         this.dmc = dmc;
+        this.dm = d;
     }
 
     @Override
@@ -29,7 +31,10 @@ public class DMSystem extends AbstractSystem {
             dmc.threat = dmc.maxThreat;
         }
         if (MouseInput.isPressed(0)) {
-            if (dmc.threat > 1) {
+        	Vec2 mouse = MouseInput.mouseScreen();
+        	
+        	if (mouse.x < 220 && mouse.y < 316) {
+        	} else if (dmc.threat > 1) {
                 AssaultEnemy e = new AssaultEnemy(MouseInput.mouse());
                 if (threatAt(MouseInput.mouse()) < 3 && e.getComponent(CollisionComponent.class).open(MouseInput.mouse())) {
                     dmc.threat -= 1;
@@ -37,6 +42,21 @@ public class DMSystem extends AbstractSystem {
                     e.destroySelf();
                 }
             }
+        } 
+        
+        if (MouseInput.isDown(0)) {
+        	Vec2 mouse = MouseInput.mouseScreen();
+        	
+			if (mouse.x < 220 && mouse.y < 316) {
+				if (mouse.y > 250) {
+					dm.getSystem(DMGui.class).backgroundScout = new Color4d(0.1, 0.1, 0.1, 0.8);
+				} else if (mouse.y > 190) {
+					dm.getSystem(DMGui.class).backgroundAssault = new Color4d(0.1, 0.1, 0.1, 0.8);
+				}
+			}
+    	} else {
+        	dm.getSystem(DMGui.class).backgroundAssault = new Color4d(0.2, 0.2, 0.2, 0.8);
+        	dm.getSystem(DMGui.class).backgroundScout = new Color4d(0.2, 0.2, 0.2, 0.8);
         }
         RenderManagerComponent2D rmc = Main.gameManager.rmc2;
         if (Keys.isDown(Keyboard.KEY_W)) {
