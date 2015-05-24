@@ -1,5 +1,7 @@
 package com.jakespringer.codeday.player;
 
+import com.jakespringer.codeday.netinterface.NetworkSystem;
+import com.jakespringer.codeday.netinterface.message.PlayerStateMessage;
 import com.jakespringer.engine.core.*;
 import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.movement.PositionComponent;
@@ -7,6 +9,7 @@ import com.jakespringer.engine.movement.RotationComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.util.Color4d;
 import com.jakespringer.engine.util.Vec2;
+
 import org.lwjgl.input.Keyboard;
 
 public class PlayerControlSystem extends AbstractSystem {
@@ -66,6 +69,7 @@ public class PlayerControlSystem extends AbstractSystem {
         }
 
         Main.gameManager.rmc2.viewPos = pc.pos;
+        Main.gameManager.getSystem(NetworkSystem.class).sendMessage(new PlayerStateMessage(player.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y));
     }
 
     private void grenade(Vec2 dir) {

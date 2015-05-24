@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.jakespringer.codeday.netinterface.message.PlayerJoinMessage;
 import com.jakespringer.codeday.netinterface.message.PlayerLeaveMessage;
-import com.jakespringer.codeday.netinterface.message.PlayerPositionMessage;
+import com.jakespringer.codeday.netinterface.message.PlayerStateMessage;
 
 public abstract class MessageFactory {
 	
@@ -23,7 +23,7 @@ public abstract class MessageFactory {
     		return m;
     	}
     	case 3: {
-    		PlayerPositionMessage m = new PlayerPositionMessage();
+    		PlayerStateMessage m = new PlayerStateMessage();
     		m.initialize(msg);
     		return m;
     	}
@@ -37,7 +37,7 @@ public abstract class MessageFactory {
     	
     	if (m instanceof PlayerJoinMessage) type = 1;
     	if (m instanceof PlayerLeaveMessage) type = 2;
-    	if (m instanceof PlayerPositionMessage) type = 3;
+    	if (m instanceof PlayerStateMessage) type = 3;
     	
     	byte[] msg = m.toBytes();
     	byte[] tosend = new byte[msg.length+1];

@@ -168,27 +168,27 @@ public class Connection {
         }
     }
 
-    public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
-        final Connection c = new Connection();
-        c.start("192.168.1.199", 1225);
-
-        final Scanner scan = new Scanner(System.in);
-
-        (new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    c.send(scan.nextLine().getBytes());
-                }
-            }
-        })).start();
-
-        byte[] next;
-        while (true) {
-            next = c.next();
-            if (next != null) {
-                System.out.println(new String(next));
-            }
-        }
-    }
+//    public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
+//        final Connection c = new Connection();
+//        c.start("192.168.1.199", 1225);
+//
+//        final Scanner scan = new Scanner(System.in);
+//
+//        (new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true) {
+//                    c.send(scan.nextLine().getBytes());
+//                }
+//            }
+//        })).start();
+//
+//        byte[] next;
+//        while (true) {
+//            next = c.next();
+//            if (next != null) {
+//                System.out.println(new String(next));
+//            }
+//        }
+//    }
 }

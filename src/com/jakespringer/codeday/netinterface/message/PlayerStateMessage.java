@@ -9,22 +9,35 @@ import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.util.Vec2;
 
-public class PlayerPositionMessage implements Message {
+public class PlayerStateMessage implements Message {
 
 	public long id;
 	public double x, y;
 	public double vx, vy;
 	
+	public PlayerStateMessage() {
+		
+	}
+	
+	public PlayerStateMessage(long i, double xv, double yv, double vxv, double vyv) {
+		id = i;
+		x = xv;
+		y = yv;
+		vx = vxv;
+		vy = vyv;
+	}
+	
 	@Override
 	public void act() {
 		AbstractEntity e = Main.gameManager.elc.getId(id);
+		if (e == null) return;
 		e.getComponent(PositionComponent.class).pos = new Vec2(x, y);
 		e.getComponent(VelocityComponent.class).vel = new Vec2(vx, vy);
 	}
 
 	@Override
 	public byte[] toBytes() {
-		ByteBuffer b = ByteBuffer.allocate(8*4);
+		ByteBuffer b = ByteBuffer.allocate(8*5);
 		b.putLong(id);
 		b.putDouble(x);
 		b.putDouble(y);
