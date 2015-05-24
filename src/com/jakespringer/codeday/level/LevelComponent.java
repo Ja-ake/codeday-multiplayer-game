@@ -54,13 +54,6 @@ public class LevelComponent extends AbstractComponent {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (tileGrid[x][y].isWall) {
-                	if (tileGrid[x-1][y].isWall) {
-                		if (tileGrid[x+1][y].isWall) {
-                			tileGrid[x][y].tex = tiles.get(2);
-                		}
-                	}
-                }
             }
         }
 
