@@ -1,12 +1,10 @@
 package com.jakespringer.codeday.testgame;
 
-import com.jakespringer.codeday.particle.ParticleEmitter;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Keys;
 import com.jakespringer.engine.core.MouseInput;
 import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.util.Vec2;
-
 import org.lwjgl.input.Keyboard;
 
 public class RedControlSystem extends AbstractSystem {
@@ -33,7 +31,7 @@ public class RedControlSystem extends AbstractSystem {
             vc.vel = vc.vel.setX(vc.vel.x + 1);
         }
         if (MouseInput.isPressed(0)) {
-            new ParticleEmitter(MouseInput.mouse());
+//            new ParticleEmitter(MouseInput.mouse());
         }
     }
 

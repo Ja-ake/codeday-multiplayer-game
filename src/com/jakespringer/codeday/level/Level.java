@@ -1,9 +1,11 @@
 package com.jakespringer.codeday.level;
 
+import com.jakespringer.codeday.enemy.Enemy;
+import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractEntity;
 import static com.jakespringer.engine.core.Main.*;
 import com.jakespringer.engine.core.Sounds;
-import com.jakespringer.engine.gui.Menu;
+import com.jakespringer.engine.util.Vec2;
 import java.io.File;
 
 public class Level extends AbstractEntity {
@@ -12,13 +14,13 @@ public class Level extends AbstractEntity {
         Sounds.playSound("laser.mp3");
         System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         try {
-            Sounds.playSound("laser.mp3");
+//            Sounds.playSound("laser.mp3");
             init();
-            new Menu();
-//            new Level("lvl");
-//            new Player(new Vec2());
-//            new Enemy(new Vec2(10, 200));
-//            new Enemy(Vec2.random(10));
+//            new Menu();
+            new Level("lvl");
+            new Player(new Vec2());
+            new Enemy(new Vec2(10, 200));
+            new Enemy(Vec2.random(10));
             run();
         } catch (Exception ex) {
             ex.printStackTrace();

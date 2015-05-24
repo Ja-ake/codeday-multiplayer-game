@@ -16,18 +16,18 @@ import java.util.ArrayList;
 
 public class BulletSystem extends AbstractSystem {
 
-    private Bullet bullet;
-    private AbstractEntity shooter;
+    private AbstractEntity bullet;
     private PositionComponent pc;
     private VelocityComponent vc;
     private RotationComponent rc;
+    private DamageComponent dc;
 
-    public BulletSystem(Bullet bullet, AbstractEntity shooter, PositionComponent pc, VelocityComponent vc, RotationComponent rc) {
+    public BulletSystem(AbstractEntity bullet, PositionComponent pc, VelocityComponent vc, RotationComponent rc, DamageComponent dc) {
         this.bullet = bullet;
-        this.shooter = shooter;
         this.pc = pc;
         this.vc = vc;
         this.rc = rc;
+        this.dc = dc;
     }
 
     @Override
@@ -35,10 +35,10 @@ public class BulletSystem extends AbstractSystem {
         rc.rot = vc.vel.direction();
         ArrayList<CollisionComponent> hit = CollisionUtil.listAt(pc.pos);
         for (CollisionComponent cc : hit) {
-            if (cc.ae != shooter) {
+            if (cc.ae != dc.shooter) {
                 HealthComponent hc = cc.ae.getComponent(HealthComponent.class);
                 if (hc != null) {
-                    hc.damage += 10;
+                    hc.damage += dc.damage;
                 }
                 bullet.destroySelf();
             }

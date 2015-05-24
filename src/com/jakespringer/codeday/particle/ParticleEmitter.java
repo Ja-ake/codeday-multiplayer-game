@@ -6,10 +6,12 @@ import com.jakespringer.engine.util.Color4d;
 import com.jakespringer.engine.util.Vec2;
 
 public class ParticleEmitter extends AbstractEntity {
-	public ParticleEmitter(Vec2 pos) {
-		this.add(new PositionComponent(pos));
-		this.add(new ParticleCloudComponent(20, 5.0d, pos.normalize().multiply(-10), 4, Color4d.GREEN, 40));
-		
-		this.add(new EmitterSystem(this.getComponent(ParticleCloudComponent.class), this.getComponent(PositionComponent.class), this));
-	}
+
+    public ParticleEmitter(Vec2 pos, Vec2 vel, double randomness, int duration, int particlesPerStep, int particleDuration, Color4d color) {
+        //Components
+        add(new PositionComponent(pos));
+        add(new ParticleCloudComponent(particlesPerStep, randomness, vel, duration, color, particleDuration));
+        //Systems
+        add(new EmitterSystem(getComponent(ParticleCloudComponent.class), getComponent(PositionComponent.class), this));
+    }
 }

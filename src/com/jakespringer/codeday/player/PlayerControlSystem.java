@@ -39,6 +39,9 @@ public class PlayerControlSystem extends AbstractSystem {
             if (Gamepad.getZAxis() < -.5) {
                 shoot(new Vec2(Math.cos(rc.rot), Math.sin(rc.rot)));
             }
+            if (Gamepad.isPressed(5)) {
+                grenade(new Vec2(Math.cos(rc.rot), Math.sin(rc.rot)));
+            }
         } else {
             //keyboard & mouse
             if (Keys.isDown(Keyboard.KEY_W)) {
@@ -57,9 +60,16 @@ public class PlayerControlSystem extends AbstractSystem {
             if (MouseInput.isDown(0)) {
                 shoot(MouseInput.mouse().subtract(pc.pos));
             }
+            if (MouseInput.isPressed(1)) {
+                grenade(MouseInput.mouse().subtract(pc.pos));
+            }
         }
 
         Main.gameManager.rmc2.viewPos = pc.pos;
+    }
+
+    private void grenade(Vec2 dir) {
+        new Grenade(player, pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22)), dir.setLength(6));
     }
 
     private void shoot(Vec2 dir) {

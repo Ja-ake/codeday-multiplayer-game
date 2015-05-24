@@ -2,6 +2,7 @@ package com.jakespringer.codeday;
 
 import com.jakespringer.codeday.netinterface.NetworkSystem;
 import com.jakespringer.codeday.networking.Connection;
+import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.Main;
 import static com.jakespringer.engine.core.Main.*;
 import com.jakespringer.engine.gui.Menu;
@@ -16,6 +17,7 @@ public abstract class ClientMain {
 
             init();
             new Menu();
+            new CommandConsole();
 
             // NETWORKING
             boolean networking = true;
