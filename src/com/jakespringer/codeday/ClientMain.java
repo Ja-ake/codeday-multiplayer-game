@@ -1,10 +1,16 @@
 package com.jakespringer.codeday;
 
-import com.jakespringer.codeday.netinterface.NetworkSystem;
+import com.jakespringer.codeday.combat.HealthComponent;
+import com.jakespringer.codeday.level.Level;
+import com.jakespringer.codeday.networking.NetworkSystem;
+import com.jakespringer.codeday.networking.messages.PlayerJoinMessage;
+import com.jakespringer.codeday.player.Player;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.Main;
 import static com.jakespringer.engine.core.Main.*;
-import com.jakespringer.engine.gui.Menu;
+import com.jakespringer.engine.graphics.loading.FontContainer;
+import com.jakespringer.engine.util.Vec2;
+import java.awt.Font;
 import java.io.File;
 
 public abstract class ClientMain {
@@ -12,14 +18,19 @@ public abstract class ClientMain {
     public static void main(String[] args) {
         System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         try {
-
             init();
-            new Menu();
+
+            FontContainer.add("Console-Font", "Times New Roman", Font.PLAIN, 12);
+
+            new Level("lvl");
+            Player p = new Player(new Vec2());
+            p.getComponent(HealthComponent.class).health = 6.022e23;
+
             new CommandConsole();
 
             // NETWORKING
-            NetworkSystem ns = new NetworkSystem();
-            Main.gameManager.add(ns);
+            Main.gameManager.add(new NetworkSystem());
+            new PlayerJoinMessage(p.id).send();
 
             // END NETWORKING
             run();
