@@ -175,29 +175,29 @@ public class Connection {
     				return;
     			}
 
-    				byte[] size = new byte[2];
-    				is.read(size, 0, 2);
-    				ByteBuffer bb = ByteBuffer.wrap(size);
-    				short len = bb.getShort();
-    				byte[] msg = new byte[len];
-    				is.read(msg, 0, msg.length);
-    				input.add(msg);
-    				
-    				synchronized (toInturrupt) {
-                        if (!toInturrupt.isEmpty()) {
-                            Iterator<Object> iter = toInturrupt.iterator();
-                            while (iter.hasNext()) {
-                                Object t = iter.next();
-                                synchronized (t) {
-                                    if (t != null) {
-                                        t.notify();
-                                    } else {
-                                        iter.remove();
-                                    }
-                                }
-                            }
-                        }
-                    }
+				byte[] size = new byte[2];
+				is.read(size, 0, 2);
+				ByteBuffer bb = ByteBuffer.wrap(size);
+				short len = bb.getShort();
+				byte[] msg = new byte[len];
+				is.read(msg, 0, msg.length);
+				input.add(msg);
+
+				synchronized (toInturrupt) {
+					if (!toInturrupt.isEmpty()) {
+						Iterator<Object> iter = toInturrupt.iterator();
+						while (iter.hasNext()) {
+							Object t = iter.next();
+							synchronized (t) {
+								if (t != null) {
+									t.notify();
+								} else {
+									iter.remove();
+								}
+							}
+						}
+					}
+				}
     		}
     	} catch (IOException e) {
     		System.err.println("Lost connection with " + socket.getInetAddress().getHostName() + ".");
