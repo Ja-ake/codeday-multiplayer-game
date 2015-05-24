@@ -2,8 +2,8 @@ package com.jakespringer.codeday.player;
 
 import com.jakespringer.codeday.combat.Bullet;
 import com.jakespringer.codeday.combat.Grenade;
-import com.jakespringer.codeday.networking.messages.BulletCreateMessage;
 import com.jakespringer.codeday.networking.messages.EntityStateMessage;
+import com.jakespringer.codeday.networking.messages.ProjectileCreateMessage;
 import com.jakespringer.engine.core.*;
 import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.movement.PositionComponent;
@@ -74,7 +74,11 @@ public class PlayerControlSystem extends AbstractSystem {
     }
 
     private void grenade(Vec2 dir) {
-        new Grenade(player, pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22)), dir.setLength(6).add(Vec2.random(.1)));
+        Vec2 pos = pc.pos.add(new Vec2(Math.cos(rc.rot - Math.PI / 4), Math.sin(rc.rot - Math.PI / 4)).multiply(22));
+        Vec2 vel = dir.setLength(6).add(Vec2.random(.1));
+
+        Grenade g = new Grenade(player, pos, vel);
+        new ProjectileCreateMessage(Grenade.class, g.id, player.id, pos, vel).send();
     }
 
     private void shoot(Vec2 dir) {
@@ -83,6 +87,6 @@ public class PlayerControlSystem extends AbstractSystem {
 
         Bullet b = new Bullet(player, pos, vel);
         b.getComponent(SpriteComponent.class).color = new Color4d(1, 0, 1);
-        new BulletCreateMessage(player.id, pc.pos.x, pc.pos.y, vc.vel.x, vc.vel.y, rc.rot).send();
+        new ProjectileCreateMessage(Bullet.class, b.id, player.id, pos, vel).send();
     }
 }

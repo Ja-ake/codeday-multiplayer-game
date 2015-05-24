@@ -1,6 +1,7 @@
 package com.jakespringer.codeday.networking.messages;
 
 import com.jakespringer.codeday.networking.Message;
+import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.util.Vec2;
 
 public class EntityCreateMessage extends Message {
@@ -21,10 +22,15 @@ public class EntityCreateMessage extends Message {
     @Override
     public void act() {
         Class[] classList = new Class[parameters.length];
-//        for (classList ) {
-//            AbstractEntity
-//        }
-//    e = Class.forName(entityName).getConstructor(parameters).newInstance(parameters);
+        for (int i = 0; i < parameters.length; i++) {
+            classList[i] = parameters[i].getClass();
+        }
+        try {
+            AbstractEntity e = (AbstractEntity) Class.forName(entityName).getConstructor(classList).newInstance(parameters);
+            e.id = id;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
