@@ -1,7 +1,12 @@
 package com.jakespringer.codeday.dm;
 
+import java.lang.reflect.InvocationTargetException;
+
 import com.jakespringer.codeday.enemy.AssaultEnemy;
+import com.jakespringer.codeday.enemy.Enemy;
+import com.jakespringer.codeday.enemy.ScoutEnemy;
 import com.jakespringer.engine.collisions.CollisionComponent;
+import com.jakespringer.engine.core.AbstractEntity;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Keys;
 import com.jakespringer.engine.core.Main;
@@ -18,6 +23,7 @@ public class DMSystem extends AbstractSystem {
 
     private DMComponent dmc;
     private DM dm;
+    private Class current = AssaultEnemy.class;
 
     public DMSystem(DMComponent dmc, DM d) {
         this.dmc = dmc;
@@ -35,6 +41,11 @@ public class DMSystem extends AbstractSystem {
         	
         	if (mouse.x < 220 && mouse.y < 316) {
         	} else if (dmc.threat > 1) {
+        		try {
+					Enemy en = (Enemy) current.getConstructor(Vec2.class).newInstance(MouseInput.mouse());
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
+					e1.printStackTrace();
+				}
                 AssaultEnemy e = new AssaultEnemy(MouseInput.mouse());
                 if (threatAt(MouseInput.mouse()) < 3 && e.getComponent(CollisionComponent.class).open(MouseInput.mouse())) {
                     dmc.threat -= 1;
@@ -50,8 +61,10 @@ public class DMSystem extends AbstractSystem {
 			if (mouse.x < 220 && mouse.y < 316) {
 				if (mouse.y > 250) {
 					dm.getSystem(DMGui.class).backgroundScout = new Color4d(0.1, 0.1, 0.1, 0.8);
+					current = ScoutEnemy.class;
 				} else if (mouse.y > 190) {
 					dm.getSystem(DMGui.class).backgroundAssault = new Color4d(0.1, 0.1, 0.1, 0.8);
+					current = AssaultEnemy.class;
 				}
 			}
     	} else {
@@ -71,14 +84,17 @@ public class DMSystem extends AbstractSystem {
         if (Keys.isDown(Keyboard.KEY_D)) {
             rmc.viewPos = rmc.viewPos.setX(rmc.viewPos.x + 5);
         }
-        for (AssaultEnemy e : Main.gameManager.elc.getEntityList(AssaultEnemy.class)) {
+        if (current == AssaultEnemy.class) for (AbstractEntity e : Main.gameManager.elc.getEntityList(AssaultEnemy.class)) {
+            Graphics2D.fillEllipse(e.getComponent(PositionComponent.class).pos, new Vec2(150, 150), Color4d.RED.setA(.2), 40);
+        }
+        if (current == ScoutEnemy.class) for (AbstractEntity e : Main.gameManager.elc.getEntityList(ScoutEnemy.class)) {
             Graphics2D.fillEllipse(e.getComponent(PositionComponent.class).pos, new Vec2(150, 150), Color4d.RED.setA(.2), 40);
         }
     }
 
     private double threatAt(Vec2 pos) {
         double r = 0;
-        for (AssaultEnemy e : Main.gameManager.elc.getEntityList(AssaultEnemy.class)) {
+        for (Enemy e : Main.gameManager.elc.getEntityList(Enemy.class)) {
             if (pos.subtract(e.getComponent(PositionComponent.class).pos).lengthSquared() < 150 * 150) {
                 r += 1;
             }
