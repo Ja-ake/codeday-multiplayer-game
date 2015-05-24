@@ -1,23 +1,24 @@
 package com.jakespringer.codeday.enemy;
 
+import java.util.ArrayList;
+
 import com.jakespringer.codeday.combat.Bullet;
-import com.jakespringer.codeday.player.*;
-import com.jakespringer.engine.core.*;
+import com.jakespringer.codeday.player.Player;
+import com.jakespringer.engine.core.AbstractSystem;
+import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.graphics.SpriteComponent;
 import com.jakespringer.engine.movement.PositionComponent;
 import com.jakespringer.engine.movement.VelocityComponent;
 import com.jakespringer.engine.util.Color4d;
 import com.jakespringer.engine.util.Vec2;
-import java.util.ArrayList;
 
-public class EnemyControlSystem extends AbstractSystem {
-
-    private AssaultEnemy enemy;
+public class SniperControlSystem extends AbstractSystem {
+	private SniperEnemy enemy;
     private PositionComponent pc;
     private VelocityComponent vc;
     private ShotCooldownComponent scc;
 
-    public EnemyControlSystem(AssaultEnemy enemy, PositionComponent pc, VelocityComponent vc, ShotCooldownComponent scc) {
+    public SniperControlSystem(SniperEnemy enemy, PositionComponent pc, VelocityComponent vc, ShotCooldownComponent scc) {
         this.enemy = enemy;
         this.pc = pc;
         this.vc = vc;
@@ -39,7 +40,9 @@ public class EnemyControlSystem extends AbstractSystem {
                 closest = p;
             }
         }
-        vc.vel = closest.getComponent(PositionComponent.class).pos.subtract(pc.pos).setLength(speed);
+        
+        Vec2 near = closest.getComponent(PositionComponent.class).pos;
+        if (near.length() > 500) vc.vel = near.subtract(pc.pos).setLength(5.0d);
         if (Double.isNaN(vc.vel.lengthSquared())) {
             vc.vel = new Vec2();
         }
@@ -57,5 +60,4 @@ public class EnemyControlSystem extends AbstractSystem {
             }
         }
     }
-
 }
