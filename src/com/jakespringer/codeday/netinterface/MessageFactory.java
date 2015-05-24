@@ -3,6 +3,8 @@ package com.jakespringer.codeday.netinterface;
 import java.util.Arrays;
 
 import com.jakespringer.codeday.netinterface.message.PlayerJoinMessage;
+import com.jakespringer.codeday.netinterface.message.PlayerLeaveMessage;
+import com.jakespringer.codeday.netinterface.message.PlayerPositionMessage;
 
 public abstract class MessageFactory {
 	
@@ -15,6 +17,16 @@ public abstract class MessageFactory {
     		m.initialize(msg);
     		return m;
     	}
+    	case 2: {
+    		PlayerLeaveMessage m = new PlayerLeaveMessage();
+    		m.initialize(msg);
+    		return m;
+    	}
+    	case 3: {
+    		PlayerPositionMessage m = new PlayerPositionMessage();
+    		m.initialize(msg);
+    		return m;
+    	}
     	}
     	
         return null;
@@ -24,6 +36,8 @@ public abstract class MessageFactory {
     	byte type = 0;
     	
     	if (m instanceof PlayerJoinMessage) type = 1;
+    	if (m instanceof PlayerLeaveMessage) type = 2;
+    	if (m instanceof PlayerPositionMessage) type = 3;
     	
     	byte[] msg = m.toBytes();
     	byte[] tosend = new byte[msg.length+1];

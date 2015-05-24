@@ -1,5 +1,6 @@
 package com.jakespringer.engine.collisions;
 
+import com.jakespringer.codeday.player.Player;
 import com.jakespringer.engine.core.AbstractSystem;
 import com.jakespringer.engine.core.Main;
 import com.jakespringer.engine.movement.PositionComponent;
@@ -24,6 +25,8 @@ public class CollisionSystem extends AbstractSystem {
 
     @Override
     public void update() {
+    	Vec2 debug = pc.pos;
+    	
         cc.collisions.clear();
         cc.xHit = cc.yHit = cc.zHit = 0;
         //Collide with units
@@ -69,5 +72,7 @@ public class CollisionSystem extends AbstractSystem {
                 }
             }
         }
+        
+        if (!Double.isNaN(debug.x) && Double.isNaN(pc.pos.x)) System.out.println("Error in physics: " + pc.pos + " " + ppc.pos);
     }
 }
