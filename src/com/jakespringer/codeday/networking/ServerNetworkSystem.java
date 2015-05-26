@@ -13,10 +13,10 @@ import com.jakespringer.engine.util.Vec2;
 
 public class ServerNetworkSystem extends AbstractSystem {
 
-    private ChatServer conn;
+    private TheServer conn;
     private int step;
 
-    public ServerNetworkSystem(ChatServer conn) {
+    public ServerNetworkSystem(TheServer conn) {
         this.conn = conn;
     }
 

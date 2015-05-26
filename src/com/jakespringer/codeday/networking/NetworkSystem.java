@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class NetworkSystem extends AbstractSystem {
 
-    private ChatClient conn;
+    private TheClient conn;
 
     public NetworkSystem() {
     }
@@ -59,7 +59,7 @@ public class NetworkSystem extends AbstractSystem {
         if (conn != null) {
             disconnect();
         }
-        conn = new ChatClient(ip, port);
+        conn = new TheClient(ip, port);
         try {
             conn.start();
         } catch (IOException ex) {

@@ -28,7 +28,7 @@ public abstract class ClientMain {
             // NETWORKING
             Main.gameManager.add(new NetworkSystem());
             Main.gameManager.getSystem(NetworkSystem.class).disconnect();
-            Main.gameManager.getSystem(NetworkSystem.class).connect("10.105.152.13", 55555);
+            Main.gameManager.getSystem(NetworkSystem.class).connect("localhost", 55555);
 
             // END NETWORKING
             run();

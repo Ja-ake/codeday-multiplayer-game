@@ -1,7 +1,7 @@
 package com.jakespringer.codeday;
 
 import com.jakespringer.codeday.level.Level;
-import com.jakespringer.codeday.networking.ChatServer;
+import com.jakespringer.codeday.networking.TheServer;
 import com.jakespringer.codeday.networking.ServerNetworkSystem;
 import com.jakespringer.codeday.ui.CommandConsole;
 import com.jakespringer.engine.core.Main;
@@ -15,7 +15,7 @@ import java.io.File;
 public class ServerMain {
 
     public static void main(String[] args) {
-        ChatServer cs = new ChatServer(55555);
+        TheServer cs = new TheServer(55555);
         System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         try {
             init();

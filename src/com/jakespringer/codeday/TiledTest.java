@@ -13,28 +13,28 @@ import java.io.File;
 
 public class TiledTest {
 
-    public static void main(String[] args) {
-        System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
-        try {
-            init();
-
-            FontContainer.add("Console-Font", "Times New Roman", Font.PLAIN, 12);
-
-            new Level("lvl");
-            Player p = new Player(new Vec2());
-
-            new CommandConsole();
-
-            // NETWORKING
-            Main.gameManager.add(new NetworkSystem());
-
-            // END NETWORKING
-            run();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            destroy();
-        }
-        System.exit(0);
-    }
+//    public static void main(String[] args) {
+//        System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
+//        try {
+//            init();
+//
+//            FontContainer.add("Console-Font", "Times New Roman", Font.PLAIN, 12);
+//
+//            new Level("lvl");
+//            Player p = new Player(new Vec2());
+//
+//            new CommandConsole();
+//
+//            // NETWORKING
+//            Main.gameManager.add(new NetworkSystem());
+//
+//            // END NETWORKING
+//            run();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        } finally {
+//            destroy();
+//        }
+//        System.exit(0);
+//    }
 }
